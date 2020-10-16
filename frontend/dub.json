@@ -1,0 +1,16 @@
+{
+	"name": "chantilly-layer",
+	"description": "Chantilly c/ raspa de chocolate",
+	"license": "proprietary",
+	"authors": [
+		"João Lourenço",
+		"Luís Ferreira"
+	],
+	"copyright": "Copyright © 2020, Luís Ferreira & João Lourenço",
+	"dependencies": {
+		"vibe-d": "~>0.9"
+	},
+	"sourcePaths": ["source"],
+	"importPaths": ["source"],
+	"targetPath": "bin/"
+}
