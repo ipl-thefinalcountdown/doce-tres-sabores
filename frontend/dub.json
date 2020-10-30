@@ -12,5 +12,6 @@
 	},
 	"sourcePaths": ["source"],
 	"importPaths": ["source"],
-	"targetPath": "bin/"
+	"targetPath": "bin/",
+	"versions": [ "VibeHighEventPriority" ]
 }
