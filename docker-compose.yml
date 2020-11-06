@@ -39,8 +39,9 @@ services:
     image: postgres:9.6.19-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: bolacha
+      POSTGRES_USER: maria
+      POSTGRES_PASSWORD: maria
     volumes:
       - ./db-data/:/var/lib/postgresql/data/
 
