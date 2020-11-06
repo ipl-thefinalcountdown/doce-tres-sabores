@@ -1,5 +1,9 @@
+all: up
+
 start: DOCKER_OPTIONS=--detach
 start: up
+
+stop: down
 
 bootstrap:
 	@mkdir -p ./dub-data/
@@ -19,6 +23,12 @@ restart:
 build:
 	@echo "> Building docker evironment in parallel..."
 	@docker-compose build --parallel
+
+logging:
+	@docker-compose logs -f
+
+status:
+	@docker-compose ps --all
 
 clean:
 	@echo "> Cleaning database..."
