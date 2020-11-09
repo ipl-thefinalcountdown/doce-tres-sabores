@@ -24,6 +24,10 @@ build:
 	@echo "> Building docker evironment in parallel..."
 	@docker-compose build --parallel
 
+deploy:
+	@echo "> Deploy war to wildfly..."
+	@mvn wildfly:deploy
+
 logging:
 	@docker-compose logs -f
 
