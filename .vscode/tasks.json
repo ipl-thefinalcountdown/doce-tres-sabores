@@ -4,12 +4,20 @@
 		{
 			"label": "wildfly-deploy",
 			"type": "shell",
-			"command": "mvn wildfly:deploy",
+			"command": "make deploy",
 			"group": {
 				"kind": "build",
 				"isDefault": true
 			},
-			"problemMatcher": []
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "silent",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			}
 		}
 	]
 }
