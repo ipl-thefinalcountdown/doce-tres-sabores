@@ -5,10 +5,37 @@
 			"label": "wildfly-deploy",
 			"type": "shell",
 			"command": "make deploy",
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			},
+			"group": "build",
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "silent",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			}
+		},
+		{
+			"label": "frontend-restart",
+			"type": "shell",
+			"command": "make restart-frontend",
+			"group": "build",
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "silent",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			}
+		},
+		{
+			"label": "wildfly-restart",
+			"type": "shell",
+			"command": "make restart-wildfly",
+			"group": "build",
 			"problemMatcher": [],
 			"presentation": {
 				"echo": true,
