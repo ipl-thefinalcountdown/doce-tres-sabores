@@ -18,7 +18,17 @@ down:
 
 restart:
 	@echo "> Restarting docker evironment..."
-	@export CURRENT_UID=$(shell stat -c "%u:%g" .); docker-compose restart
+	@export CURRENT_UID=$(shell stat -c "%u:%g" .); docker-compose restart $(DOCKER_TARGET)
+
+restart-frontend: DOCKER_TARGET=frontend
+restart-frontend: restart
+
+restart-wildfly: DOCKER_TARGET=wildfly
+restart-wildfly: restart
+
+watch-frontend:
+	@echo "Watching frontend webpack resources..."
+	@sh -c "(cd frontend; npm run watch)"
 
 build:
 	@echo "> Building docker evironment in parallel..."
