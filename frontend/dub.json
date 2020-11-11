@@ -8,7 +8,8 @@
 	],
 	"copyright": "Copyright © 2020, Luís Ferreira & João Lourenço",
 	"dependencies": {
-		"vibe-d": "~>0.9"
+		"vibe-d": "~>0.9",
+		"dyaml": "~>0.8.3"
 	},
 	"sourcePaths": ["source"],
 	"importPaths": ["source"],
