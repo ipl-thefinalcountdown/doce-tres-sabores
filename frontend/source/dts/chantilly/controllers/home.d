@@ -6,6 +6,7 @@ struct HomeController
 {
 	static void index(HTTPServerRequest req, HTTPServerResponse res)
 	{
-		render!"index.dt"(res);
+		auto pageTitle = "Chantilly";
+		render!("index.dt", pageTitle)(res);
 	}
 }

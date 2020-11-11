@@ -296,5 +296,9 @@ yarn-error.log
 dist/
 out/
 
+# Frontend user configuration
+frontend/config.yml
+frontend/config.yaml
+
 # Frontend output
 frontend/bin/
