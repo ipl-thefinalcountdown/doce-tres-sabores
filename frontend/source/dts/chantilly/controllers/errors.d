@@ -8,6 +8,16 @@ struct ErrorsController
 		HTTPServerResponse res,
 		HTTPServerErrorInfo error)
 	{
-		res.render!("errors/notfound.dt", req, error);
+		string errorDetails;
+		auto pageTitle = error.message;
+		auto errorMessage = error.message;
+
+		if(error.code == 404)
+			errorDetails = "Sorry, an error has occured, Requested page not found!";
+
+		debug errorDetails ~= "\n" ~ error.debugMessage;
+
+		res.render!("error.dt",
+			pageTitle, errorMessage, errorDetails);
 	}
 }

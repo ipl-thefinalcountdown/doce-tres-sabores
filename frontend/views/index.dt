@@ -1,6 +1,5 @@
-doctype html
-html
-	head
-		title My page
-	body
-		p Hello
+extends page
+
+block body
+	#app
+		router-view

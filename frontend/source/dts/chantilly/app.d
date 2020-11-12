@@ -13,12 +13,14 @@ import dts.chantilly.controllers.errors;
 
 import dts.chantilly.config;
 
+import vibe.http.auth.basic_auth;
+
 int main(string[] args)
 {
 	// ======== WEBAPP ROUTER ========
 	auto router = new URLRouter();
-	router.get("/", &HomeController.index);
 	router.get("*", serveStaticFiles("./public/"));
+	router.get("/", &HomeController.index);
 
 	// initialize app config
 	try {

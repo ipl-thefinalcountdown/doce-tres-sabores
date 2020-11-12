@@ -300,5 +300,10 @@ out/
 frontend/config.yml
 frontend/config.yaml
 
+# Frontend dist resources
+frontend/public/dist/
+frontend/public/fonts/
+frontend/public/mix-manifest.json
+
 # Frontend output
 frontend/bin/
