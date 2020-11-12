@@ -12,7 +12,7 @@ import javax.validation.constraints.PositiveOrZero;
 @NamedQueries({
 	@NamedQuery(
 		name = "getAllProjects",
-		query = "SELECT p FROM Project p"
+		query = "SELECT p FROM Project p WHERE p.name LIKE :name"
 	)
 })
 @Table(name = "PROJECTS")
