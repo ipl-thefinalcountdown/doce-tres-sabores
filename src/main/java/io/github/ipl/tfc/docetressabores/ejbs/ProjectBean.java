@@ -16,15 +16,17 @@ public class ProjectBean {
 	@PersistenceContext EntityManager entityManager;
 
 	// TODO: throws
-	public void create(String name, int clientId)
+	public Project create(String name, int clientId)
 	{
 		Client client = entityManager.find(Client.class, clientId);
 
 		if (client == null) {
 			// FIXME: throw exception
+			return null;
 		} else {
 			Project project = new Project(name, client);
 			entityManager.persist(project);
+			return project;
 		}
 	}
 

@@ -5,6 +5,7 @@ import io.github.ipl.tfc.docetressabores.ejbs.VariantBean;
 import io.github.ipl.tfc.docetressabores.entities.Variant;
 
 import javax.ejb.EJB;
+import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -49,6 +50,7 @@ public class VariantService
 
 	@GET
 	@Path("/all")
+	@Transactional
 	public List<VariantDTO> getAllVariantsWS()
 	{
 		return toDTOs(variantBean.getAllVariants());

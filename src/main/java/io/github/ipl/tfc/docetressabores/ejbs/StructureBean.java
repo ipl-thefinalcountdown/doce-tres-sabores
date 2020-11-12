@@ -18,7 +18,7 @@ public class StructureBean {
 	@PersistenceContext EntityManager entityManager;
 
 	// TODO: throws
-	public void create(List<Integer> variantIds) {
+	public Structure create(List<Integer> variantIds) {
 		Supplier<Stream<Variant>> variantRange = () -> (Stream<Variant>) variantIds
 				.stream()
 				.map(vId -> entityManager.find(Variant.class, vId));
@@ -26,9 +26,11 @@ public class StructureBean {
 		if (variantRange.get().filter(v -> v == null).findAny().isPresent())
 		{
 			// FIXME: throw exception
+			return null;
 		} else {
 			Structure structure = new Structure(variantRange.get().collect(Collectors.toList()));
 			entityManager.persist(structure);
+			return structure;
 		}
 	}
 
