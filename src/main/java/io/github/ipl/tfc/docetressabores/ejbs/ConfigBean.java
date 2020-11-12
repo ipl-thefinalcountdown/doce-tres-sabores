@@ -1,25 +1,28 @@
 package io.github.ipl.tfc.docetressabores.ejbs;
 
+import io.github.ipl.tfc.docetressabores.entities.Client;
+import io.github.ipl.tfc.docetressabores.entities.Project;
+import io.github.ipl.tfc.docetressabores.entities.Structure;
 import io.github.ipl.tfc.docetressabores.entities.Variant;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 @Singleton(name = "ConfigEJB")
 @Startup
 public class ConfigBean {
 
-	@EJB
-	private ProductBean productBean;
-
-	@EJB
-	private VariantBean variantBean;
-
-	@EJB
-	private SimulationBean simulationBean;
+	@EJB private ProductBean productBean;
+	@EJB private VariantBean variantBean;
+	@EJB private SimulationBean simulationBean;
+	@EJB private ClientBean clientBean;
+	@EJB private ProjectBean projectBean;
+	@EJB private StructureBean structureBean;
 
 	@PostConstruct
 	public void populateBD(){
@@ -30,12 +33,27 @@ public class ConfigBean {
 
 		//PODE LER-SE OS VALORES DOS PRODUTOS/VARIANTES DE EXCELS OU CSVs (ver excels fornecidos)
 		//Exemplo básico de adição de variantes "à mão"
-		variantBean.create(1, "Section C 220 BF", "C 120/50/21 x 1.5", 13846, 13846, 375, 220000);
-		variantBean.create(2, "Section C 220 BF", "C 120/60/13 x 2.0", 18738, 18738, 500, 220000);
+		Variant variant1 = variantBean.create("Section C 220 BF", "C 120/50/21 x 1.5", 13846, 13846, 375, 220000);
+		Variant variant2 = variantBean.create("Section C 220 BF", "C 120/60/13 x 2.0", 18738, 18738, 500, 220000);
+
+		System.out.println("####### Creating clients...");
+		Client client1 = clientBean.create("Foo", "999999999", "foo@foo.foo", "fooland, 1234 foohouse");
+
+		System.out.println("####### Creating projects...");
+		Project project1 = projectBean.create("fooProject_1", client1.getId());
+		Project project2 = projectBean.create("fooProject_2", client1.getId());
+
+		System.out.println("####### Creating structures...");
+		Structure structure1 = structureBean.create(Arrays.asList(variant1.getCode()));
+		Structure structure2 = structureBean.create(Arrays.asList(variant1.getCode(), variant2.getCode()));
+
+		System.out.println("####### Adding structures to projects...");
+		project1.addStructure(structureBean.findStructure(structure1.getId()));
+		project2.addStructure(structureBean.findStructure(structure1.getId()));
+		project2.addStructure(structureBean.findStructure(structure2.getId()));
 
 		//PODE LER-SE OS VALORES mcr_p E mcr_n A PARTIR DE UM EXCEL OU CSV (ver excels fornecidos para os produtos Perfil C e Z, que têm os valores mcr)
 		//Exemplo básico de adição de valores mcr "à mão"
-		Variant variant1 = variantBean.getVariant(1);
 		variant1.addMcr_p(3.0,243.2123113);
 		variant1.addMcr_p(4.0,145.238784);
 		variant1.addMcr_p(5.0,99.15039028);
@@ -50,7 +68,6 @@ public class ConfigBean {
 		//Válido para variantes simétricas, em que os mcr_p são iguais aos mcr_n
 		variant1.setMcr_n((LinkedHashMap<Double, Double>) variant1.getMcr_p().clone());
 
-		Variant variant2 = variantBean.getVariant(2);
 		variant2.addMcr_p(3.0,393.1408237);
 		variant2.addMcr_p(4.0,241.9157907);
 		variant2.addMcr_p(5.0,169.7815504);

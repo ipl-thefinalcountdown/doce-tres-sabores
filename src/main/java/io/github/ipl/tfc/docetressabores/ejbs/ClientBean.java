@@ -17,9 +17,10 @@ public class ClientBean {
 	// TODO: documentation
 	@PersistenceContext EntityManager entityManager;
 
-	public void create(String phoneNumber, String name, String email, String address) {
+	public Client create(String phoneNumber, String name, String email, String address) {
 		Client client = new Client(phoneNumber, name, email, address);
 		entityManager.persist(client);
+		return client;
 	}
 
 	public Client findClient(int id) {

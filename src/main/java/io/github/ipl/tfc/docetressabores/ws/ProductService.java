@@ -6,6 +6,7 @@ import io.github.ipl.tfc.docetressabores.dtos.VariantDTO;
 import io.github.ipl.tfc.docetressabores.ejbs.ProductBean;
 
 import javax.ejb.EJB;
+import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -41,6 +42,7 @@ public class ProductService
 
 	@GET
 	@Path("/all")
+	@Transactional
 	public List<ProductDTO> getAllProductsWS()
 	{
 		return toDTOs(productBean.getAllProducts());

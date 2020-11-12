@@ -15,22 +15,20 @@ import java.util.List;
 		query = "SELECT p FROM Product p ORDER BY p.name"
 	)
 })
-@Table(name="PRODUCTS")
+@Table(name = "PRODUCTS")
 public class Product {
-
+	// TODO: change @Id to int and @GeneratedValue(strategy=GenerationType.IDENTITY)
 	/**
 	 * Primary key of the product
 	 * This represents the name of the product
 	 */
-	@Id
-	private String name;
+	@Id private String name;
 
 	/**
 	 * Relationship of product variants
 	 * This represents a list of product variants
 	 */
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "product", cascade = CascadeType.REMOVE)
-	private List<Variant> variants;
+	@OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE) private List<Variant> variants;
 
 	/**
 	 * Default constructor for a Product entity

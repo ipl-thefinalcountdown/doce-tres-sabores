@@ -11,14 +11,22 @@ import java.util.List;
 
 @Stateless
 public class VariantBean {
-
+	// TODO: documentation
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	public void create(int code, String productName, String name, double weff_p, double weff_n, double ar, double sigmaC){
+	// TODO: throws
+	public Variant create(String productName, String name, double weff_p, double weff_n, double ar, double sigmaC){
 		Product product = entityManager.find(Product.class, productName);
-		Variant p = new Variant(code, product, name, weff_p, weff_n, ar, sigmaC);
-		entityManager.persist(p);
+
+		if (product == null) {
+			// FIXME: exception
+			return null;
+		} else {
+			Variant variant = new Variant(product, name, weff_p, weff_n, ar, sigmaC);
+			entityManager.persist(variant);
+			return variant;
+		}
 	}
 
 	public Variant getVariant(int code){
@@ -32,6 +40,8 @@ public class VariantBean {
 
 	public List<Variant> getAllVariants()
 	{
-		return (List<Variant>) entityManager.createNamedQuery("getAllVariants").getResultList();
+		return entityManager
+			.createNamedQuery("getAllVariants", Variant.class)
+			.getResultList();
 	}
 }

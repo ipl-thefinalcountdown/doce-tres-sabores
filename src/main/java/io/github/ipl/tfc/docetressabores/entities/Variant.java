@@ -2,6 +2,8 @@ package io.github.ipl.tfc.docetressabores.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -16,7 +18,7 @@ import java.util.List;
 		query = "SELECT v FROM Variant v ORDER BY v.name"
 	)
 })
-@Table(name="VARIANTS")
+@Table(name = "VARIANTS")
 public class Variant {
 
 	/**
@@ -26,29 +28,26 @@ public class Variant {
 	 */
 	public static final double G = 78.5;
 
+	// FIXME: @GeneratedValue(strategy=GenerationType.IDENTITY)
 	/**
 	 * Primary key of the product variant
 	 * This represents the code of the variant
 	 */
-	@Id
-	private int code;
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) private int code;
 
 	/**
 	 * Relationship to the product
 	 * This represents the product where this variant is appliable.
 	 */
-	@ManyToOne
-	@JoinColumn(name="PRODUCT_NAME")
-	@NotNull
-	private Product product;
+	@ManyToOne @JoinColumn(name = "PRODUCT_NAME") @NotNull private Product product;
 
+	// TODO: unique constraint
 	/**
 	 * Variant name
 	 *
 	 * Note: this value can't be null on the database
 	 */
-	@NotNull
-	private String name;
+	@NotNull private String name;
 
 	/**
 	 * Flexão positiva efetiva de uma secção transversal
@@ -81,36 +80,32 @@ public class Variant {
 	/**
 	 * Par L -> Mcr+
 	 * L
-	 *   Comprimento da barra
-	 *   Valor medido em mm
+	 *   Support beam length (mm)
 	 *
 	 * Mcr+
-	 *   Valor crítico do Momento elástico de encurvadura lateral
-	 *   Valor medido em kN.cm
+	 *   Critical lateral curvature momentum value (kN.cm)
 	 *
 	 * Note: Store raw data in the database
 	 *
 	 * @see mcr_n
 	 */
-	@Lob
-	private LinkedHashMap<Double,Double> mcr_p;
+	@Lob private LinkedHashMap<Double,Double> mcr_p;
 
 	/**
 	 * Par L -> Mcr-
 	 * L
-	 *   Comprimento da barra
-	 *   Valor medido em mm
+	 *   Support beam length (mm)
 	 *
 	 * Mcr-
-	 *   Valor crítico do Momento elástico de encurvadura lateral
-	 *   Valor medido em kN.cm
+	 *   Critical lateral curvature momentum value (kN.cm)
 	 *
 	 * Note: Store raw data in the database
 	 *
 	 * @see mcr_p
 	 */
-	@Lob
-	private LinkedHashMap<Double,Double> mcr_n;
+	@Lob private LinkedHashMap<Double,Double> mcr_n;
+
+	@ManyToMany private List<Structure> structures;
 
 	/**
 	 * Default constructor for a Variant entity
@@ -121,8 +116,14 @@ public class Variant {
 		this.mcr_n = new LinkedHashMap<Double,Double>();
 	}
 
-	public Variant(int code, @NotNull Product product, @NotNull String name, double weff_p, double weff_n, double ar, double sigmaC ) {
-		this.code = code;
+	public Variant(
+		@NotNull Product product,
+		@NotNull String name,
+		double weff_p,
+		double weff_n,
+		double ar,
+		double sigmaC
+	) {
 		this.product = product;
 		this.name = name;
 		this.weff_p = weff_p;
@@ -132,6 +133,7 @@ public class Variant {
 		this.pp = G * ar * Math.pow(10, -6);
 		this.mcr_p = new LinkedHashMap<Double,Double>();
 		this.mcr_n = new LinkedHashMap<Double,Double>();
+		structures = new ArrayList<>();
 	}
 
 	public int getCode() {

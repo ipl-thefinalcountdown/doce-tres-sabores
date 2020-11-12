@@ -10,13 +10,14 @@ import java.util.List;
 
 @Stateless
 public class ProductBean {
-
+	// TODO: documentation
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	public void create(String name){
-		Product p = new Product(name);
-		entityManager.persist(p);
+	public Product create(String name){
+		Product product = new Product(name);
+		entityManager.persist(product);
+		return product;
 	}
 
 	public Product findProduct(String name)
@@ -26,6 +27,8 @@ public class ProductBean {
 
 	public List<Product> getAllProducts()
 	{
-		return (List<Product>) entityManager.createNamedQuery("getAllProducts").getResultList();
+		return entityManager
+			.createNamedQuery("getAllProducts", Product.class)
+			.getResultList();
 	}
 }
