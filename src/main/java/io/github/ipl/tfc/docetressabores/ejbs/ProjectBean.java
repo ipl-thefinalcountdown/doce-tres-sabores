@@ -64,7 +64,7 @@ public class ProjectBean {
 	public List<Project> getAllProjects(@NotNull String name) {
 		return entityManager
 			.createNamedQuery("getAllProjects", Project.class)
-			.setParameter("name", name)
+			.setParameter("name", "%"+name+"%")
 			.getResultList();
 	}
 }
