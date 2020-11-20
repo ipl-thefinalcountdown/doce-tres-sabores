@@ -17,6 +17,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import io.github.ipl.tfc.docetressabores.dtos.ProjectDTO;
 import io.github.ipl.tfc.docetressabores.ejbs.ProjectBean;
@@ -52,37 +53,59 @@ public class ProjectService {
 	}
 
 	@GET
-	@Path("/all")
+	@Path("/")
 	@Transactional
-	public List<ProjectDTO> getAllProjectsWS(@DefaultValue("") @QueryParam("name") String name) {
-		return toDTOs(projectBean.getAllProjects(name));
+	public Response getAllProjectsWS(@DefaultValue("") @QueryParam("name") String name) {
+		return Response.ok(toDTOs(projectBean.getAllProjects(name))).build();
 	}
 
 	@GET
 	@Path("/{id}")
 	@Transactional
-	public ProjectDTO getProjectWS(@PathParam("id") int id) {
-		return toDTO(projectBean.findProject(id));
+	public Response getProjectWS(@PathParam("id") int id) {
+		Project project = projectBean.findProject(id);
+
+		return (
+			project == null
+				? Response.status(Response.Status.BAD_REQUEST)
+				: Response.ok(toDTO(project))
+			).build();
 	}
 
 	@POST
 	@Path("/")
 	@Transactional
-	public void postProjectWS(ProjectDTO projectDTO) {
-		projectBean.create(projectDTO);
+	public Response postProjectWS(ProjectDTO projectDTO) {
+		Project project = projectBean.create(projectDTO);
+
+		return (
+			project == null
+				? Response.status(Response.Status.BAD_REQUEST)
+				: Response.ok(toDTO(project, true))
+			).build();
 	}
 
 	@PUT
 	@Path("/{id}")
 	@Transactional
-	public void updateProjectWS(@PathParam("id") int id, ProjectDTO projectDTO) {
-		projectBean.update(projectDTO);
+	public Response updateProjectWS(@PathParam("id") int id, ProjectDTO projectDTO) {
+		Project project = projectBean.update(projectDTO);
+
+		return (
+			project == null
+				? Response.status(Response.Status.BAD_REQUEST)
+				: Response.ok(toDTO(project, true))
+		).build();
 	}
 
 	@DELETE
 	@Path("/{id}")
 	@Transactional
-	public void deleteProjectWS(@PathParam("id") int id) {
-		projectBean.delete(id);
+	public Response deleteProjectWS(@PathParam("id") int id) {
+		return (
+			projectBean.delete(id) == null
+				? Response.status(Response.Status.BAD_REQUEST)
+				: Response.noContent()
+		).build();
 	}
 }

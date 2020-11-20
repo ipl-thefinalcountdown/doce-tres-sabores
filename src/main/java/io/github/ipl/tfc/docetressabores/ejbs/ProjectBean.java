@@ -19,13 +19,11 @@ public class ProjectBean {
 	// TODO: documentation
 	@PersistenceContext EntityManager entityManager;
 
-	// TODO: throws
 	public Project create(String name, int clientId)
 	{
 		Client client = entityManager.find(Client.class, clientId);
 
 		if (client == null) {
-			// FIXME: throw exception
 			return null;
 		} else {
 			Project project = new Project(name, client);
@@ -49,12 +47,17 @@ public class ProjectBean {
 		return project;
 	}
 
-	public void delete(int id) {
-		entityManager.remove(findProject(id));
+	public Project delete(int id) {
+		Project project = findProject(id);
+
+		if (project != null)
+			entityManager.remove(project);
+
+		return project;
 	}
 
-	public void create(ProjectDTO projectDTO) {
-		create(projectDTO.getName(), projectDTO.getClientId());
+	public Project create(ProjectDTO projectDTO) {
+		return create(projectDTO.getName(), projectDTO.getClientId());
 	}
 
 	public Project findProject(int id) {

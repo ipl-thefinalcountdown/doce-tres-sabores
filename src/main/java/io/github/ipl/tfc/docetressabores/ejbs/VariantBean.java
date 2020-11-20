@@ -15,12 +15,10 @@ public class VariantBean {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	// TODO: throws
 	public Variant create(String productName, String name, double weff_p, double weff_n, double ar, double sigmaC){
 		Product product = entityManager.find(Product.class, productName);
 
 		if (product == null) {
-			// FIXME: exception
 			return null;
 		} else {
 			Variant variant = new Variant(product, name, weff_p, weff_n, ar, sigmaC);
