@@ -7,5 +7,6 @@
 		"experimentalDecorators": true,
 		"sourceMap": true
     },
-	"include": ["resources/js/**/*"]
+  "include": ["resources/js/**/*"],
+  "allowJs": true
 }
