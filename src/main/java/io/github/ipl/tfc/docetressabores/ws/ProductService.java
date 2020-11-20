@@ -41,10 +41,10 @@ public class ProductService
 	}
 
 	@GET
-	@Path("/all")
+	@Path("/")
 	@Transactional
-	public List<ProductDTO> getAllProductsWS()
+	public Response getAllProductsWS()
 	{
-		return toDTOs(productBean.getAllProducts());
+		return Response.ok(toDTOs(productBean.getAllProducts())).build();
 	}
 }

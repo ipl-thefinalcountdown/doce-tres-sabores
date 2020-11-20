@@ -10,6 +10,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import io.github.ipl.tfc.docetressabores.dtos.ClientDTO;
 import io.github.ipl.tfc.docetressabores.ejbs.ClientBean;
@@ -40,9 +41,9 @@ public class ClientService {
 	}
 
 	@GET
-	@Path("/all")
+	@Path("/")
 	@Transactional
-	public List<ClientDTO> getAllClientsWS() {
-		return toDTOs(clientBean.getAllClients());
+	public Response getAllClientsWS() {
+		return Response.ok(toDTOs(clientBean.getAllClients())).build();
 	}
 }

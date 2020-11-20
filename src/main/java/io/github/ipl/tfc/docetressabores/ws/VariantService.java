@@ -11,6 +11,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,10 +50,10 @@ public class VariantService
 	}
 
 	@GET
-	@Path("/all")
+	@Path("/")
 	@Transactional
-	public List<VariantDTO> getAllVariantsWS()
+	public Response getAllVariantsWS()
 	{
-		return toDTOs(variantBean.getAllVariants());
+		return Response.ok(toDTOs(variantBean.getAllVariants())).build();
 	}
 }

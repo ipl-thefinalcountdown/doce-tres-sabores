@@ -10,6 +10,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import io.github.ipl.tfc.docetressabores.dtos.StructureDTO;
 import io.github.ipl.tfc.docetressabores.ejbs.StructureBean;
@@ -36,9 +37,9 @@ public class StructureService {
 	}
 
 	@GET
-	@Path("/all")
+	@Path("/")
 	@Transactional
-	public List<StructureDTO> getAllStructures() {
-		return toDTOs(structureBean.getAllStructures());
+	public Response getAllStructures() {
+		return Response.ok(toDTOs(structureBean.getAllStructures())).build();
 	}
 }
