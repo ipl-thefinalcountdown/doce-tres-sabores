@@ -8,12 +8,10 @@
 
 	import PageComponent from '../components/Page.vue'
 
-	import {AlertType, createAlert} from '../utils/alert'
-
 	@Component({
 		components: {
 			PageComponent
 		}
 	})
-	export default class IndexView extends Vue {}
+	export default class LoginView extends Vue {}
 </script>
