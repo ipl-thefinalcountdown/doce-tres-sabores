@@ -1,8 +1,8 @@
 FROM alpine:3.12.1
 
-# Setup Java 11
+# Setup Java 14
 ENV JAVA_HOME="/usr/lib/jvm/default-jvm/"
-RUN apk add --update --no-cache openjdk11
+RUN apk add --update --no-cache openjdk14 --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
 ENV PATH=$PATH:${JAVA_HOME}/bin
 
 # Build dependencies
