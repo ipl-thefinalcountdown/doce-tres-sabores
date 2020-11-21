@@ -34,6 +34,7 @@ public class ProjectService {
 			project.getId(),
 			project.getName(),
 			project.getClient().getId(),
+			project.getClient().getName(),
 			critical ? null : StructureService.toDTOs(project.getStructures()));
 	}
 
@@ -55,8 +56,8 @@ public class ProjectService {
 	@GET
 	@Path("/")
 	@Transactional
-	public Response getAllProjectsWS(@DefaultValue("") @QueryParam("name") String name) {
-		return Response.ok(toDTOs(projectBean.getAllProjects(name))).build();
+	public Response getAllProjectsWS(@DefaultValue("") @QueryParam("filter") String filter) {
+		return Response.ok(toDTOs(projectBean.getAllProjects(filter))).build();
 	}
 
 	@GET

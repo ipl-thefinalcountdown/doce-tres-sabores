@@ -40,8 +40,8 @@ public class ConfigBean {
 		Client client1 = clientBean.create("Foo", "999999999", "foo@foo.foo", "fooland, 1234 foohouse");
 
 		System.out.println("####### Creating projects...");
-		Project project1 = projectBean.create("fooProject_1", client1.getId());
-		Project project2 = projectBean.create("fooProject_2", client1.getId());
+		Project project1 = projectBean.create("fooProject", client1.getId());
+		Project project2 = projectBean.create("foobarProject", client1.getId());
 
 		System.out.println("####### Creating structures...");
 		Structure structure1 = structureBean.create(Arrays.asList(variant1.getCode()));

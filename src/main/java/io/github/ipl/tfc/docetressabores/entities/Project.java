@@ -12,7 +12,11 @@ import javax.validation.constraints.PositiveOrZero;
 @NamedQueries({
 	@NamedQuery(
 		name = "getAllProjects",
-		query = "SELECT p FROM Project p WHERE UPPER(p.name) LIKE UPPER(:name)"
+		query = "SELECT p FROM Project p " +
+			"JOIN Client c ON p.client.id = c.id " +
+			"WHERE UPPER(p.name) LIKE UPPER(:filter) OR " +
+			"UPPER(c.name) LIKE UPPER(:filter) OR " +
+			"CAST(p.id AS string) LIKE :filter"
 	)
 })
 @Table(name = "PROJECTS")
