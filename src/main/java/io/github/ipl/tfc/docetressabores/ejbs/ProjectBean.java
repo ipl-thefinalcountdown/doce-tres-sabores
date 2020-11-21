@@ -64,10 +64,10 @@ public class ProjectBean {
 		return entityManager.find(Project.class, id);
 	}
 
-	public List<Project> getAllProjects(@NotNull String name) {
+	public List<Project> getAllProjects(@NotNull String filter) {
 		return entityManager
 			.createNamedQuery("getAllProjects", Project.class)
-			.setParameter("name", "%"+name+"%")
+			.setParameter("filter", "%"+filter+"%")
 			.getResultList();
 	}
 }

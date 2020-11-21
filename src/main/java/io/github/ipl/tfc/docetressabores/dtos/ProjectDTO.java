@@ -8,6 +8,7 @@ public class ProjectDTO implements Serializable {
 	private int id;
 	private String name;
 	private int clientId;
+	private String clientName;
 	private List<StructureDTO> structures;
 
 	// TODO: File list
@@ -16,13 +17,13 @@ public class ProjectDTO implements Serializable {
 		structures = new ArrayList<>();
 	}
 
-	public ProjectDTO(int id, String name, int clientId, List<StructureDTO> structures) {
+	public ProjectDTO(int id, String name, int clientId, String clientName, List<StructureDTO> structures) {
 		this.id = id;
 		this.name = name;
 		this.clientId = clientId;
+		this.clientName = clientName;
 		this.structures = structures;
 	}
-
 
 	// getters
 	public int getId() {
@@ -41,6 +42,9 @@ public class ProjectDTO implements Serializable {
 		return clientId;
 	}
 
+	public String getClientName() {
+		return clientName;
+	}
 
 	// setters
 	public void setId(int id) {
@@ -59,6 +63,9 @@ public class ProjectDTO implements Serializable {
 		this.clientId = clientId;
 	}
 
+	public void setClientName(String clientName) {
+		this.clientName = clientName;
+	}
 
 	public void addStructure(StructureDTO structure) {
 		this.structures.add(structure);
