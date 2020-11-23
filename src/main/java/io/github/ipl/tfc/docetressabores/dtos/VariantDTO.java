@@ -176,4 +176,59 @@ public class VariantDTO implements Serializable
 		this.name = name;
 	}
 
+	public double getAr() {
+		return ar;
+	}
+
+	public void setAr(double ar) {
+		this.ar = ar;
+	}
+
+	public LinkedHashMap<Double, Double> getMcr_n() {
+		return mcr_n;
+	}
+
+	public LinkedHashMap<Double, Double> getMcr_p() {
+		return mcr_p;
+	}
+
+	public double getPp() {
+		return pp;
+	}
+
+	public double getSigmaC() {
+		return sigmaC;
+	}
+
+	public double getWeff_n() {
+		return weff_n;
+	}
+
+	public double getWeff_p() {
+		return weff_p;
+	}
+
+	public void setMcr_n(LinkedHashMap<Double, Double> mcr_n) {
+		this.mcr_n = mcr_n;
+	}
+
+	public void setMcr_p(LinkedHashMap<Double, Double> mcr_p) {
+		this.mcr_p = mcr_p;
+	}
+
+	public void setPp(double pp) {
+		this.pp = pp;
+	}
+
+	public void setSigmaC(double sigmaC) {
+		this.sigmaC = sigmaC;
+	}
+
+	public void setWeff_n(double weff_n) {
+		this.weff_n = weff_n;
+	}
+
+	public void setWeff_p(double weff_p) {
+		this.weff_p = weff_p;
+	}
 }
