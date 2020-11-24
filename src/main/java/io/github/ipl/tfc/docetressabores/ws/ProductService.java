@@ -29,7 +29,7 @@ public class ProductService
 	public static ProductDTO toDTO(Product product)
 	{
 		List<VariantDTO> variantDTOs = VariantService.toDTOs(product.getVariants());
-		return new ProductDTO(product.getName(), variantDTOs);
+		return new ProductDTO(product.getId(), product.getName(), variantDTOs, product.getFamily().getId());
 	}
 
 	public static List<ProductDTO> toDTOs(List<Product> products)

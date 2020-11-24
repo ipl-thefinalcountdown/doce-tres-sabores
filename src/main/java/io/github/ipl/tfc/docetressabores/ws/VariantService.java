@@ -29,7 +29,7 @@ public class VariantService
 		return new VariantDTO
 		(
 			variant.getCode(),
-			variant.getProduct().getName(),
+			variant.getProduct().getId(),
 			variant.getName(),
 			variant.getWeff_p(),
 			variant.getWeff_n(),

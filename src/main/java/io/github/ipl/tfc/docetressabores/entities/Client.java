@@ -21,7 +21,8 @@ import javax.validation.constraints.NotNull;
 		columnNames = {
 			"EMAIL"
 		}
-	))
+	)
+)
 public class Client {
 	// TODO: documentation
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) private int id;
@@ -29,7 +30,7 @@ public class Client {
 	@NotNull @NotEmpty private String name;
 	@NotNull @Email private String email;
 	@NotNull @NotEmpty private String address;
-	@OneToMany(mappedBy = "client") private List<Project> projects;
+	@OneToMany(mappedBy = "client", cascade = CascadeType.REMOVE) private List<Project> projects;
 
 	public Client() {
 		projects = new ArrayList<>();

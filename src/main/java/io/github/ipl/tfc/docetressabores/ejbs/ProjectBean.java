@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 import io.github.ipl.tfc.docetressabores.dtos.ProjectDTO;
 import io.github.ipl.tfc.docetressabores.entities.Client;
 import io.github.ipl.tfc.docetressabores.entities.Project;
-import io.github.ipl.tfc.docetressabores.entities.Structure;
+import io.github.ipl.tfc.docetressabores.entities.structures.Structure;
 
 @Stateless
 public class ProjectBean {
@@ -37,12 +37,14 @@ public class ProjectBean {
 
 		project.setName(projectDTO.getName());
 		project.setClient(entityManager.find(Client.class, projectDTO.getClientId()));
-		project.setStructures(
-			projectDTO.getStructures()
-				.stream()
-				.map(s -> entityManager.find(Structure.class, s.getId()))
-				.collect(Collectors.toList())
-		);
+
+		if (projectDTO.getStructures() != null)
+			project.setStructures(
+				projectDTO.getStructures()
+					.stream()
+					.map(s -> entityManager.find(Structure.class, s.getId()))
+					.collect(Collectors.toList())
+			);
 
 		return project;
 	}

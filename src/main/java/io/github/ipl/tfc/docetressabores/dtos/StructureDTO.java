@@ -6,14 +6,34 @@ import java.util.List;
 
 public class StructureDTO implements Serializable {
 	private int id;
+	private int materialId;
+	private Integer beamAmount;
+	private Integer beamLength;
 	private List<VariantDTO> variants;
+
+	private Integer beamSpacing;
+
+	private Integer maximumHeight;
 
 	public StructureDTO() {
 		variants = new ArrayList<>();
 	}
 
-	public StructureDTO(int id, List<VariantDTO> variants) {
+	public StructureDTO(
+		int id,
+		int materialId,
+		Integer beamAmount,
+		Integer beamLength,
+		Integer beamSpacing,
+		Integer maximumHeight,
+		List<VariantDTO> variants
+	) {
 		this.id = id;
+		this.materialId = materialId;
+		this.beamAmount = beamAmount;
+		this.beamLength = beamLength;
+		this.beamSpacing = beamSpacing;
+		this.maximumHeight = maximumHeight;
 		this.variants = variants;
 	}
 
@@ -23,8 +43,28 @@ public class StructureDTO implements Serializable {
 		return id;
 	}
 
+	public int getMaterialId() {
+		return materialId;
+	}
+
+	public Integer getBeamAmount() {
+		return beamAmount;
+	}
+
+	public Integer getBeamLength() {
+		return beamLength;
+	}
+
 	public List<VariantDTO> getVariants() {
 		return variants;
+	}
+
+	public Integer getBeamSpacing() {
+		return beamSpacing;
+	}
+
+	public Integer getMaximumHeight() {
+		return maximumHeight;
 	}
 
 
@@ -33,16 +73,27 @@ public class StructureDTO implements Serializable {
 		this.id = id;
 	}
 
+	public void setMaterialId(int materialId) {
+		this.materialId = materialId;
+	}
+
+	public void setBeamAmount(Integer beamAmount) {
+		this.beamAmount = beamAmount;
+	}
+
+	public void setBeamLength(Integer beamLength) {
+		this.beamLength = beamLength;
+	}
+
 	public void setVariants(List<VariantDTO> variants) {
 		this.variants = variants;
 	}
 
-
-	public void addVariant(VariantDTO variant) {
-		this.variants.add(variant);
+	public void setBeamSpacing(Integer beamSpacing) {
+		this.beamSpacing = beamSpacing;
 	}
 
-	public void removeVariant(VariantDTO variant) {
-		this.variants.remove(variant);
+	public void setMaximumHeight(Integer maximumHeight) {
+		this.maximumHeight = maximumHeight;
 	}
 }

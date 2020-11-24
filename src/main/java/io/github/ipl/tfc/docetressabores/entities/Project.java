@@ -8,15 +8,24 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
+import io.github.ipl.tfc.docetressabores.entities.structures.Structure;
+
 @Entity
 @NamedQueries({
 	@NamedQuery(
 		name = "getAllProjects",
-		query = "SELECT p FROM Project p " +
-			"JOIN Client c ON p.client.id = c.id " +
-			"WHERE UPPER(p.name) LIKE UPPER(:filter) OR " +
-			"UPPER(c.name) LIKE UPPER(:filter) OR " +
-			"CAST(p.id AS string) LIKE :filter"
+		query = "SELECT p FROM Project p "
+			+ "JOIN p.client c "
+			+ "WHERE UPPER(p.name) LIKE UPPER(:filter) OR "
+			+ "UPPER(c.name) LIKE UPPER(:filter) OR "
+			+ "CAST(p.id AS string) LIKE :filter "
+			+ "ORDER BY p.id"
+	),
+	@NamedQuery(
+		name = "getProjectsFromStructureId",
+		query = "SELECT p FROM Project p "
+			+ "JOIN p.structures s "
+			+ "WHERE s.id = :structure_id"
 	)
 })
 @Table(name = "PROJECTS")
