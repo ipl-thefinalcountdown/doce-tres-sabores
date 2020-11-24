@@ -3,6 +3,8 @@ package io.github.ipl.tfc.docetressabores.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import io.github.ipl.tfc.docetressabores.entities.structures.Structure;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -28,7 +30,6 @@ public class Variant {
 	 */
 	public static final double G = 78.5;
 
-	// FIXME: @GeneratedValue(strategy=GenerationType.IDENTITY)
 	/**
 	 * Primary key of the product variant
 	 * This represents the code of the variant
@@ -39,9 +40,9 @@ public class Variant {
 	 * Relationship to the product
 	 * This represents the product where this variant is appliable.
 	 */
-	@ManyToOne @JoinColumn(name = "PRODUCT_NAME") @NotNull private Product product;
+	@ManyToOne @JoinColumn(name = "PRODUCT_ID") @NotNull private Product product;
 
-	// TODO: unique constraint
+	// FIXME: unique constraint
 	/**
 	 * Variant name
 	 *
@@ -105,8 +106,6 @@ public class Variant {
 	 */
 	@Lob private LinkedHashMap<Double,Double> mcr_n;
 
-	@ManyToMany private List<Structure> structures;
-
 	/**
 	 * Default constructor for a Variant entity
 	 */
@@ -133,7 +132,6 @@ public class Variant {
 		this.pp = G * ar * Math.pow(10, -6);
 		this.mcr_p = new LinkedHashMap<Double,Double>();
 		this.mcr_n = new LinkedHashMap<Double,Double>();
-		structures = new ArrayList<>();
 	}
 
 	public int getCode() {

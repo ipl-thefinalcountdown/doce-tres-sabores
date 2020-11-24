@@ -15,8 +15,8 @@ public class VariantBean {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	public Variant create(String productName, String name, double weff_p, double weff_n, double ar, double sigmaC){
-		Product product = entityManager.find(Product.class, productName);
+	public Variant create(int productId, String name, double weff_p, double weff_n, double ar, double sigmaC){
+		Product product = entityManager.find(Product.class, productId);
 
 		if (product == null) {
 			return null;

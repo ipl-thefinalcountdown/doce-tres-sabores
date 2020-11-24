@@ -12,17 +12,27 @@ import java.util.List;
 @NamedQueries({
 	@NamedQuery(
 		name = "getAllProducts",
-		query = "SELECT p FROM Product p ORDER BY p.name"
+		query = "SELECT p FROM Product p ORDER BY p.id"
 	)
 })
-@Table(name = "PRODUCTS")
+@Table(
+	name = "PRODUCTS",
+	uniqueConstraints = @UniqueConstraint(
+		columnNames = {
+			"NAME"
+		}
+	)
+)
 public class Product {
-	// TODO: change @Id to int and @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY) private int id;
+
+	@ManyToOne @JoinColumn(name = "FAMILY_ID") Family family;
+
 	/**
 	 * Primary key of the product
 	 * This represents the name of the product
 	 */
-	@Id private String name;
+	@NotNull private String name;
 
 	/**
 	 * Relationship of product variants
@@ -42,10 +52,21 @@ public class Product {
 	 * Constructs a product entity with a given name
 	 * @param name product name
 	 */
-	public Product(String name)
-	{
+	public Product(
+		Family family,
+		@NotNull String name
+	) {
+		this.family = family;
 		this.name = name;
 		variants = new LinkedList<>();
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	/**
@@ -54,6 +75,10 @@ public class Product {
 	 */
 	public String getName() {
 		return name;
+	}
+
+	public Family getFamily() {
+		return family;
 	}
 
 	/**
@@ -78,6 +103,10 @@ public class Product {
 	 */
 	public void setVariants(List<Variant> especimen) {
 		this.variants = especimen;
+	}
+
+	public void setFamily(Family family) {
+		this.family = family;
 	}
 
 	/**

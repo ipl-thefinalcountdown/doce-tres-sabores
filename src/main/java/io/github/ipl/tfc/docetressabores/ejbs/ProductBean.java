@@ -1,5 +1,6 @@
 package io.github.ipl.tfc.docetressabores.ejbs;
 
+import io.github.ipl.tfc.docetressabores.entities.Family;
 import io.github.ipl.tfc.docetressabores.entities.Product;
 
 import javax.ejb.Stateless;
@@ -14,15 +15,16 @@ public class ProductBean {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	public Product create(String name){
-		Product product = new Product(name);
+	public Product create(int familyId, String name){
+		Family family = entityManager.find(Family.class, familyId);
+		Product product = new Product(family, name);
 		entityManager.persist(product);
 		return product;
 	}
 
-	public Product findProduct(String name)
+	public Product findProduct(int id)
 	{
-		return entityManager.find(Product.class, name);
+		return entityManager.find(Product.class, id);
 	}
 
 	public List<Product> getAllProducts()

@@ -1,8 +1,12 @@
 package io.github.ipl.tfc.docetressabores.ejbs;
 
 import io.github.ipl.tfc.docetressabores.entities.Client;
+import io.github.ipl.tfc.docetressabores.entities.Family;
+import io.github.ipl.tfc.docetressabores.entities.structures.*;
+import io.github.ipl.tfc.docetressabores.entities.Material;
+import io.github.ipl.tfc.docetressabores.entities.MaterialType;
+import io.github.ipl.tfc.docetressabores.entities.Product;
 import io.github.ipl.tfc.docetressabores.entities.Project;
-import io.github.ipl.tfc.docetressabores.entities.Structure;
 import io.github.ipl.tfc.docetressabores.entities.Variant;
 
 import javax.annotation.PostConstruct;
@@ -10,6 +14,7 @@ import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 
@@ -23,18 +28,33 @@ public class ConfigBean {
 	@EJB private ClientBean clientBean;
 	@EJB private ProjectBean projectBean;
 	@EJB private StructureBean structureBean;
+	@EJB private LightSteelStructureBean lightSteelStructureBean;
+	@EJB private SlabStructureBean slabStructureBean;
+	@EJB private MaterialBean materialBean;
+	@EJB private FamilyBean familyBean;
 
 	@PostConstruct
 	public void populateBD(){
-		System.out.println("####### Creating products...");
-		productBean.create("Section C 220 BF");
-		productBean.create("Section Z 220 BF");
-		System.out.println("####### Creating variants...");
+		System.out.println("####### Creating materials...");
+		materialBean.create(MaterialType.LIGHT_STEEL);
+		materialBean.create(MaterialType.PROFILED_SHEETING);
+		materialBean.create(MaterialType.SLAB);
+		materialBean.create(MaterialType.SANDWICH_PANEL);
 
+		System.out.println("####### Creating families...");
+		Family familyOmega = familyBean.create(MaterialType.LIGHT_STEEL, "omega");
+		Family familyC = familyBean.create(MaterialType.LIGHT_STEEL, "c");
+		Family familyZ = familyBean.create(MaterialType.LIGHT_STEEL, "z");
+
+		System.out.println("####### Creating products...");
+		Product product1 = productBean.create(familyC.getId(), "Section C 220 BF");
+		Product product2 = productBean.create(familyZ.getId(), "Section Z 220 BF");
+
+		System.out.println("####### Creating variants...");
 		//PODE LER-SE OS VALORES DOS PRODUTOS/VARIANTES DE EXCELS OU CSVs (ver excels fornecidos)
 		//Exemplo básico de adição de variantes "à mão"
-		Variant variant1 = variantBean.create("Section C 220 BF", "C 120/50/21 x 1.5", 13846, 13846, 375, 220000);
-		Variant variant2 = variantBean.create("Section C 220 BF", "C 120/60/13 x 2.0", 18738, 18738, 500, 220000);
+		Variant variant1 = variantBean.create(product1.getId(), "C 120/50/21 x 1.5", 13846, 13846, 375, 220000);
+		Variant variant2 = variantBean.create(product1.getId(), "C 120/60/13 x 2.0", 18738, 18738, 500, 220000);
 
 		System.out.println("####### Creating clients...");
 		Client client1 = clientBean.create("Foo", "999999999", "foo@foo.foo", "fooland, 1234 foohouse");
@@ -44,8 +64,12 @@ public class ConfigBean {
 		Project project2 = projectBean.create("foobarProject", client1.getId());
 
 		System.out.println("####### Creating structures...");
-		Structure structure1 = structureBean.create(Arrays.asList(variant1.getCode()));
-		Structure structure2 = structureBean.create(Arrays.asList(variant1.getCode(), variant2.getCode()));
+		LightSteelStructure structure1 = lightSteelStructureBean.create(6, 3, 1, Arrays.asList(variant1.getCode()));
+		LightSteelStructure structure2 = lightSteelStructureBean.create(15, 3, 1, Arrays.asList(variant1.getCode(), variant2.getCode()));
+		lightSteelStructureBean.create(15, 3, 1, Arrays.asList(variant1.getCode(), variant2.getCode()));
+		slabStructureBean.create(15, 19, 2, new ArrayList<>());
+		structureBean.create(MaterialType.PROFILED_SHEETING, 154, 78, new ArrayList<>());
+		structureBean.create(MaterialType.SANDWICH_PANEL, 74, 10, new ArrayList<>());
 
 		System.out.println("####### Adding structures to projects...");
 		project1.addStructure(structureBean.findStructure(structure1.getId()));
@@ -97,7 +121,5 @@ public class ConfigBean {
 		}else{
 			System.out.println("A variante " + variant2.getName() + " não pode ser usada.");
 		}
-
 	}
-
 }

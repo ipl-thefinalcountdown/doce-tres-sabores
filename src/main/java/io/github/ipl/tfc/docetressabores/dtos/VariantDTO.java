@@ -18,7 +18,7 @@ public class VariantDTO implements Serializable
 	/**
 	 * This represents the product name where this variant is appliable.
 	 */
-	private String productName;
+	private int productId;
 
 	/**
 	 * Variant name
@@ -94,7 +94,7 @@ public class VariantDTO implements Serializable
 	/**
 	 * Constructs a product Variant DTO based on it's attributes
 	 * @param code variant code
-	 * @param productName associated product name
+	 * @param productId associated product name
 	 * @param name variant name
 	 * @param weff_p Weff+
 	 * @param weff_n Weff-
@@ -106,7 +106,7 @@ public class VariantDTO implements Serializable
 	 */
 	public VariantDTO(
 		int code,
-		String productName,
+		int productId,
 		String name,
 		double weff_p,
 		double weff_n,
@@ -117,7 +117,7 @@ public class VariantDTO implements Serializable
 		LinkedHashMap<Double,Double> mcr_n)
 	{
 		this.code = code;
-		this.productName = productName;
+		this.productId = productId;
 		this.name = name;
 		this.weff_p = weff_p;
 		this.weff_n = weff_n;
@@ -146,18 +146,18 @@ public class VariantDTO implements Serializable
 
 	/**
 	 * Sets the associated product name
-	 * @param productName product name
+	 * @param productId product name
 	 */
-	public void setProductName(String productName) {
-		this.productName = productName;
+	public void setProductName(int productId) {
+		this.productId = productId;
 	}
 
 	/**
 	 * Gets the associated product name
 	 * @return product name
 	 */
-	public String getProductName() {
-		return productName;
+	public int getProductName() {
+		return productId;
 	}
 
 	/**

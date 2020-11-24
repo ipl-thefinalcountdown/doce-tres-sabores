@@ -2,6 +2,7 @@ package io.github.ipl.tfc.docetressabores.ws;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.ejb.EJB;
@@ -20,14 +21,18 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import io.github.ipl.tfc.docetressabores.dtos.ProjectDTO;
+import io.github.ipl.tfc.docetressabores.dtos.StructureDTO;
 import io.github.ipl.tfc.docetressabores.ejbs.ProjectBean;
+import io.github.ipl.tfc.docetressabores.ejbs.StructureBean;
 import io.github.ipl.tfc.docetressabores.entities.Project;
+import io.github.ipl.tfc.docetressabores.entities.structures.Structure;
 
 @Path("/projects")
 @Produces({ MediaType.APPLICATION_JSON })
 @Consumes({ MediaType.APPLICATION_JSON })
 public class ProjectService {
 	@EJB ProjectBean projectBean;
+	@EJB StructureBean structureBean;
 
 	public static ProjectDTO toDTO(Project project, boolean critical) {
 		return new ProjectDTO(
@@ -69,7 +74,7 @@ public class ProjectService {
 		return (
 			project == null
 				? Response.status(Response.Status.BAD_REQUEST)
-				: Response.ok(toDTO(project))
+				: Response.ok(toDTO(project, false))
 			).build();
 	}
 
@@ -90,6 +95,7 @@ public class ProjectService {
 	@Path("/{id}")
 	@Transactional
 	public Response updateProjectWS(@PathParam("id") int id, ProjectDTO projectDTO) {
+		projectDTO.setId(id);
 		Project project = projectBean.update(projectDTO);
 
 		return (
@@ -108,5 +114,58 @@ public class ProjectService {
 				? Response.status(Response.Status.BAD_REQUEST)
 				: Response.noContent()
 		).build();
+	}
+
+	@GET
+	@Path("/{id}/structures")
+	@Transactional
+	public Response getStructuresWS(@PathParam("id") int id) {
+		Project project = projectBean.findProject(id);
+
+		return (
+			project == null
+				? Response.status(Response.Status.BAD_REQUEST)
+				: Response.ok(StructureService.toDTOs(project.getStructures()))
+		).build();
+	}
+
+	@PUT
+	@Path("/{project_id}/structures/{structure_id}")
+	@Transactional
+	public Response putStructureWS(
+		@PathParam("project_id") int projectId,
+		@PathParam("structure_id") int structureId
+	) {
+		Project project = projectBean.findProject(projectId);
+
+		if (project == null) return Response.status(Response.Status.BAD_REQUEST).build();
+
+		Structure structure = structureBean.findStructure(structureId);
+
+		if (structure == null) return Response.status(Response.Status.BAD_REQUEST).build();
+
+		if (project.getStructures().contains(structure)) return Response.status(Response.Status.BAD_REQUEST).build();
+
+		project.addStructure(structure);
+		return Response.noContent().build();
+	}
+
+	@DELETE
+	@Path("/{project_id}/structures/{structure_id}")
+	@Transactional
+	public Response deleteStructureWS(
+		@PathParam("project_id") int projectId,
+		@PathParam("structure_id") int structureId
+	) {
+		Project project = projectBean.findProject(projectId);
+
+		if (project == null) return Response.status(Response.Status.BAD_REQUEST).build();
+
+		Optional<Structure> structure = project.getStructures().stream().filter(s -> s.getId() == structureId).findFirst();
+
+		if (!structure.isPresent()) return Response.status(Response.Status.BAD_REQUEST).build();
+
+		project.removeStructure(structure.get());
+		return Response.noContent().build();
 	}
 }
