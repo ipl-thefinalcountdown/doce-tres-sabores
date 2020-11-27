@@ -32,9 +32,9 @@ public class Variant {
 
 	/**
 	 * Primary key of the product variant
-	 * This represents the code of the variant
+	 * This represents the id of the variant
 	 */
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) private int code;
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) private int id;
 
 	/**
 	 * Relationship to the product
@@ -134,12 +134,12 @@ public class Variant {
 		this.mcr_n = new LinkedHashMap<Double,Double>();
 	}
 
-	public int getCode() {
-		return code;
+	public int getId() {
+		return id;
 	}
 
-	public void setCode(int code) {
-		this.code = code;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public Product getProduct() {

@@ -40,7 +40,7 @@ public class StructureBean {
 	}
 
 	public Structure create(StructureDTO structureDTO) {
-		List<Integer> variantIds = structureDTO.getVariants().stream().map(s -> s.getCode()).collect(Collectors.toList());
+		List<Integer> variantIds = structureDTO.getVariants().stream().map(s -> s.getId()).collect(Collectors.toList());
 		return create(structureDTO.getMaterialId(), structureDTO.getBeamAmount(), structureDTO.getBeamLength(), variantIds);
 	}
 
@@ -52,7 +52,7 @@ public class StructureBean {
 
 		Supplier<Stream<Variant>> variantRange = () -> (Stream<Variant>) structureDTO.getVariants()
 			.stream()
-			.map(v -> entityManager.find(Variant.class, v.getCode()));
+			.map(v -> entityManager.find(Variant.class, v.getId()));
 
 			if (variantRange.get().anyMatch(v -> v == null)) {
 				return null;
