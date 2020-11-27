@@ -33,10 +33,11 @@ public class LightSteelStructure extends Structure {
 		Material material,
 		int beamAmount,
 		int beamLength,
+		int beamImposedLoad,
 		int beamSpacing,
 		@NotNull List<Variant> variants
 	) {
-		super(material, beamAmount, beamLength, variants);
+		super(material, beamAmount, beamLength, beamImposedLoad, variants);
 		this.beamSpacing = beamSpacing;
 	}
 

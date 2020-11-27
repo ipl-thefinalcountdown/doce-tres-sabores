@@ -18,7 +18,7 @@ public class VariantDTO implements Serializable
 	/**
 	 * This represents the product name where this variant is appliable.
 	 */
-	private int productId;
+	private Integer productId;
 
 	/**
 	 * Variant name
@@ -30,28 +30,28 @@ public class VariantDTO implements Serializable
 	 * Valor medido em mm^3
 	 * @see weff_n
 	 */
-	private double weff_p;
+	private Double weff_p;
 
 	/**
 	 * Flexão negativa efetiva de uma secção transversal
 	 * Valor medido em mm^3
 	 * @see weff_p
 	 */
-	private double weff_n;
+	private Double weff_n;
 
 	/**
 	 * Section area in mm^2
 	 */
-	private double ar;
+	private Double ar;
 
-	private double sigmaC;
+	private Double sigmaC;
 
 	/**
 	 * Value based on modulus of rigidity and section area
 	 * @see ar
 	 * @see G
 	 */
-	private double pp;
+	private Double pp;
 
 	/**
 	 * Par L -> Mcr+
@@ -106,13 +106,13 @@ public class VariantDTO implements Serializable
 	 */
 	public VariantDTO(
 		int id,
-		int productId,
+		Integer productId,
 		String name,
-		double weff_p,
-		double weff_n,
-		double ar,
-		double sigmaC,
-		double pp,
+		Double weff_p,
+		Double weff_n,
+		Double ar,
+		Double sigmaC,
+		Double pp,
 		LinkedHashMap<Double,Double> mcr_p,
 		LinkedHashMap<Double,Double> mcr_n)
 	{
@@ -132,7 +132,7 @@ public class VariantDTO implements Serializable
 	 * Sets the variant id
 	 * @param id variant id
 	 */
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -140,23 +140,23 @@ public class VariantDTO implements Serializable
 	 * Sets the variant id
 	 * @return variant id
 	 */
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
 	/**
-	 * Sets the associated product name
-	 * @param productId product name
+	 * Sets the associated product id
+	 * @param productId product id
 	 */
-	public void setProductName(int productId) {
+	public void setProductId(Integer productId) {
 		this.productId = productId;
 	}
 
 	/**
-	 * Gets the associated product name
-	 * @return product name
+	 * Gets the associated product id
+	 * @return product id
 	 */
-	public int getProductName() {
+	public Integer getProductId() {
 		return productId;
 	}
 
@@ -176,11 +176,11 @@ public class VariantDTO implements Serializable
 		this.name = name;
 	}
 
-	public double getAr() {
+	public Double getAr() {
 		return ar;
 	}
 
-	public void setAr(double ar) {
+	public void setAr(Double ar) {
 		this.ar = ar;
 	}
 
@@ -192,19 +192,19 @@ public class VariantDTO implements Serializable
 		return mcr_p;
 	}
 
-	public double getPp() {
+	public Double getPp() {
 		return pp;
 	}
 
-	public double getSigmaC() {
+	public Double getSigmaC() {
 		return sigmaC;
 	}
 
-	public double getWeff_n() {
+	public Double getWeff_n() {
 		return weff_n;
 	}
 
-	public double getWeff_p() {
+	public Double getWeff_p() {
 		return weff_p;
 	}
 
@@ -216,19 +216,19 @@ public class VariantDTO implements Serializable
 		this.mcr_p = mcr_p;
 	}
 
-	public void setPp(double pp) {
+	public void setPp(Double pp) {
 		this.pp = pp;
 	}
 
-	public void setSigmaC(double sigmaC) {
+	public void setSigmaC(Double sigmaC) {
 		this.sigmaC = sigmaC;
 	}
 
-	public void setWeff_n(double weff_n) {
+	public void setWeff_n(Double weff_n) {
 		this.weff_n = weff_n;
 	}
 
-	public void setWeff_p(double weff_p) {
+	public void setWeff_p(Double weff_p) {
 		this.weff_p = weff_p;
 	}
 }

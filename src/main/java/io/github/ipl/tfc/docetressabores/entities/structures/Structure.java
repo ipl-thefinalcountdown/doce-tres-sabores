@@ -38,6 +38,7 @@ public class Structure {
 	@ManyToOne @JoinColumn(name = "MATERIAL_TYPE") protected Material material;
 	protected int beamAmount;
 	protected int beamLength;
+	protected int beamImposedLoad;
 
 	public Structure() {
 		variants = new ArrayList<>();
@@ -47,11 +48,13 @@ public class Structure {
 		Material material,
 		int beamAmount,
 		int beamLength,
+		int beamImposedLoad,
 		@NotNull List<Variant> variants
 	) {
 		this.material = material;
 		this.beamAmount = beamAmount;
 		this.beamLength = beamLength;
+		this.beamImposedLoad = beamImposedLoad;
 		this.variants = variants;
 	}
 
@@ -71,6 +74,10 @@ public class Structure {
 
 	public int getBeamLength() {
 		return beamLength;
+	}
+
+	public int getBeamImposedLoad() {
+		return beamImposedLoad;
 	}
 
 	public List<Variant> getVariants() {
@@ -93,6 +100,10 @@ public class Structure {
 
 	public void setBeamLength(int beamLength) {
 		this.beamLength = beamLength;
+	}
+
+	public void setBeamImposedLoad(int beamImposedLoad) {
+		this.beamImposedLoad = beamImposedLoad;
 	}
 
 	public void setVariants(List<Variant> variants) {

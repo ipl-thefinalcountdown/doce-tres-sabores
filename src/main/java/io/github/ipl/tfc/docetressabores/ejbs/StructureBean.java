@@ -23,7 +23,7 @@ public class StructureBean {
 	// TODO: documentation
 	@PersistenceContext EntityManager entityManager;
 
-	public Structure create(int materialId, int beamAmount, int beamLength, List<Integer> variantIds) {
+	public Structure create(int materialId, int beamAmount, int beamLength, int beamImposedLoad, List<Integer> variantIds) {
 		Supplier<Stream<Variant>> variantRange = () -> (Stream<Variant>) variantIds
 			.stream()
 			.map(vId -> entityManager.find(Variant.class, vId));
@@ -33,7 +33,7 @@ public class StructureBean {
 			return null;
 		} else {
 			Material material = entityManager.find(Material.class, materialId);
-			Structure structure = new Structure(material, beamAmount, beamLength, variantRange.get().collect(Collectors.toList()));
+			Structure structure = new Structure(material, beamAmount, beamLength, beamImposedLoad, variantRange.get().collect(Collectors.toList()));
 			entityManager.persist(structure);
 			return structure;
 		}
@@ -41,7 +41,7 @@ public class StructureBean {
 
 	public Structure create(StructureDTO structureDTO) {
 		List<Integer> variantIds = structureDTO.getVariants().stream().map(s -> s.getId()).collect(Collectors.toList());
-		return create(structureDTO.getMaterialId(), structureDTO.getBeamAmount(), structureDTO.getBeamLength(), variantIds);
+		return create(structureDTO.getMaterialId(), structureDTO.getBeamAmount(), structureDTO.getBeamLength(), structureDTO.getBeamImposedLoad(), variantIds);
 	}
 
 	public Structure update(StructureDTO structureDTO) {
