@@ -18,6 +18,7 @@ public class SlabStructureService {
 			structure.getMaterial().getId(),
 			critical ? null : structure.getBeamAmount(),
 			critical ? null : structure.getBeamLength(),
+			critical ? null : structure.getBeamImposedLoad(),
 			null,
 			critical ? null : structure.getMaximumHeight(),
 			critical ? null : VariantService.toDTOs(structure.getVariants()));

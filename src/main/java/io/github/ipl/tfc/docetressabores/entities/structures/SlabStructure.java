@@ -27,10 +27,11 @@ public class SlabStructure extends Structure {
 		Material material,
 		int beamAmount,
 		int beamLength,
+		int beamImposedLoad,
 		int maximumHeight,
 		@NotNull List<Variant> variants
 	) {
-		super(material, beamAmount, beamLength, variants);
+		super(material, beamAmount, beamLength, beamImposedLoad, variants);
 		this.maximumHeight = maximumHeight;
 	}
 

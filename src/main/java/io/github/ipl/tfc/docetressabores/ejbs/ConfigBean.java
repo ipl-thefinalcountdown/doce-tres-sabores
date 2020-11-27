@@ -64,12 +64,12 @@ public class ConfigBean {
 		Project project2 = projectBean.create("foobarProject", client1.getId());
 
 		System.out.println("####### Creating structures...");
-		LightSteelStructure structure1 = lightSteelStructureBean.create(6, 3, 1, Arrays.asList(variant1.getId()));
-		LightSteelStructure structure2 = lightSteelStructureBean.create(15, 3, 1, Arrays.asList(variant1.getId(), variant2.getId()));
-		lightSteelStructureBean.create(15, 3, 1, Arrays.asList(variant1.getId(), variant2.getId()));
-		slabStructureBean.create(15, 19, 2, new ArrayList<>());
-		structureBean.create(MaterialType.PROFILED_SHEETING, 154, 78, new ArrayList<>());
-		structureBean.create(MaterialType.SANDWICH_PANEL, 74, 10, new ArrayList<>());
+		LightSteelStructure structure1 = lightSteelStructureBean.create(6, 3, 1, 4, Arrays.asList(variant1.getId()));
+		LightSteelStructure structure2 = lightSteelStructureBean.create(15, 3, 1, 6, Arrays.asList(variant1.getId(), variant2.getId()));
+		lightSteelStructureBean.create(15, 3, 15, 1, Arrays.asList(variant1.getId(), variant2.getId()));
+		slabStructureBean.create(15, 19, 2, 15, new ArrayList<>());
+		structureBean.create(MaterialType.PROFILED_SHEETING, 154, 14, 78, new ArrayList<>());
+		structureBean.create(MaterialType.SANDWICH_PANEL, 74, 14, 10, new ArrayList<>());
 
 		System.out.println("####### Adding structures to projects...");
 		project1.addStructure(structureBean.findStructure(structure1.getId()));

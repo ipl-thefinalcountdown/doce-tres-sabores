@@ -1,7 +1,10 @@
 package io.github.ipl.tfc.docetressabores.ws;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.ejb.EJB;
 import javax.transaction.Transactional;
@@ -19,12 +22,16 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import io.github.ipl.tfc.docetressabores.dtos.StructureDTO;
+import io.github.ipl.tfc.docetressabores.dtos.VariantDTO;
 import io.github.ipl.tfc.docetressabores.ejbs.LightSteelStructureBean;
 import io.github.ipl.tfc.docetressabores.ejbs.MaterialBean;
+import io.github.ipl.tfc.docetressabores.ejbs.SimulationBean;
 import io.github.ipl.tfc.docetressabores.ejbs.SlabStructureBean;
 import io.github.ipl.tfc.docetressabores.ejbs.StructureBean;
+import io.github.ipl.tfc.docetressabores.ejbs.VariantBean;
 import io.github.ipl.tfc.docetressabores.entities.structures.*;
 import io.github.ipl.tfc.docetressabores.entities.MaterialType;
+import io.github.ipl.tfc.docetressabores.entities.Variant;
 
 @Path("/structures")
 @Produces({ MediaType.APPLICATION_JSON })
@@ -34,6 +41,8 @@ public class StructureService {
 	@EJB LightSteelStructureBean lightSteelStructureBean;
 	@EJB SlabStructureBean slabStructureBean;
 	@EJB MaterialBean materialBean;
+	@EJB VariantBean variantBean;
+	@EJB SimulationBean simulationBean;
 
 	public static StructureDTO toDTO(Structure structure, boolean critical) {
 		return new StructureDTO(
@@ -41,6 +50,7 @@ public class StructureService {
 			structure.getMaterial().getId(),
 			critical ? null : structure.getBeamAmount(),
 			critical ? null : structure.getBeamLength(),
+			critical ? null : structure.getBeamImposedLoad(),
 			null,
 			null,
 			critical ? null : VariantService.toDTOs(structure.getVariants())
@@ -170,6 +180,28 @@ public class StructureService {
 			structureBean.delete(id)
 				? Response.noContent()
 				: Response.status(Response.Status.BAD_REQUEST)
+		).build();
+	}
+
+	@GET
+	@Path("/{id}/simulation")
+	@Transactional
+	public Response simulationWS(@PathParam("id") int id, List<VariantDTO> variantsDTOs) {
+		Structure structure = structureBean.findStructure(id);
+
+		if (structure == null) return Response.status(Response.Status.BAD_REQUEST).build();
+
+		Supplier<Stream<Variant>> variantStream = () -> (Stream<Variant>) variantsDTOs
+			.stream()
+			.map(v -> variantBean.findVariant(v.getId()));
+
+		if (variantStream.get().anyMatch(Objects::isNull)) return Response.status(Response.Status.BAD_REQUEST).build();
+
+		return Response.ok(VariantService.toDTOs(
+			variantStream.get()
+			.filter(Objects::nonNull)
+			.filter(v -> simulationBean.simulateVariant(structure.getBeamAmount(), structure.getBeamLength(), structure.getBeamImposedLoad(), v))
+			.collect(Collectors.toList()))
 		).build();
 	}
 }

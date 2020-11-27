@@ -22,6 +22,7 @@ public class LightSteelStructureService {
 			structure.getMaterial().getId(),
 			critical ? null : structure.getBeamAmount(),
 			critical ? null : structure.getBeamLength(),
+			critical ? null : structure.getBeamImposedLoad(),
 			critical ? null : structure.getBeamSpacing(),
 			null,
 			critical ? null : VariantService.toDTOs(structure.getVariants()));

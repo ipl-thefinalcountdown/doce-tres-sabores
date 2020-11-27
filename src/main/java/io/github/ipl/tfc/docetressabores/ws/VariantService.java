@@ -24,29 +24,33 @@ public class VariantService
 	@EJB
 	private VariantBean variantBean;
 
-	public static VariantDTO toDTO(Variant variant)
+	public static VariantDTO toDTO(Variant variant, boolean critical)
 	{
 		return new VariantDTO
 		(
 			variant.getId(),
-			variant.getProduct().getId(),
+			critical ? null : variant.getProduct().getId(),
 			variant.getName(),
-			variant.getWeff_p(),
-			variant.getWeff_n(),
-			variant.getAr(),
-			variant.getSigmaC(),
-			variant.getPp(),
-			variant.getMcr_p(),
-			variant.getMcr_n()
+			critical ? null : variant.getWeff_p(),
+			critical ? null : variant.getWeff_n(),
+			critical ? null : variant.getAr(),
+			critical ? null : variant.getSigmaC(),
+			critical ? null : variant.getPp(),
+			critical ? null : variant.getMcr_p(),
+			critical ? null : variant.getMcr_n()
 		);
 	}
 
-	public static List<VariantDTO> toDTOs(List<Variant> variants)
+	public static List<VariantDTO> toDTOs(List<Variant> variants, boolean critical)
 	{
 		return variants
 			.stream()
-			.map(VariantService::toDTO)
+			.map(v -> toDTO(v, critical))
 			.collect(Collectors.toList());
+	}
+
+	public static List<VariantDTO> toDTOs(List<Variant> variants) {
+		return toDTOs(variants, true);
 	}
 
 	@GET
