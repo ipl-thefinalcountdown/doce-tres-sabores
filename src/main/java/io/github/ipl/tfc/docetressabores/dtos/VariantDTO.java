@@ -11,9 +11,9 @@ public class VariantDTO implements Serializable
 {
 
 	/**
-	 * This value represents the code of the variant
+	 * This value represents the id of the variant
 	 */
-	private int code;
+	private int id;
 
 	/**
 	 * This represents the product name where this variant is appliable.
@@ -93,7 +93,7 @@ public class VariantDTO implements Serializable
 
 	/**
 	 * Constructs a product Variant DTO based on it's attributes
-	 * @param code variant code
+	 * @param id variant id
 	 * @param productId associated product name
 	 * @param name variant name
 	 * @param weff_p Weff+
@@ -105,7 +105,7 @@ public class VariantDTO implements Serializable
 	 * @param mcr_n Mcr-
 	 */
 	public VariantDTO(
-		int code,
+		int id,
 		int productId,
 		String name,
 		double weff_p,
@@ -116,7 +116,7 @@ public class VariantDTO implements Serializable
 		LinkedHashMap<Double,Double> mcr_p,
 		LinkedHashMap<Double,Double> mcr_n)
 	{
-		this.code = code;
+		this.id = id;
 		this.productId = productId;
 		this.name = name;
 		this.weff_p = weff_p;
@@ -129,19 +129,19 @@ public class VariantDTO implements Serializable
 	}
 
 	/**
-	 * Sets the variant code
-	 * @param code variant code
+	 * Sets the variant id
+	 * @param id variant id
 	 */
-	public void setCode(int code) {
-		this.code = code;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	/**
-	 * Sets the variant code
-	 * @return variant code
+	 * Sets the variant id
+	 * @return variant id
 	 */
-	public int getCode() {
-		return code;
+	public int getId() {
+		return id;
 	}
 
 	/**

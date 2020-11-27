@@ -45,7 +45,7 @@ public class LightSteelStructureBean {
 
 
 	public LightSteelStructure create(StructureDTO structureDTO) {
-		List<Integer> variantIds = structureDTO.getVariants().stream().map(s -> s.getCode()).collect(Collectors.toList());
+		List<Integer> variantIds = structureDTO.getVariants().stream().map(s -> s.getId()).collect(Collectors.toList());
 		return create(structureDTO.getBeamAmount(), structureDTO.getBeamLength(), structureDTO.getBeamSpacing(), variantIds);
 	}
 
@@ -59,7 +59,7 @@ public class LightSteelStructureBean {
 
 		Supplier<Stream<Variant>> variantRange = () -> (Stream<Variant>) structureDTO.getVariants()
 			.stream()
-			.map(v -> entityManager.find(Variant.class, v.getCode()));
+			.map(v -> entityManager.find(Variant.class, v.getId()));
 
 		if (variantRange.get().anyMatch(v -> v == null)) {
 			return null;

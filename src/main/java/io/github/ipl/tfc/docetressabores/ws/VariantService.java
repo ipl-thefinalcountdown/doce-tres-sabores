@@ -28,7 +28,7 @@ public class VariantService
 	{
 		return new VariantDTO
 		(
-			variant.getCode(),
+			variant.getId(),
 			variant.getProduct().getId(),
 			variant.getName(),
 			variant.getWeff_p(),

@@ -64,9 +64,9 @@ public class ConfigBean {
 		Project project2 = projectBean.create("foobarProject", client1.getId());
 
 		System.out.println("####### Creating structures...");
-		LightSteelStructure structure1 = lightSteelStructureBean.create(6, 3, 1, Arrays.asList(variant1.getCode()));
-		LightSteelStructure structure2 = lightSteelStructureBean.create(15, 3, 1, Arrays.asList(variant1.getCode(), variant2.getCode()));
-		lightSteelStructureBean.create(15, 3, 1, Arrays.asList(variant1.getCode(), variant2.getCode()));
+		LightSteelStructure structure1 = lightSteelStructureBean.create(6, 3, 1, Arrays.asList(variant1.getId()));
+		LightSteelStructure structure2 = lightSteelStructureBean.create(15, 3, 1, Arrays.asList(variant1.getId(), variant2.getId()));
+		lightSteelStructureBean.create(15, 3, 1, Arrays.asList(variant1.getId(), variant2.getId()));
 		slabStructureBean.create(15, 19, 2, new ArrayList<>());
 		structureBean.create(MaterialType.PROFILED_SHEETING, 154, 78, new ArrayList<>());
 		structureBean.create(MaterialType.SANDWICH_PANEL, 74, 10, new ArrayList<>());
