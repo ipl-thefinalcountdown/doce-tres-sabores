@@ -6,7 +6,7 @@ RUN apk add --update --no-cache openjdk14 --repository=http://dl-cdn.alpinelinux
 ENV PATH=$PATH:${JAVA_HOME}/bin
 
 # Build dependencies
-RUN apk add --no-cache --virtual .build-deps sed
+RUN apk add --no-cache --virtual .build-deps sed curl
 
 # Download wildfly
 RUN wget -O wildfly-21.0.0.Final.tar.gz https://download.jboss.org/wildfly/21.0.0.Final/wildfly-21.0.0.Final.tar.gz && \
@@ -28,7 +28,21 @@ COPY ./persistence/module.xml /opt/wildfly/modules/system/layers/base/org/eclips
 RUN /opt/wildfly/bin/add-user.sh pudim pudim
 
 # Copy wildfly standalone configuration
-COPY ./configuration/standalone.xml /opt/wildfly/standalone/configuration/
+ENV WILDFLY_STANDALONE_CONFIG_DIR="/opt/wildfly/standalone/configuration"
+COPY ./configuration/standalone.xml ${WILDFLY_STANDALONE_CONFIG_DIR}
+
+# Configure keystore for Token-based auth
+COPY ./bin/configure-elytron.cli /opt/wildfly/bin/
+RUN ( \
+		cd "${WILDFLY_STANDALONE_CONFIG_DIR}" && \
+		echo -e "localhost\nestg\nipl\nLeria\nLeiria\nPT\nyes" | keytool -genkey -alias alias -keyalg RSA -keysize 2048 -keystore jwt.keystore -storepass pudimdecafe -keypass pudimdecafe \
+	) && \
+	(/opt/wildfly/bin/standalone.sh &) && \
+	# Do health check to Wildfly admin console
+	# This is needed to run the next command without a chance of failure
+	(while ! curl -sSf http://localhost:9990 > /dev/null; do sleep 1; done) && \
+	/opt/wildfly/bin/jboss-cli.sh --connect --file=/opt/wildfly/bin/configure-elytron.cli && \
+	/opt/wildfly/bin/jboss-cli.sh --connect --command=:shutdown
 
 # PostgreSQL integration
 ENV JDBC_POSTGRESQL_VERSION 42.2.18
