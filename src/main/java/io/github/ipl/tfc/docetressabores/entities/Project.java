@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
 
 import io.github.ipl.tfc.docetressabores.entities.structures.Structure;
 

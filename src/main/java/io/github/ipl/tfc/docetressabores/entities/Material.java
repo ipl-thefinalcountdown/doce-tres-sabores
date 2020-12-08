@@ -36,8 +36,4 @@ public class Material {
 	public int getId() {
 		return id;
 	}
-/*
-	public MaterialType getType() {
-		return type;
-	}*/
 }

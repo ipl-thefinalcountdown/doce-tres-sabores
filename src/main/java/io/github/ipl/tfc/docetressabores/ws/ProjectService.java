@@ -1,6 +1,5 @@
 package io.github.ipl.tfc.docetressabores.ws;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,7 +20,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import io.github.ipl.tfc.docetressabores.dtos.ProjectDTO;
-import io.github.ipl.tfc.docetressabores.dtos.StructureDTO;
 import io.github.ipl.tfc.docetressabores.ejbs.ProjectBean;
 import io.github.ipl.tfc.docetressabores.ejbs.StructureBean;
 import io.github.ipl.tfc.docetressabores.entities.Project;

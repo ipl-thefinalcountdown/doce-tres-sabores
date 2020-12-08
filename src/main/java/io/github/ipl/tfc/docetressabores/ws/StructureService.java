@@ -10,7 +10,6 @@ import javax.ejb.EJB;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -191,7 +190,7 @@ public class StructureService {
 
 		if (structure == null) return Response.status(Response.Status.BAD_REQUEST).build();
 
-		Supplier<Stream<Variant>> variantStream = () -> (Stream<Variant>) variantsDTOs
+		Supplier<Stream<Variant>> variantStream = () -> variantsDTOs
 			.stream()
 			.map(v -> variantBean.findVariant(v.getId()));
 

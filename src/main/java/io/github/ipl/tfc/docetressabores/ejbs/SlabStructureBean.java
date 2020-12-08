@@ -1,7 +1,6 @@
 package io.github.ipl.tfc.docetressabores.ejbs;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -25,7 +24,7 @@ public class SlabStructureBean {
 			.stream()
 			.map(vId -> entityManager.find(Variant.class, vId));
 
-		if (variantRange.get().anyMatch(v -> v == null))
+		if (variantRange.get().anyMatch(Objects::isNull))
 		{
 			return null;
 		} else {
@@ -60,7 +59,7 @@ public class SlabStructureBean {
 			.stream()
 			.map(v -> entityManager.find(Variant.class, v.getId()));
 
-		if (variantRange.get().anyMatch(v -> v == null)) {
+		if (variantRange.get().anyMatch(Objects::isNull)) {
 			return null;
 		}
 

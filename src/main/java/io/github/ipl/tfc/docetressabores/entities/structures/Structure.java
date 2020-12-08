@@ -1,6 +1,5 @@
 package io.github.ipl.tfc.docetressabores.entities.structures;
 
-import java.beans.Transient;
 import java.util.ArrayList;
 import java.util.List;
 

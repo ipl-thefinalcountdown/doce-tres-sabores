@@ -5,7 +5,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import io.github.ipl.tfc.docetressabores.entities.Material;
-import io.github.ipl.tfc.docetressabores.entities.MaterialType;
 
 @Stateless
 public class MaterialBean {

@@ -3,11 +3,7 @@ package io.github.ipl.tfc.docetressabores.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-import io.github.ipl.tfc.docetressabores.entities.structures.Structure;
-
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 /**
  * Product variant entity
@@ -111,8 +107,8 @@ public class Variant {
 	 */
 	public Variant()
 	{
-		this.mcr_p = new LinkedHashMap<Double,Double>();
-		this.mcr_n = new LinkedHashMap<Double,Double>();
+		this.mcr_p = new LinkedHashMap<>();
+		this.mcr_n = new LinkedHashMap<>();
 	}
 
 	public Variant(
@@ -130,8 +126,8 @@ public class Variant {
 		this.ar = ar;
 		this.sigmaC = sigmaC;
 		this.pp = G * ar * Math.pow(10, -6);
-		this.mcr_p = new LinkedHashMap<Double,Double>();
-		this.mcr_n = new LinkedHashMap<Double,Double>();
+		this.mcr_p = new LinkedHashMap<>();
+		this.mcr_n = new LinkedHashMap<>();
 	}
 
 	public int getId() {
