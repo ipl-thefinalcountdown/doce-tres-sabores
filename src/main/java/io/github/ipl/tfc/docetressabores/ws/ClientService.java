@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -45,5 +46,18 @@ public class ClientService {
 	@Transactional
 	public Response getAllClientsWS() {
 		return Response.ok(toDTOs(clientBean.getAllClients())).build();
+	}
+
+	@GET
+	@Path("/{id}")
+	@Transactional
+	public Response getClientWS(@PathParam("id") int id) {
+		Client client = clientBean.findClient(id);
+
+		return (
+			client == null
+				? Response.status(Response.Status.BAD_REQUEST)
+				: Response.ok(toDTO(client))
+			).build();
 	}
 }
