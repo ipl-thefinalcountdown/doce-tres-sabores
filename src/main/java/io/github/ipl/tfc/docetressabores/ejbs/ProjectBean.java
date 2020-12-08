@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 
 import io.github.ipl.tfc.docetressabores.dtos.ProjectDTO;

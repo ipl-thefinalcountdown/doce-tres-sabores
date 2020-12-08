@@ -6,7 +6,6 @@ import javax.persistence.PersistenceContext;
 
 import io.github.ipl.tfc.docetressabores.entities.Family;
 import io.github.ipl.tfc.docetressabores.entities.Material;
-import io.github.ipl.tfc.docetressabores.entities.MaterialType;
 
 @Stateless
 public class FamilyBean {

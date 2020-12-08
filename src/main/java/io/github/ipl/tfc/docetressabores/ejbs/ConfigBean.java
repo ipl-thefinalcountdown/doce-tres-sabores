@@ -3,7 +3,6 @@ package io.github.ipl.tfc.docetressabores.ejbs;
 import io.github.ipl.tfc.docetressabores.entities.Client;
 import io.github.ipl.tfc.docetressabores.entities.Family;
 import io.github.ipl.tfc.docetressabores.entities.structures.*;
-import io.github.ipl.tfc.docetressabores.entities.Material;
 import io.github.ipl.tfc.docetressabores.entities.MaterialType;
 import io.github.ipl.tfc.docetressabores.entities.Product;
 import io.github.ipl.tfc.docetressabores.entities.Project;

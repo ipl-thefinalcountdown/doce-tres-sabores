@@ -1,7 +1,6 @@
 package io.github.ipl.tfc.docetressabores.ejbs;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -13,7 +12,6 @@ import javax.validation.constraints.NotNull;
 
 import io.github.ipl.tfc.docetressabores.dtos.StructureDTO;
 import io.github.ipl.tfc.docetressabores.entities.Material;
-import io.github.ipl.tfc.docetressabores.entities.MaterialType;
 import io.github.ipl.tfc.docetressabores.entities.Project;
 import io.github.ipl.tfc.docetressabores.entities.structures.Structure;
 import io.github.ipl.tfc.docetressabores.entities.Variant;
@@ -28,7 +26,7 @@ public class StructureBean {
 			.stream()
 			.map(vId -> entityManager.find(Variant.class, vId));
 
-		if (variantRange.get().anyMatch(v -> v == null))
+		if (variantRange.get().anyMatch(Objects::isNull))
 		{
 			return null;
 		} else {
@@ -54,7 +52,7 @@ public class StructureBean {
 			.stream()
 			.map(v -> entityManager.find(Variant.class, v.getId()));
 
-			if (variantRange.get().anyMatch(v -> v == null)) {
+			if (variantRange.get().anyMatch(Objects::isNull)) {
 				return null;
 			}
 

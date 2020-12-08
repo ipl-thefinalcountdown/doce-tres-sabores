@@ -1,14 +1,10 @@
 package io.github.ipl.tfc.docetressabores.entities.structures;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 
 import io.github.ipl.tfc.docetressabores.entities.Material;

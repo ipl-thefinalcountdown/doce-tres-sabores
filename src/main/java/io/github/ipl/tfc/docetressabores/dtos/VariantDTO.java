@@ -87,8 +87,8 @@ public class VariantDTO implements Serializable
 	 */
 	public VariantDTO()
 	{
-		this.mcr_p = new LinkedHashMap<Double,Double>();
-		this.mcr_n = new LinkedHashMap<Double,Double>();
+		this.mcr_p = new LinkedHashMap<>();
+		this.mcr_n = new LinkedHashMap<>();
 	}
 
 	/**
