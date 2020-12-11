@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -17,12 +18,16 @@ import io.github.ipl.tfc.docetressabores.entities.Variant;
 	@NamedQuery(
 		name = "getAllStructures",
 		query = "SELECT s FROM Structure s "
+			+ "WHERE UPPER(s.name) LIKE UPPER(:filter) OR "
+			+ "CAST(s.id AS string) LIKE :filter "
 			+ "ORDER BY s.id"
 	),
 	@NamedQuery(
 		name = "getStructuresFilteredByMaterialId",
 		query = "SELECT s FROM Structure s "
 			+ "WHERE s.material.id = :materialId "
+			+ "AND (UPPER(s.name) LIKE UPPER(:filter) OR "
+			+ "CAST(s.id AS string) LIKE :filter) "
 			+ "ORDER BY s.id"
 	)
 })
@@ -33,6 +38,7 @@ import io.github.ipl.tfc.docetressabores.entities.Variant;
 public class Structure {
 	// TODO: documentation
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) protected int id;
+	@NotNull @NotEmpty private String name;
 	@ManyToMany protected List<Variant> variants;
 	@ManyToOne @JoinColumn(name = "MATERIAL_TYPE") protected Material material;
 	protected int beamAmount;
@@ -45,12 +51,14 @@ public class Structure {
 
 	public Structure(
 		Material material,
+		String name,
 		int beamAmount,
 		int beamLength,
 		int beamImposedLoad,
 		@NotNull List<Variant> variants
 	) {
 		this.material = material;
+		this.name = name;
 		this.beamAmount = beamAmount;
 		this.beamLength = beamLength;
 		this.beamImposedLoad = beamImposedLoad;
@@ -83,10 +91,17 @@ public class Structure {
 		return variants;
 	}
 
+	public String getName() {
+		return name;
+	}
 
 	// setters
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public void setMaterial(Material material) {

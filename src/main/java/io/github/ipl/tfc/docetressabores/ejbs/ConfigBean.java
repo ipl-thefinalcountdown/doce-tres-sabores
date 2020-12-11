@@ -33,7 +33,8 @@ public class ConfigBean {
 	@EJB private FamilyBean familyBean;
 
 	@PostConstruct
-	public void populateBD(){
+	public void populateBD()
+	{
 		System.out.println("####### Creating materials...");
 		materialBean.create(MaterialType.LIGHT_STEEL);
 		materialBean.create(MaterialType.PROFILED_SHEETING);
@@ -57,18 +58,19 @@ public class ConfigBean {
 
 		System.out.println("####### Creating clients...");
 		Client client1 = clientBean.create("Foo", "999999999", "foo@foo.foo", "fooland, 1234 foohouse");
+		Client client2 = clientBean.create("Bar", "888888888", "bar@bar.bar", "barland, 4321 barhouse");
 
 		System.out.println("####### Creating projects...");
 		Project project1 = projectBean.create("fooProject", client1.getId());
 		Project project2 = projectBean.create("foobarProject", client1.getId());
 
 		System.out.println("####### Creating structures...");
-		LightSteelStructure structure1 = lightSteelStructureBean.create(6, 3, 1, 4, Arrays.asList(variant1.getId()));
-		LightSteelStructure structure2 = lightSteelStructureBean.create(15, 3, 1, 6, Arrays.asList(variant1.getId(), variant2.getId()));
-		lightSteelStructureBean.create(15, 3, 15, 1, Arrays.asList(variant1.getId(), variant2.getId()));
-		slabStructureBean.create(15, 19, 2, 15, new ArrayList<>());
-		structureBean.create(MaterialType.PROFILED_SHEETING, 154, 14, 78, new ArrayList<>());
-		structureBean.create(MaterialType.SANDWICH_PANEL, 74, 14, 10, new ArrayList<>());
+		LightSteelStructure structure1 = lightSteelStructureBean.create("Foo structure", 6, 3, 1, 4, Arrays.asList(variant1.getId()));
+		LightSteelStructure structure2 = lightSteelStructureBean.create("Bar structure", 15, 3, 1, 6, Arrays.asList(variant1.getId(), variant2.getId()));
+		lightSteelStructureBean.create("FooBar structure", 15, 3, 15, 1, Arrays.asList(variant1.getId(), variant2.getId()));
+		slabStructureBean.create("BarFoo structure", 15, 19, 2, 15, new ArrayList<>());
+		structureBean.create(MaterialType.PROFILED_SHEETING, "FooFoo structure", 154, 14, 78, new ArrayList<>());
+		structureBean.create(MaterialType.SANDWICH_PANEL, "BarBar structure", 74, 14, 10, new ArrayList<>());
 
 		System.out.println("####### Adding structures to projects...");
 		project1.addStructure(structureBean.findStructure(structure1.getId()));

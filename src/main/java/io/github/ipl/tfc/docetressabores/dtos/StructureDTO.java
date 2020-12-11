@@ -7,6 +7,7 @@ import java.util.List;
 public class StructureDTO implements Serializable {
 	private int id;
 	private int materialId;
+	private String name;
 	private Integer beamAmount;
 	private Integer beamLength;
 	private Integer beamImposedLoad;
@@ -23,6 +24,7 @@ public class StructureDTO implements Serializable {
 	public StructureDTO(
 		int id,
 		int materialId,
+		String name,
 		Integer beamAmount,
 		Integer beamLength,
 		Integer beamImposedLoad,
@@ -32,6 +34,7 @@ public class StructureDTO implements Serializable {
 	) {
 		this.id = id;
 		this.materialId = materialId;
+		this.name = name;
 		this.beamAmount = beamAmount;
 		this.beamLength = beamLength;
 		this.beamImposedLoad = beamImposedLoad;
@@ -48,6 +51,10 @@ public class StructureDTO implements Serializable {
 
 	public int getMaterialId() {
 		return materialId;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	public Integer getBeamAmount() {
@@ -82,6 +89,11 @@ public class StructureDTO implements Serializable {
 
 	public void setMaterialId(int materialId) {
 		this.materialId = materialId;
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
 	}
 
 	public void setBeamAmount(Integer beamAmount) {

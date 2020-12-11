@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.ejb.EJB;
+import javax.ws.rs.*;
 
 import io.github.ipl.tfc.docetressabores.dtos.StructureDTO;
 import io.github.ipl.tfc.docetressabores.ejbs.SlabStructureBean;
@@ -16,6 +17,7 @@ public class SlabStructureService {
 		return new StructureDTO(
 			structure.getId(),
 			structure.getMaterial().getId(),
+			structure.getName(),
 			critical ? null : structure.getBeamAmount(),
 			critical ? null : structure.getBeamLength(),
 			critical ? null : structure.getBeamImposedLoad(),

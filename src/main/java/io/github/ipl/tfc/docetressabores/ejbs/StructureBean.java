@@ -22,7 +22,7 @@ public class StructureBean {
 	// TODO: documentation
 	@PersistenceContext EntityManager entityManager;
 
-	public Structure create(int materialId, int beamAmount, int beamLength, int beamImposedLoad, List<Integer> variantIds) {
+	public Structure create(int materialId, String name, int beamAmount, int beamLength, int beamImposedLoad, List<Integer> variantIds) {
 		Supplier<Stream<Variant>> variantRange = () -> (Stream<Variant>) variantIds
 			.stream()
 			.map(vId -> entityManager.find(Variant.class, vId));
@@ -32,7 +32,7 @@ public class StructureBean {
 			return null;
 		} else {
 			Material material = entityManager.find(Material.class, materialId);
-			Structure structure = new Structure(material, beamAmount, beamLength, beamImposedLoad, variantRange.get().collect(Collectors.toList()));
+			Structure structure = new Structure(material, name, beamAmount, beamLength, beamImposedLoad, variantRange.get().collect(Collectors.toList()));
 			entityManager.persist(structure);
 			return structure;
 		}
@@ -40,7 +40,7 @@ public class StructureBean {
 
 	public Structure create(StructureDTO structureDTO) {
 		List<Integer> variantIds = structureDTO.getVariants().stream().map(s -> s.getId()).collect(Collectors.toList());
-		return create(structureDTO.getMaterialId(), structureDTO.getBeamAmount(), structureDTO.getBeamLength(), structureDTO.getBeamImposedLoad(), variantIds);
+		return create(structureDTO.getMaterialId(), structureDTO.getName(), structureDTO.getBeamAmount(), structureDTO.getBeamLength(), structureDTO.getBeamImposedLoad(), variantIds);
 	}
 
 	public Structure update(StructureDTO structureDTO) {
@@ -81,16 +81,18 @@ public class StructureBean {
 		return entityManager.find(Structure.class, id);
 	}
 
-	public List<Structure> getAllStructures() {
+	public List<Structure> getAllStructures(@NotNull String filter) {
 		return entityManager
 			.createNamedQuery("getAllStructures", Structure.class)
+			.setParameter("filter", "%"+filter+"%")
 			.getResultList();
 	}
 
-	public List<Structure> getStructuresFilteredBy(@NotNull Integer id) {
+	public List<Structure> getStructuresFilteredBy(@NotNull Integer id, @NotNull String filter) {
 		return entityManager
 			.createNamedQuery("getStructuresFilteredByMaterialId", Structure.class)
 			.setParameter("materialId", id)
+			.setParameter("filter", "%"+filter+"%")
 			.getResultList();
 	}
 }

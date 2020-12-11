@@ -17,6 +17,7 @@ public class LightSteelStructureService {
 		return new StructureDTO(
 			structure.getId(),
 			structure.getMaterial().getId(),
+			structure.getName(),
 			critical ? null : structure.getBeamAmount(),
 			critical ? null : structure.getBeamLength(),
 			critical ? null : structure.getBeamImposedLoad(),
