@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.constraints.NotNull;
 
 import io.github.ipl.tfc.docetressabores.entities.structures.LightSteelStructure;
 import io.github.ipl.tfc.docetressabores.dtos.StructureDTO;
@@ -20,7 +21,7 @@ import io.github.ipl.tfc.docetressabores.entities.Variant;
 public class LightSteelStructureBean {
 	@PersistenceContext EntityManager entityManager;
 
-	public LightSteelStructure create(int beamAmount, int beamLength, int beamImposedLoad, int beamSpacing, List<Integer> variantIds) {
+	public LightSteelStructure create(String name, int beamAmount, int beamLength, int beamImposedLoad, int beamSpacing, List<Integer> variantIds) {
 		Supplier<Stream<Variant>> variantRange = () -> (Stream<Variant>) variantIds
 			.stream()
 			.map(vId -> entityManager.find(Variant.class, vId));
@@ -33,7 +34,7 @@ public class LightSteelStructureBean {
 
 			LightSteelStructure structure = new LightSteelStructure
 			(
-				material, beamAmount, beamLength, beamImposedLoad, beamSpacing,
+				material, name, beamAmount, beamLength, beamImposedLoad, beamSpacing,
 				variantRange.get().collect(Collectors.toList())
 			);
 
@@ -45,13 +46,14 @@ public class LightSteelStructureBean {
 
 	public LightSteelStructure create(StructureDTO structureDTO) {
 		List<Integer> variantIds = structureDTO.getVariants().stream().map(s -> s.getId()).collect(Collectors.toList());
-		return create(structureDTO.getBeamAmount(), structureDTO.getBeamLength(), structureDTO.getBeamImposedLoad(), structureDTO.getBeamSpacing(), variantIds);
+		return create(structureDTO.getName(), structureDTO.getBeamAmount(), structureDTO.getBeamLength(), structureDTO.getBeamImposedLoad(), structureDTO.getBeamSpacing(), variantIds);
 	}
 
 
 	public LightSteelStructure update(StructureDTO structureDTO) {
 		LightSteelStructure structure = findStructure(structureDTO.getId());
 
+		if (structureDTO.getName() != null) structure.setName(structureDTO.getName());
 		if (structureDTO.getBeamAmount() != null) structure.setBeamAmount(structureDTO.getBeamAmount());
 		if (structureDTO.getBeamLength() != null) structure.setBeamLength(structureDTO.getBeamLength());
 		if (structureDTO.getBeamSpacing() != null) structure.setBeamSpacing(structureDTO.getBeamSpacing());

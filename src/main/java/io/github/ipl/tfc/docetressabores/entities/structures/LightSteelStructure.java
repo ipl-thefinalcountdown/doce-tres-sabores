@@ -27,13 +27,14 @@ public class LightSteelStructure extends Structure {
 
 	public LightSteelStructure(
 		Material material,
+		String name,
 		int beamAmount,
 		int beamLength,
 		int beamImposedLoad,
 		int beamSpacing,
 		@NotNull List<Variant> variants
 	) {
-		super(material, beamAmount, beamLength, beamImposedLoad, variants);
+		super(material, name, beamAmount, beamLength, beamImposedLoad, variants);
 		this.beamSpacing = beamSpacing;
 	}
 

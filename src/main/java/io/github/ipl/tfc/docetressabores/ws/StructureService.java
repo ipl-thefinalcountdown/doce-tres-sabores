@@ -8,17 +8,8 @@ import java.util.stream.Stream;
 
 import javax.ejb.EJB;
 import javax.transaction.Transactional;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
 
 import io.github.ipl.tfc.docetressabores.dtos.StructureDTO;
 import io.github.ipl.tfc.docetressabores.dtos.VariantDTO;
@@ -47,6 +38,7 @@ public class StructureService {
 		return new StructureDTO(
 			structure.getId(),
 			structure.getMaterial().getId(),
+			structure.getName(),
 			critical ? null : structure.getBeamAmount(),
 			critical ? null : structure.getBeamLength(),
 			critical ? null : structure.getBeamImposedLoad(),
@@ -74,18 +66,21 @@ public class StructureService {
 	@GET
 	@Path("/")
 	@Transactional
-	public Response getAllStructuresWS(@QueryParam("type") Integer type) {
+	public Response getAllStructuresWS(
+		@QueryParam("type") Integer type,
+		@DefaultValue("") @QueryParam("filter") String filter
+	) {
 		if (type == null)
-			return Response.ok(toDTOs(structureBean.getAllStructures())).build();
+			return Response.ok(toDTOs(structureBean.getAllStructures(filter))).build();
 
 		switch (type) {
 			case MaterialType.LIGHT_STEEL:
 			case MaterialType.PROFILED_SHEETING:
 			case MaterialType.SLAB:
 			case MaterialType.SANDWICH_PANEL:
-				return Response.ok(toDTOs(structureBean.getStructuresFilteredBy(type))).build();
+				return Response.ok(toDTOs(structureBean.getStructuresFilteredBy(type, filter))).build();
 			default:
-				return Response.ok(toDTOs(structureBean.getAllStructures())).build();
+				return Response.ok(toDTOs(structureBean.getAllStructures(filter))).build();
 		}
 	}
 
