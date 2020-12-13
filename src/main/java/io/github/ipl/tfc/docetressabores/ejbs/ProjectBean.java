@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 
 import io.github.ipl.tfc.docetressabores.dtos.ProjectDTO;
 import io.github.ipl.tfc.docetressabores.entities.Client;
+import io.github.ipl.tfc.docetressabores.entities.Designer;
 import io.github.ipl.tfc.docetressabores.entities.Project;
 import io.github.ipl.tfc.docetressabores.entities.structures.Structure;
 
@@ -18,14 +19,15 @@ public class ProjectBean {
 	// TODO: documentation
 	@PersistenceContext EntityManager entityManager;
 
-	public Project create(String name, int clientId)
+	public Project create(String name, int clientId, int designerId)
 	{
 		Client client = entityManager.find(Client.class, clientId);
+		Designer designer = entityManager.find(Designer.class, designerId);
 
-		if (client == null) {
+		if (client == null || designer == null) {
 			return null;
 		} else {
-			Project project = new Project(name, client);
+			Project project = new Project(name, client, designer);
 			entityManager.persist(project);
 			return project;
 		}
@@ -57,7 +59,7 @@ public class ProjectBean {
 	}
 
 	public Project create(ProjectDTO projectDTO) {
-		return create(projectDTO.getName(), projectDTO.getClientId());
+		return create(projectDTO.getName(), projectDTO.getClientId(), projectDTO.getDesignerId());
 	}
 
 	public Project findProject(int id) {

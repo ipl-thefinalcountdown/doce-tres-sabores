@@ -1,6 +1,7 @@
 package io.github.ipl.tfc.docetressabores.ejbs;
 
 import io.github.ipl.tfc.docetressabores.entities.Client;
+import io.github.ipl.tfc.docetressabores.entities.Designer;
 import io.github.ipl.tfc.docetressabores.entities.Family;
 import io.github.ipl.tfc.docetressabores.entities.structures.*;
 import io.github.ipl.tfc.docetressabores.entities.MaterialType;
@@ -20,11 +21,11 @@ import java.util.LinkedHashMap;
 @Singleton(name = "ConfigEJB")
 @Startup
 public class ConfigBean {
-
 	@EJB private ProductBean productBean;
 	@EJB private VariantBean variantBean;
 	@EJB private SimulationBean simulationBean;
 	@EJB private ClientBean clientBean;
+	@EJB private DesignerBean designerBean;
 	@EJB private ProjectBean projectBean;
 	@EJB private StructureBean structureBean;
 	@EJB private LightSteelStructureBean lightSteelStructureBean;
@@ -60,9 +61,12 @@ public class ConfigBean {
 		Client client1 = clientBean.create("Foo", "999999999", "foo@foo.foo", "fooland, 1234 foohouse");
 		Client client2 = clientBean.create("Bar", "888888888", "bar@bar.bar", "barland, 4321 barhouse");
 
+		System.out.println("####### Creating designers...");
+		Designer designer1 = designerBean.create("Vasco");
+
 		System.out.println("####### Creating projects...");
-		Project project1 = projectBean.create("fooProject", client1.getId());
-		Project project2 = projectBean.create("foobarProject", client1.getId());
+		Project project1 = projectBean.create("fooProject", client1.getId(), designer1.getId());
+		Project project2 = projectBean.create("foobarProject", client1.getId(), designer1.getId());
 
 		System.out.println("####### Creating structures...");
 		LightSteelStructure structure1 = lightSteelStructureBean.create("Foo structure", 6, 3, 1, 4, Arrays.asList(variant1.getId()));
