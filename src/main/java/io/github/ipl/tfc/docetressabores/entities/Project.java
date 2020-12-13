@@ -34,14 +34,16 @@ public class Project {
 	@NotNull @NotEmpty private String name;
 	@ManyToMany private List<Structure> structures;
 	@ManyToOne @JoinColumn(name = "client_id") @NotNull private Client client;
+	@ManyToOne @JoinColumn(name = "designer_id") @NotNull private Designer designer;
 
 	public Project() {
 		structures = new ArrayList<>();
 	}
 
-	public Project(String name, Client client) {
+	public Project(String name, Client client, Designer designer) {
 		this.name = name;
 		this.client = client;
+		this.designer = designer;
 		structures = new ArrayList<>();
 	}
 
@@ -63,6 +65,10 @@ public class Project {
 		return client;
 	}
 
+	public Designer getDesigner() {
+		return designer;
+	}
+
 
 	// setters
 	public void setId(int id) {
@@ -79,6 +85,10 @@ public class Project {
 
 	public void setClient(Client client) {
 		this.client = client;
+	}
+
+	public void setDesigner(Designer designer) {
+		this.designer = designer;
 	}
 
 

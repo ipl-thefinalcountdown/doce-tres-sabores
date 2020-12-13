@@ -8,6 +8,7 @@ public class ProjectDTO implements Serializable {
 	private int id;
 	private String name;
 	private int clientId;
+	private int designerId;
 	private String clientName;
 	private List<StructureDTO> structures;
 
@@ -17,10 +18,18 @@ public class ProjectDTO implements Serializable {
 		structures = new ArrayList<>();
 	}
 
-	public ProjectDTO(int id, String name, int clientId, String clientName, List<StructureDTO> structures) {
+	public ProjectDTO(
+		int id,
+		String name,
+		int clientId,
+		int designerId,
+		String clientName,
+		List<StructureDTO> structures
+	) {
 		this.id = id;
 		this.name = name;
 		this.clientId = clientId;
+		this.designerId = designerId;
 		this.clientName = clientName;
 		this.structures = structures;
 	}
@@ -42,6 +51,10 @@ public class ProjectDTO implements Serializable {
 		return clientId;
 	}
 
+	public int getDesignerId() {
+		return designerId;
+	}
+
 	public String getClientName() {
 		return clientName;
 	}
@@ -61,6 +74,10 @@ public class ProjectDTO implements Serializable {
 
 	public void setClientId(int clientId) {
 		this.clientId = clientId;
+	}
+
+	public void setDesignerId(int designerId) {
+		this.designerId = designerId;
 	}
 
 	public void setClientName(String clientName) {
