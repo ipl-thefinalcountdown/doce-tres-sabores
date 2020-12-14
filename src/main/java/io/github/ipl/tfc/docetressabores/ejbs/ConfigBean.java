@@ -58,11 +58,10 @@ public class ConfigBean {
 		Variant variant2 = variantBean.create(product1.getId(), "C 120/60/13 x 2.0", 18738, 18738, 500, 220000);
 
 		System.out.println("####### Creating clients...");
-		Client client1 = clientBean.create("Foo", "999999999", "foo@foo.foo", "fooland, 1234 foohouse");
-		Client client2 = clientBean.create("Bar", "888888888", "bar@bar.bar", "barland, 4321 barhouse");
+		Client client1 = clientBean.create("Foo", "999999999", "foo@foo.foo", "fooland, 1234 foohouse", "fooland", "1234");
 
 		System.out.println("####### Creating designers...");
-		Designer designer1 = designerBean.create("Vasco");
+		Designer designer1 = designerBean.create("Vasco", "123456789", "vasco_o_grande@gamil.com", "vasqueiro", "4321");
 
 		System.out.println("####### Creating projects...");
 		Project project1 = projectBean.create("fooProject", client1.getId(), designer1.getId());

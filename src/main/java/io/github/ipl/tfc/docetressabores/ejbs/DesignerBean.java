@@ -10,8 +10,8 @@ import io.github.ipl.tfc.docetressabores.entities.Designer;
 public class DesignerBean {
 	@PersistenceContext EntityManager entityManager;
 
-	public Designer create(String name) {
-		Designer designer = new Designer(name);
+	public Designer create(String name, String phoneNumber, String email, String username, String password) {
+		Designer designer = new Designer(name, phoneNumber, email, username, password);
 		entityManager.persist(designer);
 		return designer;
 	}

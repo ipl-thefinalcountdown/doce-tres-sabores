@@ -14,8 +14,8 @@ public class ClientBean {
 	@PersistenceContext EntityManager entityManager;
 
 	// FIXME: throws EntityExistsException
-	public Client create(String phoneNumber, String name, String email, String address) {
-		Client client = new Client(phoneNumber, name, email, address);
+	public Client create(String phoneNumber, String name, String email, String address, String username, String password) {
+		Client client = new Client(phoneNumber, name, email, address, username, password);
 		entityManager.persist(client);
 		return client;
 	}
