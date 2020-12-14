@@ -85,4 +85,18 @@ public class UserService {
 			}
 		}
 	}
+
+	// FIXME: a user can only delete himself
+	// TODO: add an authenticate method on user
+	// TODO: add a password param on @DELETE
+	@DELETE
+	@Path("/{id}")
+	@Transactional
+	public Response deleteUserWS(@PathParam("id") int id) {
+		return (
+			userBean.delete(id)
+				? Response.noContent()
+				: Response.status(Response.Status.BAD_REQUEST)
+		).build();
+	}
 }

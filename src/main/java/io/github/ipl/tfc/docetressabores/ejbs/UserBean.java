@@ -12,6 +12,14 @@ import io.github.ipl.tfc.docetressabores.entities.User;
 public class UserBean {
 	@PersistenceContext EntityManager entityManager;
 
+	public boolean delete(int id) {
+		User user = findUser(id);
+
+		if (user == null) return false;
+		entityManager.remove(user);
+		return true;
+	}
+
 	public User findUser(int id) {
 		return entityManager.find(User.class, id);
 	}
