@@ -4,33 +4,42 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientDTO implements Serializable {
+public class UserDTO implements Serializable {
 	private int id;
 	private String name;
 	private String phoneNumber;
 	private String email;
-	private String address;
-	private List<ProjectDTO> projects;
+	private String username;
+	private String password;
+	private String address; // Client only!
+	private List<ProjectDTO> projects; // Client and Designer only!
+	private String userType;
 
-	public ClientDTO() {
+	public UserDTO() {
 		projects = new ArrayList<>();
 	}
 
 
-	public ClientDTO(
+	public UserDTO(
 		int id,
 		String name,
 		String phoneNumber,
 		String email,
+		String username,
+		String password,
 		String address,
-		List<ProjectDTO> projects
+		List<ProjectDTO> projects,
+		String userType
 	) {
 		this.id = id;
 		this.name = name;
 		this.phoneNumber = phoneNumber;
 		this.email = email;
+		this.username = username;
+		this.password = password;
 		this.address = address;
 		this.projects = projects;
+		this.userType = userType;
 	}
 
 
@@ -51,12 +60,24 @@ public class ClientDTO implements Serializable {
 		return email;
 	}
 
+	public String getUsername() {
+		return username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
 	public String getAddress() {
 		return address;
 	}
 
 	public List<ProjectDTO> getProjects() {
 		return projects;
+	}
+
+	public String getUserType() {
+		return userType;
 	}
 
 
@@ -77,6 +98,14 @@ public class ClientDTO implements Serializable {
 		this.email = email;
 	}
 
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public void setAddress(String address) {
 		this.address = address;
 	}
@@ -85,12 +114,7 @@ public class ClientDTO implements Serializable {
 		this.projects = projects;
 	}
 
-
-	public void addProject(ProjectDTO project) {
-		this.projects.add(project);
-	}
-
-	public void removeProject(ProjectDTO project) {
-		this.projects.remove(project);
+	public void setUserType(String userType) {
+		this.userType = userType;
 	}
 }

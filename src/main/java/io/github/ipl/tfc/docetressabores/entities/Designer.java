@@ -13,41 +13,29 @@ import javax.validation.constraints.*;
 		query = "SELECT d FROM Designer d ORDER BY d.id"
 	)
 })
-public class Designer {
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) private int id;
-	@NotNull @NotEmpty private String name;
+public class Designer extends User {
 	@OneToMany(mappedBy = "designer", cascade = CascadeType.REMOVE) private List<Project> projects;
 
 	public Designer() {
 		projects = new ArrayList<>();
 	}
 
-	public Designer(@NotNull @NotEmpty String name) {
-		this.name = name;
+	public Designer(
+		String name,
+		String phoneNumber,
+		String email,
+		String username,
+		String password
+	) {
+		super(name, phoneNumber, email, username, password);
 		this.projects = new ArrayList<>();
 	}
 
-
-	public int getId() {
-		return id;
-	}
-
-	public String getName() {
-		return name;
-	}
 
 	public List<Project> getProjects() {
 		return projects;
 	}
 
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	public void setProjects(@NotNull List<Project> projects) {
 		this.projects = projects;

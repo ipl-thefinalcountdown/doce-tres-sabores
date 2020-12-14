@@ -13,7 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import io.github.ipl.tfc.docetressabores.dtos.ClientDTO;
+import io.github.ipl.tfc.docetressabores.dtos.UserDTO;
 import io.github.ipl.tfc.docetressabores.ejbs.ClientBean;
 import io.github.ipl.tfc.docetressabores.entities.Client;
 
@@ -23,18 +23,21 @@ import io.github.ipl.tfc.docetressabores.entities.Client;
 public class ClientService {
 	@EJB ClientBean clientBean;
 
-	public static ClientDTO toDTO(Client client) {
-		return new ClientDTO(
+	public static UserDTO toDTO(Client client) {
+		return new UserDTO(
 			client.getId(),
 			client.getName(),
 			client.getPhoneNumber(),
 			client.getEmail(),
+			client.getUsername(),
+			client.getPassword(),
 			client.getAddress(),
-			ProjectService.toDTOs(client.getProjects())
+			ProjectService.toDTOs(client.getProjects()),
+			client.getClass().getSimpleName()
 		);
 	}
 
-	public static List<ClientDTO> toDTOs(List<Client> client) {
+	public static List<UserDTO> toDTOs(List<Client> client) {
 		return client
 			.stream()
 			.map(ClientService::toDTO)

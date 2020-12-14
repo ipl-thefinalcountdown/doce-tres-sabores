@@ -15,24 +15,13 @@ import javax.validation.constraints.NotNull;
 		query = "SELECT c FROM Client c ORDER BY c.id"
 	)
 })
-@Table(
-	name = "CLIENTS",
-	uniqueConstraints = @UniqueConstraint(
-		columnNames = {
-			"EMAIL"
-		}
-	)
-)
-public class Client {
+public class Client extends User {
 	// TODO: documentation
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) private int id;
-	@NotNull @NotEmpty private String phoneNumber;
-	@NotNull @NotEmpty private String name;
-	@NotNull @Email private String email;
 	@NotNull @NotEmpty private String address;
 	@OneToMany(mappedBy = "client", cascade = CascadeType.REMOVE) private List<Project> projects;
 
 	public Client() {
+		super();
 		projects = new ArrayList<>();
 	}
 
@@ -40,33 +29,17 @@ public class Client {
 		@NotNull @NotEmpty String name,
 		@NotNull @NotEmpty String phoneNumber,
 		@NotNull @Email String email,
-		@NotNull @NotEmpty String address
+		@NotNull @NotEmpty String address,
+		@NotNull @NotEmpty String username,
+		@NotNull @NotEmpty String password
 	) {
-		this.name = name;
-		this.phoneNumber = phoneNumber;
-		this.email = email;
+		super(name, phoneNumber, email, name, password);
 		this.address = address;
 		this.projects = new ArrayList<>();
 	}
 
 
 	// getters
-	public int getId() {
-		return id;
-	}
-
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
 	public String getAddress() {
 		return address;
 	}
@@ -77,22 +50,6 @@ public class Client {
 
 
 	// setters
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public void setAddress(String address) {
 		this.address = address;
 	}
