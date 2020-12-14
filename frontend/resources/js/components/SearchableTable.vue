@@ -140,13 +140,17 @@ export default Vue.extend({
       /// custom table fields to include actions
       tableFields(): Array<any> | undefined {
         if (obj.fields) return obj.fields;
-        else if (obj.deleteClicked == undefined && obj.editClicked == undefined)
-          return undefined;
-        else
-          return Object.keys(<object>obj.items[0] ?? {}).concat(<any>{
-            key: "__actions",
-            name: "Actions",
-          });
+        else {
+          let fields = Object.keys(<object>obj.items[0] ?? {})
+            .filter((val) => val != "id");
+          if (obj.deleteClicked == undefined && obj.editClicked == undefined)
+            return fields;
+          else
+            return fields.concat(<any>{
+                key: "__actions",
+                name: "Actions",
+              });
+        }
       },
     };
   },
