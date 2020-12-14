@@ -39,7 +39,7 @@ deploy:
 	@mvn wildfly:deploy
 
 logging:
-	@docker-compose logs -f
+	@docker-compose logs -f --tail=1000
 
 status:
 	@docker-compose ps --all
