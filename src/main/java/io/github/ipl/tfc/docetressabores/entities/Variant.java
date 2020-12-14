@@ -3,7 +3,13 @@ package io.github.ipl.tfc.docetressabores.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import io.github.ipl.tfc.docetressabores.entities.structures.Structure;
+
+import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Product variant entity
@@ -48,6 +54,9 @@ public class Variant {
 	 * Note: this value can't be null on the database
 	 */
 	@NotNull private String name;
+
+	@ManyToMany(mappedBy = "variants")
+	private Set<Structure> structures;
 
 	/**
 	 * Flexão positiva efetiva de uma secção transversal
@@ -112,6 +121,7 @@ public class Variant {
 	{
 		this.mcr_p = new LinkedHashMap<>();
 		this.mcr_n = new LinkedHashMap<>();
+		this.structures = new HashSet<>();
 	}
 
 	public Variant(
@@ -229,5 +239,21 @@ public class Variant {
 		mcr_n.remove(LToRemove);
 	}
 
+	public List<Structure> getStructures() {
+		return structures.stream().collect(Collectors.toList());
+	}
 
+	public void setStructures(Set<Structure> structures) {
+		this.structures = structures;
+	}
+
+	public void addStructure(Structure structure) {
+		this.structures.add(structure);
+		structure.addVariant(this);
+	}
+
+	public void removeStructure(Structure structure) {
+		structures.remove(structure);
+		structure.removeVariant(this);
+	}
 }

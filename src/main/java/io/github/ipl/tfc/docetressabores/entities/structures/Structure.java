@@ -1,7 +1,9 @@
 package io.github.ipl.tfc.docetressabores.entities.structures;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -39,14 +41,23 @@ public class Structure {
 	// TODO: documentation
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) protected int id;
 	@NotNull @NotEmpty private String name;
-	@ManyToMany protected List<Variant> variants;
+	@ManyToMany(cascade = {
+		CascadeType.PERSIST,
+		CascadeType.MERGE
+	})
+	@JoinTable(
+		name = "STRUCTURE_VARIANT",
+		joinColumns = @JoinColumn(name = "structure_id"),
+		inverseJoinColumns = @JoinColumn(name = "variant_id")
+	)
+	protected Set<Variant> variants;
 	@ManyToOne @JoinColumn(name = "MATERIAL_TYPE") protected Material material;
 	protected int beamAmount;
 	protected int beamLength;
 	protected int beamImposedLoad;
 
 	public Structure() {
-		variants = new ArrayList<>();
+		variants = new HashSet<>();
 	}
 
 	public Structure(
@@ -55,7 +66,7 @@ public class Structure {
 		int beamAmount,
 		int beamLength,
 		int beamImposedLoad,
-		@NotNull List<Variant> variants
+		@NotNull Set<Variant> variants
 	) {
 		this.material = material;
 		this.name = name;
@@ -88,7 +99,7 @@ public class Structure {
 	}
 
 	public List<Variant> getVariants() {
-		return variants;
+		return variants.stream().collect(Collectors.toList());
 	}
 
 	public String getName() {
@@ -120,7 +131,7 @@ public class Structure {
 		this.beamImposedLoad = beamImposedLoad;
 	}
 
-	public void setVariants(List<Variant> variants) {
+	public void setVariants(Set<Variant> variants) {
 		this.variants = variants;
 	}
 

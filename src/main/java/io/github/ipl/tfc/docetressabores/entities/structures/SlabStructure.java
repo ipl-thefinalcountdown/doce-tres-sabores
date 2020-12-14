@@ -1,6 +1,6 @@
 package io.github.ipl.tfc.docetressabores.entities.structures;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -30,7 +30,7 @@ public class SlabStructure extends Structure {
 		int beamLength,
 		int beamImposedLoad,
 		int maximumHeight,
-		@NotNull List<Variant> variants
+		@NotNull Set<Variant> variants
 	) {
 		super(material, name, beamAmount, beamLength, beamImposedLoad, variants);
 		this.maximumHeight = maximumHeight;

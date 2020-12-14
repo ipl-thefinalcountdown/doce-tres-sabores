@@ -35,7 +35,7 @@ public class LightSteelStructureBean {
 			LightSteelStructure structure = new LightSteelStructure
 			(
 				material, name, beamAmount, beamLength, beamImposedLoad, beamSpacing,
-				variantRange.get().collect(Collectors.toList())
+				variantRange.get().collect(Collectors.toSet())
 			);
 
 			entityManager.persist(structure);
@@ -66,7 +66,7 @@ public class LightSteelStructureBean {
 			return null;
 		}
 
-		structure.setVariants(variantRange.get().collect(Collectors.toList()));
+		structure.setVariants(variantRange.get().collect(Collectors.toSet()));
 		return structure;
 	}
 

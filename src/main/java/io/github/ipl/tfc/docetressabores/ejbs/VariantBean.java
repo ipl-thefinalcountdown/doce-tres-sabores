@@ -4,6 +4,7 @@ import io.github.ipl.tfc.docetressabores.dtos.ProjectDTO;
 import io.github.ipl.tfc.docetressabores.dtos.VariantDTO;
 import io.github.ipl.tfc.docetressabores.entities.Product;
 import io.github.ipl.tfc.docetressabores.entities.Variant;
+import io.github.ipl.tfc.docetressabores.entities.structures.Structure;
 
 import javax.ejb.Stateless;
 import javax.validation.constraints.NotNull;
@@ -73,16 +74,15 @@ public class VariantBean {
 		return variant;
 	}
 
-	public Boolean delete(int id) {
+	public boolean delete(int id) {
 		Variant variant = findVariant(id);
 
-		if (variant != null)
-		{
-			entityManager.remove(variant);
-			return true;
-		}
+		if (variant == null) return false;
 
-		return false;
+		for (Structure s : variant.getStructures()) variant.removeStructure(s);
+		entityManager.remove(variant);
+
+		return true;
 	}
 
 	public Variant getVariant(int code){
