@@ -32,7 +32,7 @@ public class StructureBean {
 			return null;
 		} else {
 			Material material = entityManager.find(Material.class, materialId);
-			Structure structure = new Structure(material, name, beamAmount, beamLength, beamImposedLoad, variantRange.get().collect(Collectors.toList()));
+			Structure structure = new Structure(material, name, beamAmount, beamLength, beamImposedLoad, variantRange.get().collect(Collectors.toSet()));
 			entityManager.persist(structure);
 			return structure;
 		}
@@ -57,7 +57,7 @@ public class StructureBean {
 				return null;
 			}
 
-		structure.setVariants(variantRange.get().collect(Collectors.toList()));
+		structure.setVariants(variantRange.get().collect(Collectors.toSet()));
 		return structure;
 	}
 

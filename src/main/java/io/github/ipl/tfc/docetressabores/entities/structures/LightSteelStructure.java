@@ -1,6 +1,6 @@
 package io.github.ipl.tfc.docetressabores.entities.structures;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
@@ -32,7 +32,7 @@ public class LightSteelStructure extends Structure {
 		int beamLength,
 		int beamImposedLoad,
 		int beamSpacing,
-		@NotNull List<Variant> variants
+		@NotNull Set<Variant> variants
 	) {
 		super(material, name, beamAmount, beamLength, beamImposedLoad, variants);
 		this.beamSpacing = beamSpacing;

@@ -34,7 +34,7 @@ public class SlabStructureBean {
 			SlabStructure structure = new SlabStructure
 			(
 				material, name, beamAmount, beamLength, beamImposedLoad, maximumHeight,
-				variantRange.get().collect(Collectors.toList())
+				variantRange.get().collect(Collectors.toSet())
 			);
 
 			entityManager.persist(structure);
@@ -65,7 +65,7 @@ public class SlabStructureBean {
 			return null;
 		}
 
-		structure.setVariants(variantRange.get().collect(Collectors.toList()));
+		structure.setVariants(variantRange.get().collect(Collectors.toSet()));
 		return structure;
 	}
 
