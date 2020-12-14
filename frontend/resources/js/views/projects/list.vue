@@ -6,7 +6,7 @@
           :items="items"
           :row-clicked="rowClicked"
           :filter-changed="filterChanged"
-		  :add-clicked="addClicked"
+          :add-clicked="addClicked"
           :edit-clicked="editClicked"
           :delete-clicked="deleteClicked"
         />
@@ -41,8 +41,8 @@ import { AxiosPromise } from "axios";
         return state.api.projects.map((p: ProjectModel) => {
           return {
             id: p.id,
-            clientName: p.clientName,
             name: p.name,
+            client: p.clientName
           };
         });
       },
@@ -52,7 +52,7 @@ import { AxiosPromise } from "axios";
   },
   methods: {
     ...mapActions(["getProjects", "deleteProject"]),
-  },
+  }
 })
 export default class ProjectListView extends Vue {
   getProjects!: (obj: Params) => void;

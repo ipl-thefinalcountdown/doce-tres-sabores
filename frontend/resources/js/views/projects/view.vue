@@ -6,7 +6,11 @@
         :awaiting-items="pending.project"
         :edit-clicked="editClicked"
         :delete-clicked="deleteClicked"
-      />
+      >
+        <template #cell(client)="data">
+          <b-link :to="{ name: 'view-user', params: { id: clientId }}">{{ data.value }}</b-link>
+        </template>
+      </item-details>
     </div>
   </page-component>
 </template>
@@ -38,11 +42,12 @@ import router from "../../router";
       return [state.api.project].map((p: ProjectModel) => {
         return {
           id: p.id,
-          clientName: p.clientName,
+          client: p.clientName,
           name: p.name,
         };
       });
     },
+    clientId: (state: any) => state.api.project.clientId,
     pending: (state: any) => state.api.pending,
   }),
   methods: {
