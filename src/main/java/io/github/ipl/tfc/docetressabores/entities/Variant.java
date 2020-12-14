@@ -13,7 +13,10 @@ import java.util.LinkedHashMap;
 @NamedQueries({
 	@NamedQuery(
 		name = "getAllVariants",
-		query = "SELECT v FROM Variant v ORDER BY v.name"
+		query = "SELECT v FROM Variant v "
+			+ "WHERE UPPER(v.name) LIKE UPPER(:filter) OR "
+			+ "CAST(v.id AS string) LIKE :filter "
+			+ "ORDER BY v.name"
 	)
 })
 @Table(name = "VARIANTS")
