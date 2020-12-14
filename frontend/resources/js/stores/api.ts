@@ -4,6 +4,8 @@ import Vapi from "vuex-rest-api"
 import { Store } from "vuex-rest-api/dist/Store"
 import VariantModel from "../models/variant"
 import ProjectModel from "../models/project"
+import StructureModel from "../models/structure"
+import ProductModel from "../models/product"
 
 export interface Params {
 	params?: ParamsOptions
@@ -12,6 +14,7 @@ export interface Params {
 
 export interface ParamsOptions {
 	id?: number | string,
+	type?: number,
 	filter?: string
 }
 
@@ -24,8 +27,14 @@ const api : Store = new Vapi({
 		projects: <Array<ProjectModel>>[],
 		project: <ProjectModel>{},
 
+		products: <Array<ProductModel>>[],
+		product: <ProductModel>{},
+
 		clients: <Array<ProjectModel>>[],
-		client: <ProjectModel>{}
+		client: <ProjectModel>{},
+
+		structures: <Array<StructureModel>>[],
+		structure: <StructureModel>{},
 	}
 })
 	.get({
@@ -34,22 +43,36 @@ const api : Store = new Vapi({
 		path: (opt : ParamsOptions) => `/variants/?filter=${opt.filter}`
 	})
 	.get({
+		action: "getVariant",
+		property: "variant",
+		path: (opt : ParamsOptions) => `/variants/${opt.id}`
+	})
+	.post({
+		action: "addVariant",
+		property: "variant",
+		path: (opt : ParamsOptions) => `/variants/`
+	})
+	.put({
+		action: "updateVariant",
+		property: "variant",
+		path: (opt : ParamsOptions) => `/variants/${opt.id}`
+	})
+	.delete({
+		action: "deleteVariant",
+		path: (opt : ParamsOptions) => `/variants/${opt.id}`
+	})
+	.get({
+		action: "getProducts",
+		property: "products",
+		path: (opt : ParamsOptions) => `/products/?filter=${opt.filter}`
+	})
+	.get({
 		action: "getProjects",
 		property: "projects",
 		path: (opt : ParamsOptions) => `/projects/?filter=${opt.filter}`
 	})
 	.get({
-		action: "getClients",
-		property: "clients",
-		path: (opt : ParamsOptions) => `/clients/?filter=${opt.filter}`
-	})
-	.get({
 		action: "getProject",
-		property: "project",
-		path: (opt : ParamsOptions) => `/projects/${opt.id}`
-	})
-	.post({
-		action: "updateProject",
 		property: "project",
 		path: (opt : ParamsOptions) => `/projects/${opt.id}`
 	})
@@ -66,6 +89,21 @@ const api : Store = new Vapi({
 	.delete({
 		action: "deleteProject",
 		path: (opt : ParamsOptions) => `/projects/${opt.id}`
+	})
+	.get({
+		action: "getClients",
+		property: "clients",
+		path: (opt : ParamsOptions) => `/clients/?filter=${opt.filter}`
+	})
+	.get({
+		action: "getStructures",
+		property: "structures",
+		path: (opt : ParamsOptions) => `/structures/?filter=${opt.filter}`
+	})
+	.get({
+		action: "getStructuresByType",
+		property: "structures",
+		path: (opt : ParamsOptions) => `/structures/?type=${opt.type}&filter=${opt.filter}`
 	})
 	.getStore();
 
