@@ -1,6 +1,7 @@
 export default interface VariantModel {
-	code?: number;
+	id?: number;
 	name?: string;
+	productId?: number;
 	productName?: string;
 	weff_p?: number;
 	weff_n?: number;
