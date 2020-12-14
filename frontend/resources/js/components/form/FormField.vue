@@ -1,6 +1,8 @@
 <template>
   <b-form-group :label="label" :description="description">
     <b-form-input
+      :type="type"
+      :step="step"
       :value="value"
       @input="handleInput"
       required
@@ -14,8 +16,10 @@ import Vue from "vue";
 
 export default Vue.extend({
 	 props: {
-      value: String,
+      value: [String, Number],
+      step: String,
       label: String,
+      type: String,
       description: String,
       placeholder: String
   },
