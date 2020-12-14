@@ -6,12 +6,8 @@ import io.github.ipl.tfc.docetressabores.entities.Variant;
 
 import javax.ejb.EJB;
 import javax.transaction.Transactional;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,13 +25,14 @@ public class VariantService
 		return new VariantDTO
 		(
 			variant.getId(),
-			critical ? null : variant.getProduct().getId(),
+			variant.getProduct().getId(),
+			variant.getProduct().getName(),
 			variant.getName(),
-			critical ? null : variant.getWeff_p(),
-			critical ? null : variant.getWeff_n(),
-			critical ? null : variant.getAr(),
-			critical ? null : variant.getSigmaC(),
-			critical ? null : variant.getPp(),
+			variant.getWeff_p(),
+			variant.getWeff_n(),
+			variant.getAr(),
+			variant.getSigmaC(),
+			variant.getPp(),
 			critical ? null : variant.getMcr_p(),
 			critical ? null : variant.getMcr_n()
 		);
@@ -56,8 +53,53 @@ public class VariantService
 	@GET
 	@Path("/")
 	@Transactional
-	public Response getAllVariantsWS()
+	public Response getAllVariantsWS(@DefaultValue("") @QueryParam("filter") String filter)
 	{
-		return Response.ok(toDTOs(variantBean.getAllVariants())).build();
+		return Response.ok(toDTOs(variantBean.getAllVariants(filter))).build();
+	}
+
+	@GET
+	@Path("/{id}")
+	@Transactional
+	public Response getVariantWS(@PathParam("id") int id) {
+		Variant variant = variantBean.findVariant(id);
+
+		return (variant == null ? Response.status(Response.Status.BAD_REQUEST) : Response.ok(toDTO(variant, false)))
+				.build();
+	}
+
+	@POST
+	@Path("/")
+	@Transactional
+	public Response postVariantWS(VariantDTO variantDTO) {
+		Variant variant = variantBean.create(variantDTO);
+
+		return (variant == null ? Response.status(Response.Status.BAD_REQUEST) : Response.ok(toDTO(variant, true)))
+				.build();
+	}
+
+	@PUT
+	@Path("/{id}")
+	@Transactional
+	public Response updateVariantWS(@PathParam("id") int id, VariantDTO variantDTO) {
+		variantDTO.setId(id);
+		Variant variant = variantBean.update(variantDTO);
+
+		return (
+			variant == null
+				? Response.status(Response.Status.BAD_REQUEST)
+				: Response.ok(toDTO(variant, true))
+		).build();
+	}
+
+	@DELETE
+	@Path("/{id}")
+	@Transactional
+	public Response deleteVariantWS(@PathParam("id") int id) {
+		return (
+			variantBean.delete(id)
+				? Response.noContent()
+				: Response.status(Response.Status.BAD_REQUEST)
+		).build();
 	}
 }

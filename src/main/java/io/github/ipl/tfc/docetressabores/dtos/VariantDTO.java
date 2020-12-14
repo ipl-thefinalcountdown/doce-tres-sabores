@@ -16,9 +16,14 @@ public class VariantDTO implements Serializable
 	private int id;
 
 	/**
-	 * This represents the product name where this variant is appliable.
+	 * This represents the product id where this variant is appliable.
 	 */
 	private Integer productId;
+
+	/**
+	 * This represents the product name where this variant is appliable.
+	 */
+	private String productName;
 
 	/**
 	 * Variant name
@@ -107,6 +112,7 @@ public class VariantDTO implements Serializable
 	public VariantDTO(
 		int id,
 		Integer productId,
+		String productName,
 		String name,
 		Double weff_p,
 		Double weff_n,
@@ -118,6 +124,7 @@ public class VariantDTO implements Serializable
 	{
 		this.id = id;
 		this.productId = productId;
+		this.productName = productName;
 		this.name = name;
 		this.weff_p = weff_p;
 		this.weff_n = weff_n;
@@ -158,6 +165,14 @@ public class VariantDTO implements Serializable
 	 */
 	public Integer getProductId() {
 		return productId;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public String getProductName() {
+		return productName;
 	}
 
 	/**
