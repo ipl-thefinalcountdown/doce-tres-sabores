@@ -34,8 +34,7 @@ public class ProjectBean {
 	public Project update(ProjectDTO projectDTO) {
 		Project project = findProject(projectDTO.getId());
 
-		project.setName(projectDTO.getName());
-		project.setClient(entityManager.find(Client.class, projectDTO.getClientId()));
+		if(projectDTO.getName() != null) project.setName(projectDTO.getName());
 
 		if (projectDTO.getStructures() != null)
 			project.setStructures(
