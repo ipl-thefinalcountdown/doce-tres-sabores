@@ -43,7 +43,7 @@ public class ProjectBean {
 				projectDTO.getStructures()
 					.stream()
 					.map(s -> entityManager.find(Structure.class, s.getId()))
-					.collect(Collectors.toList())
+					.collect(Collectors.toSet())
 			);
 
 		return project;
