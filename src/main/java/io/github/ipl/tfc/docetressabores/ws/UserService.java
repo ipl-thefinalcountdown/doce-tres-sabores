@@ -1,5 +1,6 @@
 package io.github.ipl.tfc.docetressabores.ws;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -98,5 +99,30 @@ public class UserService {
 				? Response.noContent()
 				: Response.status(Response.Status.BAD_REQUEST)
 		).build();
+	}
+
+	@POST
+	@Path("/")
+	@Transactional
+	public Response postUserWS(UserDTO userDTO)
+		throws NoSuchFieldException, SecurityException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
+	{
+		try {
+			Field field = UserService.class.getDeclaredField(userDTO.getUserType().toLowerCase() + "Bean");
+			field.setAccessible(true);
+
+			Object fieldValue = field.get(this);
+			Method method = fieldValue.getClass().getMethod("create", UserDTO.class);
+
+			User user = (User) method.invoke(fieldValue, userDTO);
+			return (
+					user == null
+						? Response.status(Response.Status.BAD_REQUEST)
+						: Response.ok(toDTO(user))
+				).build();
+		} catch (NoSuchFieldException | SecurityException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			System.out.println(e.toString());
+			return Response.status(Response.Status.BAD_REQUEST).build();
+		}
 	}
 }

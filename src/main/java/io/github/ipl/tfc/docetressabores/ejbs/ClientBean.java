@@ -6,6 +6,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import io.github.ipl.tfc.docetressabores.dtos.UserDTO;
 import io.github.ipl.tfc.docetressabores.entities.Client;
 
 @Stateless
@@ -18,6 +19,17 @@ public class ClientBean {
 		Client client = new Client(phoneNumber, name, email, address, username, password);
 		entityManager.persist(client);
 		return client;
+	}
+
+	public Client create(UserDTO userDTO) {
+		return create(
+			userDTO.getPhoneNumber(),
+			userDTO.getName(),
+			userDTO.getEmail(),
+			userDTO.getAddress(),
+			userDTO.getUsername(),
+			userDTO.getPassword()
+		);
 	}
 
 	public Client findClient(int id) {
