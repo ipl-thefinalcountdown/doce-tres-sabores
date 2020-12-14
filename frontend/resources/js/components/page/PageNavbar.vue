@@ -7,9 +7,11 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item :to="{name: 'index'}">Home</b-nav-item>
+          <b-nav-item :to="{name: 'list-products'}">Products</b-nav-item>
           <b-nav-item :to="{name: 'list-variants'}">Variants</b-nav-item>
           <b-nav-item :to="{name: 'list-projects'}">Projects</b-nav-item>
+          <b-nav-item :to="{name: 'list-structures'}">Structures</b-nav-item>
+          <b-nav-item :to="{name: 'simulation'}">Simulation</b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
