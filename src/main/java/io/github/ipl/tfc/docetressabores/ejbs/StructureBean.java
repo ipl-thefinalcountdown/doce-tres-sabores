@@ -66,14 +66,9 @@ public class StructureBean {
 
 		if (structure == null) return false;
 
-		List<Project> projects = entityManager
-			.createNamedQuery("getProjectsFromStructureId", Project.class)
-			.setParameter("structure_id", id)
-			.getResultList();
-
-		if (!projects.isEmpty()) return false;
-
+		for (Project p : structure.getProjects()) structure.removeProject(p);
 		entityManager.remove(structure);
+
 		return true;
 	}
 

@@ -13,6 +13,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import io.github.ipl.tfc.docetressabores.entities.Material;
+import io.github.ipl.tfc.docetressabores.entities.Project;
 import io.github.ipl.tfc.docetressabores.entities.Variant;
 
 @Entity
@@ -41,6 +42,7 @@ public class Structure {
 	// TODO: documentation
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) protected int id;
 	@NotNull @NotEmpty private String name;
+
 	@ManyToMany(cascade = {
 		CascadeType.PERSIST,
 		CascadeType.MERGE
@@ -51,6 +53,9 @@ public class Structure {
 		inverseJoinColumns = @JoinColumn(name = "variant_id")
 	)
 	protected Set<Variant> variants;
+
+	@ManyToMany(mappedBy = "structures") Set<Project> projects;
+
 	@ManyToOne @JoinColumn(name = "MATERIAL_TYPE") protected Material material;
 	protected int beamAmount;
 	protected int beamLength;
@@ -58,6 +63,7 @@ public class Structure {
 
 	public Structure() {
 		variants = new HashSet<>();
+		projects = new HashSet<>();
 	}
 
 	public Structure(
@@ -106,6 +112,10 @@ public class Structure {
 		return name;
 	}
 
+	public List<Project> getProjects() {
+		return projects.stream().collect(Collectors.toList());
+	}
+
 	// setters
 	public void setId(int id) {
 		this.id = id;
@@ -135,6 +145,10 @@ public class Structure {
 		this.variants = variants;
 	}
 
+	public void setProjects(Set<Project> projects) {
+		this.projects = projects;
+	}
+
 
 	public void addVariant(Variant variant) {
 		variants.add(variant);
@@ -142,5 +156,16 @@ public class Structure {
 
 	public void removeVariant(Variant variant) {
 		variants.remove(variant);
+	}
+
+	public void addProject(Project project) {
+		this.projects.add(project);
+		project.addStructure(this);
+	}
+
+	public void removeProject(Project project) {
+		System.out.println(project.getId());
+		this.projects.remove(project);
+		project.removeStructure(this);
 	}
 }

@@ -1,7 +1,10 @@
 package io.github.ipl.tfc.docetressabores.entities;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -32,19 +35,28 @@ public class Project {
 	// TODO: documentation
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) private int id;
 	@NotNull @NotEmpty private String name;
-	@ManyToMany private List<Structure> structures;
+	@ManyToMany(cascade = {
+		CascadeType.PERSIST,
+		CascadeType.MERGE
+	})
+	@JoinTable(
+		name = "PROJECT_STRUCTURE",
+		joinColumns = @JoinColumn(name = "project_id"),
+		inverseJoinColumns = @JoinColumn(name = "structure_id")
+	)
+	private Set<Structure> structures;
 	@ManyToOne @JoinColumn(name = "client_id") @NotNull private Client client;
 	@ManyToOne @JoinColumn(name = "designer_id") @NotNull private Designer designer;
 
 	public Project() {
-		structures = new ArrayList<>();
+		structures = new HashSet<>();
 	}
 
 	public Project(String name, Client client, Designer designer) {
 		this.name = name;
 		this.client = client;
 		this.designer = designer;
-		structures = new ArrayList<>();
+		structures = new HashSet<>();
 	}
 
 
@@ -58,7 +70,7 @@ public class Project {
 	}
 
 	public List<Structure> getStructures() {
-		return structures;
+		return structures.stream().collect(Collectors.toList());
 	}
 
 	public Client getClient() {
@@ -79,7 +91,7 @@ public class Project {
 		this.name = name;
 	}
 
-	public void setStructures(@NotNull List<Structure> structures) {
+	public void setStructures(@NotNull Set<Structure> structures) {
 		this.structures = structures;
 	}
 
