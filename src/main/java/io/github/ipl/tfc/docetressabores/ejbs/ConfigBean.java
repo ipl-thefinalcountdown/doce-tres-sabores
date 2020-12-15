@@ -49,6 +49,10 @@ public class ConfigBean {
 		Family familyC = familyBean.create(MaterialType.LIGHT_STEEL, "c");
 		Family familyZ = familyBean.create(MaterialType.LIGHT_STEEL, "z");
 
+		familyBean.create(MaterialType.PROFILED_SHEETING, "P0-272-30");
+		familyBean.create(MaterialType.SLAB, "H60");
+		familyBean.create(MaterialType.SANDWICH_PANEL, "Topcover 3");
+
 		System.out.println("####### Creating products...");
 		Product product1 = productBean.create(familyC.getId(), "Section C 220 BF");
 		Product product2 = productBean.create(familyZ.getId(), "Section Z 220 BF");
