@@ -14,9 +14,9 @@ import io.github.ipl.tfc.docetressabores.entities.User;
 public class UserBean {
 	@PersistenceContext EntityManager entityManager;
 
-	public User authenticate(UserDTO userDTO) {
-		User user = findUser(userDTO.getUsername());
-		if (user == null || !BCrypt.verifyer().verify(userDTO.getPassword().toCharArray(), user.getPassword()).verified) return null;
+	public User authenticate(String username, String password) {
+		User user = findUser(username);
+		if (user == null || !BCrypt.verifyer().verify(password.toCharArray(), user.getPassword()).verified) return null;
 		return user;
 	}
 
