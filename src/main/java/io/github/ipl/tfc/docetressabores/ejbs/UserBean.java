@@ -15,9 +15,9 @@ public class UserBean {
 	@PersistenceContext EntityManager entityManager;
 
 	public User authenticate(UserDTO userDTO) {
-		List<User> user = findUserBy(userDTO.getUsername());
-		if (user.isEmpty() || !BCrypt.verifyer().verify(userDTO.getPassword().toCharArray(), user.get(0).getPassword()).verified) return null;
-		return user.get(0);
+		User user = findUser(userDTO.getUsername());
+		if (user == null || !BCrypt.verifyer().verify(userDTO.getPassword().toCharArray(), user.getPassword()).verified) return null;
+		return user;
 	}
 
 	public boolean delete(String username) {
@@ -30,13 +30,6 @@ public class UserBean {
 
 	public User findUser(String username) {
 		return entityManager.find(User.class, username);
-	}
-
-	public List<User> findUserBy(String username) {
-		return entityManager
-			.createNamedQuery("getUserByUsername", User.class)
-			.setParameter("username", username)
-			.getResultList();
 	}
 
 	public List<User> getAllUsers() {
