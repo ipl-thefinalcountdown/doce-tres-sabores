@@ -12,7 +12,10 @@ import java.util.List;
 @NamedQueries({
 	@NamedQuery(
 		name = "getAllProducts",
-		query = "SELECT p FROM Product p ORDER BY p.id"
+		query = "SELECT p FROM Product p "
+			+ "WHERE UPPER(p.name) LIKE UPPER(:filter) OR "
+			+ "CAST(p.id AS string) LIKE :filter "
+			+ "ORDER BY p.id"
 	)
 })
 @Table(
