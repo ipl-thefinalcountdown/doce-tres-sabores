@@ -33,7 +33,7 @@ public class Client extends User {
 		@NotNull @NotEmpty String username,
 		@NotNull @NotEmpty String password
 	) {
-		super(name, phoneNumber, email, name, password);
+		super(name, phoneNumber, email, username, password);
 		this.address = address;
 		this.projects = new ArrayList<>();
 	}
