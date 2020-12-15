@@ -29,8 +29,8 @@ public class DesignerBean {
 		);
 	}
 
-	public Designer findDesigner(int id) {
-		return entityManager.find(Designer.class, id);
+	public Designer findDesigner(String username) {
+		return entityManager.find(Designer.class, username);
 	}
 
 	public List<Designer> getAllDesigners() {

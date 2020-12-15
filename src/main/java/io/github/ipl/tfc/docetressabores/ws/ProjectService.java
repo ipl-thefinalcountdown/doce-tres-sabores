@@ -36,8 +36,8 @@ public class ProjectService {
 		return new ProjectDTO(
 			project.getId(),
 			project.getName(),
-			project.getClient().getId(),
-			project.getDesigner().getId(),
+			project.getClient().getUsername(),
+			project.getDesigner().getUsername(),
 			project.getClient().getName(),
 			project.getDesigner().getName(),
 			critical ? null : StructureService.toDTOs(project.getStructures()));

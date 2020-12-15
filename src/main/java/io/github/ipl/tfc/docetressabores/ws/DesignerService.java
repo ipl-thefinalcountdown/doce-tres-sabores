@@ -21,7 +21,6 @@ public class DesignerService {
 
 	public static UserDTO toDTO(Designer designer) {
 		return new UserDTO(
-			designer.getId(),
 			designer.getName(),
 			designer.getPhoneNumber(),
 			designer.getEmail(),
@@ -48,10 +47,10 @@ public class DesignerService {
 	}
 
 	@GET
-	@Path("/{id}")
+	@Path("/{username}")
 	@Transactional
-	public Response getDesignerWS(@PathParam("id") int id) {
-		Designer designer = designerBean.findDesigner(id);
+	public Response getDesignerWS(@PathParam("username") String username) {
+		Designer designer = designerBean.findDesigner(username);
 
 		return (
 			designer == null

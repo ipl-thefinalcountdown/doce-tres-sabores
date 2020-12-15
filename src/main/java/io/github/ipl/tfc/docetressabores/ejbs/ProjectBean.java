@@ -19,10 +19,10 @@ public class ProjectBean {
 	// TODO: documentation
 	@PersistenceContext EntityManager entityManager;
 
-	public Project create(String name, int clientId, int designerId)
+	public Project create(String name, String clientUsername, String designerUsername)
 	{
-		Client client = entityManager.find(Client.class, clientId);
-		Designer designer = entityManager.find(Designer.class, designerId);
+		Client client = entityManager.find(Client.class, clientUsername);
+		Designer designer = entityManager.find(Designer.class, designerUsername);
 
 		if (client == null || designer == null) {
 			return null;
@@ -59,7 +59,7 @@ public class ProjectBean {
 	}
 
 	public Project create(ProjectDTO projectDTO) {
-		return create(projectDTO.getName(), projectDTO.getClientId(), projectDTO.getDesignerId());
+		return create(projectDTO.getName(), projectDTO.getClientUsername(), projectDTO.getDesignerUsername());
 	}
 
 	public Project findProject(int id) {

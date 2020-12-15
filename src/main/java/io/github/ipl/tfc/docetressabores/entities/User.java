@@ -33,12 +33,11 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 @DiscriminatorColumn(name = "TYPE")
 @OnDelete(action = OnDeleteAction.CASCADE)
 public class User {
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) protected int id;
+	@Id @NotNull @NotEmpty protected String username;
+	@NotNull @NotEmpty protected String password;
 	@NotNull @NotEmpty protected String name;
 	@NotNull @NotEmpty protected String phoneNumber;
 	@NotNull @Email protected String email;
-	@NotNull @NotEmpty protected String username;
-	@NotNull @NotEmpty protected String password;
 
 	public User() {}
 
@@ -48,10 +47,6 @@ public class User {
 		this.email = email;
 		this.username = username;
 		this.password = hashPassword(password);
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public void setName(String name) {
@@ -74,10 +69,6 @@ public class User {
 		this.password = password;
 	}
 
-
-	public int getId() {
-		return id;
-	}
 
 	public String getName() {
 		return name;
