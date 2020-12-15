@@ -45,6 +45,10 @@ public class Family {
 		return id;
 	}
 
+	public Material getMaterial() {
+		return material;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -57,6 +61,10 @@ public class Family {
 	// setters
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public void setMaterial(Material material) {
+		this.material = material;
 	}
 
 	public void setName(String name) {

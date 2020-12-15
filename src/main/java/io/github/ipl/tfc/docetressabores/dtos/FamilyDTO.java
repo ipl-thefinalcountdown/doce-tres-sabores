@@ -5,6 +5,7 @@ import java.util.List;
 
 public class FamilyDTO {
 	private int id;
+	private int materialId;
 	private String name;
 	private List<ProductDTO> products;
 
@@ -12,8 +13,9 @@ public class FamilyDTO {
 		this.products = new ArrayList<>();
 	}
 
-	public FamilyDTO(int id, String name, List<ProductDTO> products) {
+	public FamilyDTO(int id, int materialId, String name, List<ProductDTO> products) {
 		this.id = id;
+		this.materialId = materialId;
 		this.name = name;
 		this.products = products;
 	}
@@ -22,6 +24,10 @@ public class FamilyDTO {
 	// getters
 	public int getId() {
 		return id;
+	}
+
+	public int getMaterialId() {
+		return materialId;
 	}
 
 	public String getName() {
@@ -36,6 +42,10 @@ public class FamilyDTO {
 	// setters
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public void setMaterialId(int materialId) {
+		this.materialId = materialId;
 	}
 
 	public void setName(String name) {
