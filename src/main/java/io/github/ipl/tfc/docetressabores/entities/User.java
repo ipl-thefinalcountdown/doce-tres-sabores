@@ -13,19 +13,13 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 	@NamedQuery(
 		name = "getAllUsers",
 		query = "SELECT u FROM User u ORDER BY u.id"
-	),
-	@NamedQuery(
-		name = "getUserByUsername",
-		query = "SELECT u FROM User u "
-			+ "WHERE u.username = :username"
 	)
 })
 @Table(
 	name = "USERS",
 	uniqueConstraints = @UniqueConstraint(
 		columnNames = {
-			"EMAIL",
-			"USERNAME"
+			"EMAIL"
 		}
 	)
 )
