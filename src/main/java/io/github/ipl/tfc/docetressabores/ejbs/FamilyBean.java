@@ -7,6 +7,8 @@ import javax.persistence.PersistenceContext;
 import io.github.ipl.tfc.docetressabores.entities.Family;
 import io.github.ipl.tfc.docetressabores.entities.Material;
 
+import java.util.List;
+
 @Stateless
 public class FamilyBean {
 	@PersistenceContext EntityManager entityManager;
@@ -20,5 +22,12 @@ public class FamilyBean {
 
 	public Family findFamily(int id) {
 		return entityManager.find(Family.class, id);
+	}
+
+	public List<Family> getAllFamilies()
+	{
+		return entityManager
+			.createNamedQuery("getAllFamilies", Family.class)
+			.getResultList();
 	}
 }
