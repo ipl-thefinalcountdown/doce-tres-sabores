@@ -3,6 +3,7 @@ package io.github.ipl.tfc.docetressabores.ejbs;
 import io.github.ipl.tfc.docetressabores.entities.Client;
 import io.github.ipl.tfc.docetressabores.entities.Designer;
 import io.github.ipl.tfc.docetressabores.entities.Family;
+import io.github.ipl.tfc.docetressabores.entities.Manufacturer;
 import io.github.ipl.tfc.docetressabores.entities.structures.*;
 import io.github.ipl.tfc.docetressabores.entities.MaterialType;
 import io.github.ipl.tfc.docetressabores.entities.Product;
@@ -26,6 +27,7 @@ public class ConfigBean {
 	@EJB private SimulationBean simulationBean;
 	@EJB private ClientBean clientBean;
 	@EJB private DesignerBean designerBean;
+	@EJB private ManufacturerBean manufacturerBean;
 	@EJB private ProjectBean projectBean;
 	@EJB private StructureBean structureBean;
 	@EJB private LightSteelStructureBean lightSteelStructureBean;
@@ -62,6 +64,9 @@ public class ConfigBean {
 
 		System.out.println("####### Creating designers...");
 		Designer designer1 = designerBean.create("Vasco", "123456789", "vasco_o_grande@gamil.com", "vasqueiro", "4321");
+
+		System.out.println("####### Creating manufacturers...");
+		Manufacturer manufacturer1 = manufacturerBean.create("Tremoço", "456789123", "tremoco@sagres.com", "tremocoAoJantar", "vghewv#$%$vwyu");
 
 		System.out.println("####### Creating projects...");
 		Project project1 = projectBean.create("fooProject", client1.getId(), designer1.getId());
