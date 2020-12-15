@@ -29,16 +29,16 @@ public class ManufacturerBean {
 		);
 	}
 
-	public boolean delete(int id) {
-		Manufacturer manufacturer = findManufacturer(id);
+	public boolean delete(String username) {
+		Manufacturer manufacturer = findManufacturer(username);
 
 		if (manufacturer == null) return false;
 		entityManager.remove(manufacturer);
 		return true;
 	}
 
-	public Manufacturer findManufacturer(int id) {
-		return entityManager.find(Manufacturer.class, id);
+	public Manufacturer findManufacturer(String username) {
+		return entityManager.find(Manufacturer.class, username);
 	}
 
 	public List<Manufacturer> getAllManufacturers() {

@@ -21,7 +21,6 @@ public class ManufacturerService {
 
 	public static UserDTO toDTO(Manufacturer manufacturer) {
 		return new UserDTO(
-			manufacturer.getId(),
 			manufacturer.getName(),
 			manufacturer.getPhoneNumber(),
 			manufacturer.getEmail(),
@@ -48,10 +47,10 @@ public class ManufacturerService {
 	}
 
 	@GET
-	@Path("/{id}")
+	@Path("/{username}")
 	@Transactional
-	public Response getClientWS(@PathParam("id") int id) {
-		Manufacturer manufacturer = manufacturerBean.findManufacturer(id);
+	public Response getClientWS(@PathParam("username") String username) {
+		Manufacturer manufacturer = manufacturerBean.findManufacturer(username);
 
 		return (
 			manufacturer == null

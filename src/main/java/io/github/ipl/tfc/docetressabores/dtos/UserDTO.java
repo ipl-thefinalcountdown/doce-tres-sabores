@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDTO implements Serializable {
-	private int id;
 	private String name;
 	private String phoneNumber;
 	private String email;
@@ -21,7 +20,6 @@ public class UserDTO implements Serializable {
 
 
 	public UserDTO(
-		int id,
 		String name,
 		String phoneNumber,
 		String email,
@@ -31,7 +29,6 @@ public class UserDTO implements Serializable {
 		List<ProjectDTO> projects,
 		String userType
 	) {
-		this.id = id;
 		this.name = name;
 		this.phoneNumber = phoneNumber;
 		this.email = email;
@@ -44,10 +41,6 @@ public class UserDTO implements Serializable {
 
 
 	// getters
-	public int getId() {
-		return id;
-	}
-
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -82,10 +75,6 @@ public class UserDTO implements Serializable {
 
 
 	// setters
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}

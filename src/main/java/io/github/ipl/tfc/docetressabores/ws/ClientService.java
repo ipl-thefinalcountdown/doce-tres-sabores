@@ -25,7 +25,6 @@ public class ClientService {
 
 	public static UserDTO toDTO(Client client) {
 		return new UserDTO(
-			client.getId(),
 			client.getName(),
 			client.getPhoneNumber(),
 			client.getEmail(),
@@ -52,10 +51,10 @@ public class ClientService {
 	}
 
 	@GET
-	@Path("/{id}")
+	@Path("/{username}")
 	@Transactional
-	public Response getClientWS(@PathParam("id") int id) {
-		Client client = clientBean.findClient(id);
+	public Response getClientWS(@PathParam("username") String username) {
+		Client client = clientBean.findClient(username);
 
 		return (
 			client == null

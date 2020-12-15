@@ -28,11 +28,10 @@ public class UserService {
 
 	public static UserDTO toDTO(User client) {
 		return new UserDTO(
-			client.getId(),
 			client.getName(),
 			null,
 			null,
-			null,
+			client.getUsername(),
 			null,
 			null,
 			null,
@@ -55,11 +54,11 @@ public class UserService {
 	}
 
 	@GET
-	@Path("/{id}")
+	@Path("/{username}")
 	@Transactional
-	public Response getUserWS(@PathParam("id") int id)
+	public Response getUserWS(@PathParam("username") String username)
 		throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-		User user = userBean.findUser(id);
+		User user = userBean.findUser(username);
 		if (user == null) return Response.status(Response.Status.BAD_REQUEST).build();
 		else {
 			// using Java's reflection here
@@ -91,11 +90,11 @@ public class UserService {
 	// TODO: add an authenticate method on user
 	// TODO: add a password param on @DELETE
 	@DELETE
-	@Path("/{id}")
+	@Path("/{username}")
 	@Transactional
-	public Response deleteUserWS(@PathParam("id") int id) {
+	public Response deleteUserWS(@PathParam("username") String username) {
 		return (
-			userBean.delete(id)
+			userBean.delete(username)
 				? Response.noContent()
 				: Response.status(Response.Status.BAD_REQUEST)
 		).build();

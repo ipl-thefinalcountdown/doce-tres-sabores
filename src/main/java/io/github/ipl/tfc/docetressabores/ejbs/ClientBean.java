@@ -32,8 +32,8 @@ public class ClientBean {
 		);
 	}
 
-	public Client findClient(int id) {
-		return entityManager.find(Client.class, id);
+	public Client findClient(String username) {
+		return entityManager.find(Client.class, username);
 	}
 
 	public List<Client> getAllClients() {

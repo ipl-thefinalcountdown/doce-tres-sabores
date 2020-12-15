@@ -20,16 +20,16 @@ public class UserBean {
 		return user.get(0);
 	}
 
-	public boolean delete(int id) {
-		User user = findUser(id);
+	public boolean delete(String username) {
+		User user = findUser(username);
 
 		if (user == null) return false;
 		entityManager.remove(user);
 		return true;
 	}
 
-	public User findUser(int id) {
-		return entityManager.find(User.class, id);
+	public User findUser(String username) {
+		return entityManager.find(User.class, username);
 	}
 
 	public List<User> findUserBy(String username) {

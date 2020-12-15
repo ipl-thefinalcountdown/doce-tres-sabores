@@ -69,8 +69,8 @@ public class ConfigBean {
 		Manufacturer manufacturer1 = manufacturerBean.create("Tremoço", "456789123", "tremoco@sagres.com", "tremocoAoJantar", "vghewv#$%$vwyu");
 
 		System.out.println("####### Creating projects...");
-		Project project1 = projectBean.create("fooProject", client1.getId(), designer1.getId());
-		Project project2 = projectBean.create("foobarProject", client1.getId(), designer1.getId());
+		Project project1 = projectBean.create("fooProject", client1.getUsername(), designer1.getUsername());
+		Project project2 = projectBean.create("foobarProject", client1.getUsername(), designer1.getUsername());
 
 		System.out.println("####### Creating structures...");
 		LightSteelStructure structure1 = lightSteelStructureBean.create("Foo structure", 6, 3, 1, 4, Arrays.asList(variant1.getId()));

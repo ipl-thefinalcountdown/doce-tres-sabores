@@ -7,8 +7,8 @@ import java.util.List;
 public class ProjectDTO implements Serializable {
 	private int id;
 	private String name;
-	private int clientId;
-	private int designerId;
+	private String clientUsername;
+	private String designerUsername;
 	private String clientName;
 	private String designerName;
 	private List<StructureDTO> structures;
@@ -22,16 +22,16 @@ public class ProjectDTO implements Serializable {
 	public ProjectDTO(
 		int id,
 		String name,
-		int clientId,
-		int designerId,
+		String clientUsername,
+		String designerUsername,
 		String clientName,
 		String designerName,
 		List<StructureDTO> structures
 	) {
 		this.id = id;
 		this.name = name;
-		this.clientId = clientId;
-		this.designerId = designerId;
+		this.clientUsername = clientUsername;
+		this.designerUsername = designerUsername;
 		this.clientName = clientName;
 		this.designerName = designerName;
 		this.structures = structures;
@@ -50,12 +50,12 @@ public class ProjectDTO implements Serializable {
 		return structures;
 	}
 
-	public int getClientId() {
-		return clientId;
+	public String getClientUsername() {
+		return clientUsername;
 	}
 
-	public int getDesignerId() {
-		return designerId;
+	public String getDesignerUsername() {
+		return designerUsername;
 	}
 
 	public String getClientName() {
@@ -79,12 +79,12 @@ public class ProjectDTO implements Serializable {
 		this.structures = structures;
 	}
 
-	public void setClientId(int clientId) {
-		this.clientId = clientId;
+	public void setClientUsername(String clientUsername) {
+		this.clientUsername = clientUsername;
 	}
 
-	public void setDesignerId(int designerId) {
-		this.designerId = designerId;
+	public void setDesignerUsername(String designerUsername) {
+		this.designerUsername = designerUsername;
 	}
 
 	public void setClientName(String clientName) {
