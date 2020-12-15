@@ -39,6 +39,7 @@ public class ProjectService {
 			project.getClient().getId(),
 			project.getDesigner().getId(),
 			project.getClient().getName(),
+			project.getDesigner().getName(),
 			critical ? null : StructureService.toDTOs(project.getStructures()));
 	}
 
