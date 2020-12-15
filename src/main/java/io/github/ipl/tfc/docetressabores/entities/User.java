@@ -6,6 +6,8 @@ import javax.validation.constraints.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
+
 @Entity
 @NamedQueries({
 	@NamedQuery(
@@ -39,7 +41,7 @@ public class User {
 		this.phoneNumber= phoneNumber;
 		this.email = email;
 		this.username = username;
-		this.password = password;
+		this.password = hashPassword(password);
 	}
 
 	public void setId(int id) {
@@ -89,5 +91,9 @@ public class User {
 
 	public String getPassword() {
 		return password;
+	}
+
+	public static String hashPassword(String password) {
+		return BCrypt.withDefaults().hashToString(12, password.toCharArray());
 	}
 }
