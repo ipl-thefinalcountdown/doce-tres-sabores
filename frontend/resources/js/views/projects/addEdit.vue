@@ -3,7 +3,7 @@
     <div class="container">
       <item-edit v-if="itemLoaded" :on-submit="onSubmit" :on-reset="onReset">
         <form-field label="Name" placeholder="Enter name" v-model="form.name" />
-        <form-searchable-select label="Client" placeholder="Client Name" v-model="form.clientId" :options="clients"/>
+        <form-searchable-select v-if="!isEdit" label="Client" placeholder="Client Name" v-model="form.clientId" :options="clients"/>
       </item-edit>
       <div v-else class="text-center text-secondary my-2">
         <b-spinner class="align-middle"></b-spinner>
@@ -72,12 +72,13 @@ export default class ProjectAddEditView extends Vue {
   form?: ProjectModel;
   itemLoaded?: boolean;
 
-  isEdit: boolean = false;
+  isEdit?: boolean;
 
   data() {
     let obj = this;
     return {
       form: {},
+      isEdit: false,
       itemLoaded: false,
       onSubmit() {
         if(obj.isEdit)
