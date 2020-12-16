@@ -174,7 +174,7 @@ export default class VariantAddEditView extends Vue {
       this.itemLoaded = true;
 
     this.setEditFields();
-    this.getProducts();
+    this.getProducts({params: { filter: ''}});
   }
 }
 </script>
