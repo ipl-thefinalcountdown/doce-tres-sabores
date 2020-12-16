@@ -19,17 +19,21 @@ import io.github.ipl.tfc.docetressabores.entities.Manufacturer;
 public class ManufacturerService {
 	@EJB ManufacturerBean manufacturerBean;
 
-	public static UserDTO toDTO(Manufacturer manufacturer) {
+	public static UserDTO toDTO(Manufacturer manufacturer, boolean critical) {
 		return new UserDTO(
 			manufacturer.getName(),
-			manufacturer.getPhoneNumber(),
-			manufacturer.getEmail(),
+			critical ? null : manufacturer.getPhoneNumber(),
+			critical ? null : manufacturer.getEmail(),
 			manufacturer.getUsername(),
-			manufacturer.getPassword(),
+			null,
 			null,
 			null,
 			manufacturer.getClass().getSimpleName()
 		);
+	}
+
+	public static UserDTO toDTO(Manufacturer manufacturer) {
+		return toDTO(manufacturer, true);
 	}
 
 	public static List<UserDTO> toDTOs(List<Manufacturer> manufacturer) {
@@ -55,7 +59,7 @@ public class ManufacturerService {
 		return (
 			manufacturer == null
 				? Response.status(Response.Status.BAD_REQUEST)
-				: Response.ok(toDTO(manufacturer))
+				: Response.ok(toDTO(manufacturer, false))
 			).build();
 	}
 }

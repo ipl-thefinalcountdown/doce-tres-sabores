@@ -19,17 +19,21 @@ import io.github.ipl.tfc.docetressabores.entities.Designer;
 public class DesignerService {
 	@EJB DesignerBean designerBean;
 
-	public static UserDTO toDTO(Designer designer) {
+	public static UserDTO toDTO(Designer designer, boolean critical) {
 		return new UserDTO(
 			designer.getName(),
-			designer.getPhoneNumber(),
-			designer.getEmail(),
+			critical ? null : designer.getPhoneNumber(),
+			critical ? null : designer.getEmail(),
 			designer.getUsername(),
-			designer.getPassword(),
 			null,
-			ProjectService.toDTOs(designer.getProjects()),
+			null,
+			critical ? null : ProjectService.toDTOs(designer.getProjects()),
 			designer.getClass().getSimpleName()
 		);
+	}
+
+	public static UserDTO toDTO(Designer designer) {
+		return toDTO(designer, true);
 	}
 
 	public static List<UserDTO> toDTOs(List<Designer> designer) {
@@ -55,7 +59,7 @@ public class DesignerService {
 		return (
 			designer == null
 				? Response.status(Response.Status.BAD_REQUEST)
-				: Response.ok(toDTO(designer))
+				: Response.ok(toDTO(designer, false))
 			).build();
 	}
 }

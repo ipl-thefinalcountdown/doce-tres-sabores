@@ -77,9 +77,9 @@ public class UserService {
 				String classname = user.getClass().getSimpleName();
 				Method serviceMethod = Class
 					.forName("io.github.ipl.tfc.docetressabores.ws." + classname + "Service")
-					.getMethod("toDTO", user.getClass());
+					.getMethod("toDTO", user.getClass(), boolean.class);
 
-				return Response.ok(serviceMethod.invoke(null, user.getClass().cast(user))).build();
+				return Response.ok(serviceMethod.invoke(null, user.getClass().cast(user), false)).build();
 			} catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
 				return Response.status(Response.Status.BAD_REQUEST).build();
 			}
