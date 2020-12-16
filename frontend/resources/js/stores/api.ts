@@ -6,6 +6,7 @@ import VariantModel from "../models/variant"
 import ProjectModel from "../models/project"
 import StructureModel from "../models/structure"
 import ProductModel from "../models/product"
+import FamilyModel from "../models/family"
 
 export interface Params {
 	params?: ParamsOptions
@@ -35,6 +36,9 @@ const api : Store = new Vapi({
 
 		structures: <Array<StructureModel>>[],
 		structure: <StructureModel>{},
+
+		families: <Array<FamilyModel>>[],
+		family: <FamilyModel>{},
 	}
 })
 	.get({
@@ -65,6 +69,36 @@ const api : Store = new Vapi({
 		action: "getProducts",
 		property: "products",
 		path: (opt : ParamsOptions) => `/products/?filter=${opt.filter}`
+	})
+	.get({
+		action: "getProduct",
+		property: "product",
+		path: (opt : ParamsOptions) => `/products/${opt.id}`
+	})
+	.post({
+		action: "addProduct",
+		property: "product",
+		path: (opt : ParamsOptions) => `/products/`
+	})
+	.put({
+		action: "updateProduct",
+		property: "product",
+		path: (opt : ParamsOptions) => `/products/${opt.id}`
+	})
+	.delete({
+		action: "deleteProduct",
+		property: "product",
+		path: (opt : ParamsOptions) => `/products/${opt.id}`
+	})
+	.get({
+		action: "getFamilies",
+		property: "families",
+		path: (opt : ParamsOptions) => `/families/`
+	})
+	.get({
+		action: "getFamily",
+		property: "family",
+		path: (opt : ParamsOptions) => `/families/${opt.id}`
 	})
 	.get({
 		action: "getProjects",
