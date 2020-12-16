@@ -2,6 +2,7 @@ package io.github.ipl.tfc.docetressabores.ejbs;
 
 import java.io.*;
 import java.security.*;
+import java.security.cert.CertificateException;
 
 import javax.ejb.Stateless;
 import javax.json.*;
@@ -9,14 +10,17 @@ import javax.json.*;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.*;
 
+import io.github.ipl.tfc.docetressabores.PropertiesReader;
+
 @Stateless(name = "JwtEJB")
 public class JwtBean {
 	static {
 		FileInputStream fis = null;
-		char[] password = "pudimdecafe".toCharArray();
 		String alias = "alias";
 		PrivateKey pk = null;
 		try {
+			char[] password = new PropertiesReader("properties-from-pom.properties")
+				.getProperty("token.password").toCharArray();
 			KeyStore ks = KeyStore.getInstance("JKS");
 			String configDir = System.getProperty("jboss.server.config.dir");
 			String keystorePath = configDir + File.separator + "jwt.keystore";
@@ -26,7 +30,7 @@ public class JwtBean {
 			Key key = ks.getKey(alias, password);
 
 			if (key instanceof PrivateKey) pk = (PrivateKey) key;
-		} catch (Exception e) {
+		} catch (IOException | KeyStoreException | NoSuchAlgorithmException | UnrecoverableKeyException | CertificateException e) {
 			e.printStackTrace();
 		} finally {
 			if (fis != null) {
