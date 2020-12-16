@@ -23,17 +23,21 @@ import io.github.ipl.tfc.docetressabores.entities.Client;
 public class ClientService {
 	@EJB ClientBean clientBean;
 
-	public static UserDTO toDTO(Client client) {
+	public static UserDTO toDTO(Client client, boolean critical) {
 		return new UserDTO(
 			client.getName(),
-			client.getPhoneNumber(),
-			client.getEmail(),
+			critical ? null : client.getPhoneNumber(),
+			critical ? null : client.getEmail(),
 			client.getUsername(),
-			client.getPassword(),
-			client.getAddress(),
-			ProjectService.toDTOs(client.getProjects()),
+			null,
+			critical ? null : client.getAddress(),
+			critical ? null : ProjectService.toDTOs(client.getProjects()),
 			client.getClass().getSimpleName()
 		);
+	}
+
+	public static UserDTO toDTO(Client client) {
+		return toDTO(client, true);
 	}
 
 	public static List<UserDTO> toDTOs(List<Client> client) {
@@ -59,7 +63,7 @@ public class ClientService {
 		return (
 			client == null
 				? Response.status(Response.Status.BAD_REQUEST)
-				: Response.ok(toDTO(client))
+				: Response.ok(toDTO(client, false))
 			).build();
 	}
 }
