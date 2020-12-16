@@ -11,6 +11,7 @@ public class ProjectDTO implements Serializable {
 	private String designerUsername;
 	private String clientName;
 	private String designerName;
+	private Boolean completed;
 	private List<StructureDTO> structures;
 
 	// TODO: File list
@@ -26,6 +27,7 @@ public class ProjectDTO implements Serializable {
 		String designerUsername,
 		String clientName,
 		String designerName,
+		Boolean completed,
 		List<StructureDTO> structures
 	) {
 		this.id = id;
@@ -34,6 +36,7 @@ public class ProjectDTO implements Serializable {
 		this.designerUsername = designerUsername;
 		this.clientName = clientName;
 		this.designerName = designerName;
+		this.completed = completed;
 		this.structures = structures;
 	}
 
@@ -66,6 +69,10 @@ public class ProjectDTO implements Serializable {
 		return designerName;
 	}
 
+	public Boolean getCompleted() {
+		return completed;
+	}
+
 	// setters
 	public void setId(int id) {
 		this.id = id;
@@ -95,11 +102,7 @@ public class ProjectDTO implements Serializable {
 		this.designerName = designerName;
 	}
 
-	public void addStructure(StructureDTO structure) {
-		this.structures.add(structure);
-	}
-
-	public void removeStructure(StructureDTO structure) {
-		this.structures.remove(structure);
+	public void setCompleted(Boolean completed) {
+		this.completed = completed;
 	}
 }
