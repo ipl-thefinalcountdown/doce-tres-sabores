@@ -48,6 +48,8 @@ public class Project {
 	@ManyToOne @JoinColumn(name = "client_id") @NotNull private Client client;
 	@ManyToOne @JoinColumn(name = "designer_id") @NotNull private Designer designer;
 
+	private boolean completed;
+
 	public Project() {
 		structures = new HashSet<>();
 	}
@@ -56,6 +58,7 @@ public class Project {
 		this.name = name;
 		this.client = client;
 		this.designer = designer;
+		this.completed = false;
 		structures = new HashSet<>();
 	}
 
@@ -81,6 +84,10 @@ public class Project {
 		return designer;
 	}
 
+	public boolean getCompleted() {
+		return completed;
+	}
+
 
 	// setters
 	public void setId(int id) {
@@ -101,6 +108,10 @@ public class Project {
 
 	public void setDesigner(Designer designer) {
 		this.designer = designer;
+	}
+
+	public void setCompleted(boolean completed) {
+		this.completed = completed;
 	}
 
 
