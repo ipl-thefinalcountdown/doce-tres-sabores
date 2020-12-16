@@ -57,7 +57,7 @@ export default Vue.extend({
 	  FormField
   },
   props: {
-	  value: Object,
+	  value: [Object, Map],
 	  fields: Array,
       label: String,
       description: String,
