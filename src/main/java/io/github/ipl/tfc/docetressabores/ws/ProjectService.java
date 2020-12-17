@@ -1,7 +1,15 @@
 package io.github.ipl.tfc.docetressabores.ws;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.ejb.EJB;
@@ -19,9 +27,15 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.io.IOUtils;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
+
 import io.github.ipl.tfc.docetressabores.dtos.ProjectDTO;
+import io.github.ipl.tfc.docetressabores.ejbs.DocumentBean;
 import io.github.ipl.tfc.docetressabores.ejbs.ProjectBean;
 import io.github.ipl.tfc.docetressabores.ejbs.StructureBean;
+import io.github.ipl.tfc.docetressabores.entities.Document;
 import io.github.ipl.tfc.docetressabores.entities.Project;
 import io.github.ipl.tfc.docetressabores.entities.structures.Structure;
 
@@ -31,6 +45,9 @@ import io.github.ipl.tfc.docetressabores.entities.structures.Structure;
 public class ProjectService {
 	@EJB ProjectBean projectBean;
 	@EJB StructureBean structureBean;
+	@EJB DocumentBean documentBean;
+
+	public static final File DOCUMENT_DIR = new File("/srv/http/docetressabores/storage/");
 
 	public static ProjectDTO toDTO(Project project, boolean critical) {
 		return new ProjectDTO(
@@ -183,5 +200,57 @@ public class ProjectService {
 				? Response.status(Response.Status.BAD_REQUEST)
 				: Response.ok(DocumentService.toDTOs(project.getDocuments()))
 		).build();
+	}
+
+	@POST
+	@Path("/{id}/documents")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Transactional
+	public Response uploadDocumentWS(@PathParam("id") int id, MultipartFormDataInput input) {
+		Project project = projectBean.findProject(id);
+
+		if (project == null) return Response.status(Response.Status.BAD_REQUEST).build();
+
+		Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
+		List<InputPart> inputParts = uploadForm.get("file");
+
+		try {
+			for (InputPart inputPart : inputParts) {
+				String filename = Arrays
+					.asList(inputPart.getHeaders()
+						.getFirst("Content-Disposition")
+						.split(";"))
+					.stream()
+					.filter(str -> str.trim().startsWith("filename"))
+					.map(str -> str.split("=")[1])
+					.findFirst()
+					.get()
+					.replaceAll("\"", "");
+
+				InputStream is = inputPart.getBody(InputStream.class, null);
+				byte[] buff = IOUtils.toByteArray(is);
+
+				ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+				byteArrayOutputStream.writeBytes(buff);
+
+				File file;
+				Document document = documentBean.getProjectDocumentBy(id, filename);
+
+				if (document == null) {
+					do { file = new File(DOCUMENT_DIR, UUID.randomUUID().toString() + "-" + filename); } while(file.exists());
+					documentBean.create(id, filename, file.getName());
+				}
+				else file = new File(DOCUMENT_DIR, document.getFilePath());
+
+				try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
+					byteArrayOutputStream.writeTo(fileOutputStream);
+				}
+			}
+		} catch(IOException e) {
+			System.err.println(e.getMessage());
+			return Response.status(Response.Status.BAD_REQUEST).build();
+		}
+
+		return Response.noContent().build();
 	}
 }
