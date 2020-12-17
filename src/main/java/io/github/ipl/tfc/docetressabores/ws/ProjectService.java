@@ -41,7 +41,9 @@ public class ProjectService {
 			project.getClient().getName(),
 			project.getDesigner().getName(),
 			project.getCompleted(),
-			critical ? null : StructureService.toDTOs(project.getStructures()));
+			critical ? null : StructureService.toDTOs(project.getStructures()),
+			critical ? null : DocumentService.toDTOs(project.getDocuments())
+		);
 	}
 
 	public static ProjectDTO toDTO(Project project) {

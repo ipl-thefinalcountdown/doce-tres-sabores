@@ -13,11 +13,13 @@ public class ProjectDTO implements Serializable {
 	private String designerName;
 	private Boolean completed;
 	private List<StructureDTO> structures;
+	private List<DocumentDTO> documents;
 
 	// TODO: File list
 
 	public ProjectDTO() {
 		structures = new ArrayList<>();
+		documents = new ArrayList<>();
 	}
 
 	public ProjectDTO(
@@ -28,7 +30,8 @@ public class ProjectDTO implements Serializable {
 		String clientName,
 		String designerName,
 		Boolean completed,
-		List<StructureDTO> structures
+		List<StructureDTO> structures,
+		List<DocumentDTO> documents
 	) {
 		this.id = id;
 		this.name = name;
@@ -38,6 +41,7 @@ public class ProjectDTO implements Serializable {
 		this.designerName = designerName;
 		this.completed = completed;
 		this.structures = structures;
+		this.documents = documents;
 	}
 
 	// getters
@@ -73,6 +77,10 @@ public class ProjectDTO implements Serializable {
 		return completed;
 	}
 
+	public List<DocumentDTO> getDocuments() {
+		return documents;
+	}
+
 	// setters
 	public void setId(int id) {
 		this.id = id;
@@ -104,5 +112,9 @@ public class ProjectDTO implements Serializable {
 
 	public void setCompleted(Boolean completed) {
 		this.completed = completed;
+	}
+
+	public void setDocuments(List<DocumentDTO> documents) {
+		this.documents = documents;
 	}
 }
