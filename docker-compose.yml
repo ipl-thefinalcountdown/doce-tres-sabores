@@ -24,6 +24,8 @@ services:
       - "db:db.docker.local"
     depends_on:
       - db
+    volumes:
+      - ./storage/:/srv/http/docetressabores/storage/
 
   frontend:
     restart: unless-stopped
