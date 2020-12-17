@@ -171,4 +171,17 @@ public class ProjectService {
 		project.removeStructure(structure.get());
 		return Response.noContent().build();
 	}
+
+	@GET
+	@Path("/{id}/documents")
+	@Transactional
+	public Response getDocumentsWS(@PathParam("id") int id) {
+		Project project = projectBean.findProject(id);
+
+		return (
+			project == null
+				? Response.status(Response.Status.BAD_REQUEST)
+				: Response.ok(DocumentService.toDTOs(project.getDocuments()))
+		).build();
+	}
 }
