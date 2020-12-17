@@ -47,11 +47,13 @@ public class Project {
 	private Set<Structure> structures;
 	@ManyToOne @JoinColumn(name = "client_id") @NotNull private Client client;
 	@ManyToOne @JoinColumn(name = "designer_id") @NotNull private Designer designer;
+	@OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE) private List<Document> documents;
 
 	private boolean completed;
 
 	public Project() {
 		structures = new HashSet<>();
+		this.documents = new ArrayList<>();
 	}
 
 	public Project(String name, Client client, Designer designer) {
@@ -88,6 +90,10 @@ public class Project {
 		return completed;
 	}
 
+	public List<Document> getDocuments() {
+		return documents;
+	}
+
 
 	// setters
 	public void setId(int id) {
@@ -114,6 +120,10 @@ public class Project {
 		this.completed = completed;
 	}
 
+	public void setDocuments(List<Document> documents) {
+		this.documents = documents;
+	}
+
 
 	public void addStructure(@NotNull Structure structure) {
 		this.structures.add(structure);
@@ -121,5 +131,13 @@ public class Project {
 
 	public void removeStructure(@NotNull Structure structure) {
 		this.structures.remove(structure);
+	}
+
+	public void addDocument(@NotNull Document document) {
+		this.documents.add(document);
+	}
+
+	public void removeDocument(@NotNull Document document) {
+		this.documents.remove(document);
 	}
 }
