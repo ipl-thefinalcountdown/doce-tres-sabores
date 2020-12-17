@@ -30,6 +30,7 @@ __dummy.html
 ### Docker ###
 /db-data/
 /dub-data/
+/storage/
 
 ### IntelliJ ###
 
