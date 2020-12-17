@@ -253,4 +253,27 @@ public class ProjectService {
 
 		return Response.noContent().build();
 	}
+
+	@GET
+	@Path("/{project_id}/documents/{document_id}")
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	@Transactional
+	public Response downloadDocumentWS(
+		@PathParam("project_id") int project_id,
+		@PathParam("document_id") int document_id
+	) {
+		Project project = projectBean.findProject(project_id);
+
+		if (project == null) return Response.status(Response.Status.BAD_REQUEST).build();
+
+		Document document = documentBean.findDocument(document_id);
+
+		return (
+			(document == null || !document.getProject().equals(project))
+				? Response.status(Response.Status.BAD_REQUEST)
+				: Response
+					.ok(new File(DOCUMENT_DIR, document.getFilePath()))
+					.header("Content-Disposition", "attachment;filename=" + document.getFileName())
+		).build();
+	}
 }
