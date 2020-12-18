@@ -25,6 +25,8 @@ const api : Store = new Vapi({
 		variants: <Array<VariantModel>>[],
 		variant: <VariantModel>{},
 
+		simulation: <Array<VariantModel>>[],
+
 		projects: <Array<ProjectModel>>[],
 		project: <ProjectModel>{},
 
@@ -45,6 +47,11 @@ const api : Store = new Vapi({
 		action: "getVariants",
 		property: "variants",
 		path: (opt : ParamsOptions) => `/variants/?filter=${opt.filter}`
+	})
+	.get({
+		action: "getVariantsByType",
+		property: "variants",
+		path: (opt : ParamsOptions) => `/variants/?type=${opt.type}&filter=${opt.filter}`
 	})
 	.get({
 		action: "getVariant",
@@ -87,7 +94,6 @@ const api : Store = new Vapi({
 	})
 	.delete({
 		action: "deleteProduct",
-		property: "product",
 		path: (opt : ParamsOptions) => `/products/${opt.id}`
 	})
 	.get({
@@ -130,6 +136,16 @@ const api : Store = new Vapi({
 		path: (opt : ParamsOptions) => `/clients/?filter=${opt.filter}`
 	})
 	.get({
+		action: "getClient",
+		property: "client",
+		path: (opt : ParamsOptions) => `/clients/${opt.id}`
+	})
+	.get({
+		action: "getStructure",
+		property: "structure",
+		path: (opt : ParamsOptions) => `/structures/${opt.id}`
+	})
+	.get({
 		action: "getStructures",
 		property: "structures",
 		path: (opt : ParamsOptions) => `/structures/?filter=${opt.filter}`
@@ -138,6 +154,25 @@ const api : Store = new Vapi({
 		action: "getStructuresByType",
 		property: "structures",
 		path: (opt : ParamsOptions) => `/structures/?type=${opt.type}&filter=${opt.filter}`
+	})
+	.post({
+		action: "requestSimulation",
+		property: "simulation",
+		path: (opt : ParamsOptions) => `/structures/simulation/`
+	})
+	.post({
+		action: "addStructure",
+		property: "structure",
+		path: (opt : ParamsOptions) => `/structures/`
+	})
+	.put({
+		action: "updateStructure",
+		property: "structure",
+		path: (opt : ParamsOptions) => `/structures/${opt.id}`
+	})
+	.delete({
+		action: "deleteStructure",
+		path: (opt : ParamsOptions) => `/structures/${opt.id}`
 	})
 	.getStore();
 
