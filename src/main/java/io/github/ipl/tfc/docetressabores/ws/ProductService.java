@@ -138,20 +138,42 @@ public class ProductService
 			String variantName = vKeys.nextElement();
 			Dictionary<String, Double> variantData = variants.get(variantName).get(0);
 
-			Variant v = variantBean.create(
-				id,
-				variantName,
-				variantData.get("weff_p"),
-				variantData.get("weff_n"),
-				variantData.get("ar"),
-				variantData.get("sigmac")
-			);
+			Variant v;
 
-			if (resistances.get(variantName) != null)
-				for (Dictionary<String, Double> vResistanceData : resistances.get(variantName)) {
-					v.addMcr_p(vResistanceData.get("l_p"), vResistanceData.get("mcr_p"));
-					v.addMcr_n(vResistanceData.get("l_n"), vResistanceData.get("mcr_n"));
-				}
+			if ((v = variantBean.getVariantBy(variantName)) == null) {
+				v = variantBean.create(
+					id,
+					variantName,
+					variantData.get("weff_p"),
+					variantData.get("weff_n"),
+					variantData.get("ar"),
+					variantData.get("sigmac")
+					);
+
+				if (resistances.get(variantName) != null)
+					for (Dictionary<String, Double> vResistanceData : resistances.get(variantName)) {
+						v.addMcr_p(vResistanceData.get("l_p"), vResistanceData.get("mcr_p"));
+						v.addMcr_n(vResistanceData.get("l_n"), vResistanceData.get("mcr_n"));
+					}
+			} else {
+				VariantDTO variantDTO = new VariantDTO();
+				variantDTO.setId(v.getId());
+				variantDTO.setProductId(id);
+				variantDTO.setName(variantName);
+				variantDTO.setWeff_p(variantData.get("weff_p"));
+				variantDTO.setWeff_n(variantData.get("weff_n"));
+				variantDTO.setAr(variantData.get("ar"));
+				variantDTO.setSigmaC(variantData.get("sigmac"));
+				variantDTO.setPp(v.getPp());
+
+				if (resistances.get(variantName) != null)
+					for (Dictionary<String, Double> vResistanceData : resistances.get(variantName)) {
+						variantDTO.addMcr_p(vResistanceData.get("l_p"), vResistanceData.get("mcr_p"));
+						variantDTO.addMcr_n(vResistanceData.get("l_n"), vResistanceData.get("mcr_n"));
+					}
+
+				variantBean.update(variantDTO);
+			}
 		}
 
 		return Response.noContent().build();

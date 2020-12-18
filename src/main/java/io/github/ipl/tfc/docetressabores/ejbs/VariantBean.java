@@ -7,6 +7,7 @@ import io.github.ipl.tfc.docetressabores.entities.Variant;
 import io.github.ipl.tfc.docetressabores.entities.structures.Structure;
 
 import javax.ejb.Stateless;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -97,8 +98,8 @@ public class VariantBean {
 	public List<Variant> getAllVariants(@NotNull String filter)
 	{
 		return entityManager
-				.createNamedQuery("getAllVariants", Variant.class)
-				.setParameter("filter", "%"+filter+"%")
+			.createNamedQuery("getAllVariants", Variant.class)
+			.setParameter("filter", "%"+filter+"%")
 			.getResultList();
 	}
 
@@ -109,5 +110,15 @@ public class VariantBean {
 			.setParameter("materialId", id)
 			.setParameter("filter", "%"+filter+"%")
 			.getResultList();
+	}
+
+	public Variant getVariantBy(@NotNull @NotEmpty String name)
+	{
+		List<Variant> res = entityManager
+			.createNamedQuery("getVariantByName", Variant.class)
+			.setParameter("name", name)
+			.getResultList();
+
+		return res.isEmpty() ? null : res.get(0);
 	}
 }

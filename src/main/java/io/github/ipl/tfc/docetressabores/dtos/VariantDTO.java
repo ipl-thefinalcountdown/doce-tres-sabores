@@ -246,4 +246,12 @@ public class VariantDTO implements Serializable
 	public void setWeff_p(Double weff_p) {
 		this.weff_p = weff_p;
 	}
+
+	public void addMcr_p(Double L, Double mcr_pValue){
+		mcr_p.put(L, mcr_pValue);
+	}
+
+	public void addMcr_n(Double L, Double mcr_nValue){
+		mcr_n.put(L, mcr_nValue);
+	}
 }
