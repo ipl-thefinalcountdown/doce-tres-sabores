@@ -11,8 +11,7 @@
           <b-nav-item :to="{name: 'list-variants'}">Variants</b-nav-item>
           <b-nav-item :to="{name: 'list-projects'}">Projects</b-nav-item>
           <b-nav-item :to="{name: 'list-structures'}">Structures</b-nav-item>
-          <b-nav-item :to="{name: 'list-clients'}">Clients</b-nav-item>
-          <b-nav-item :to="{name: 'simulation'}">Simulation</b-nav-item>
+          <b-nav-item :to="{name: 'simulate-structure'}">Simulation</b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
