@@ -2,6 +2,7 @@ package io.github.ipl.tfc.docetressabores.ws;
 
 import io.github.ipl.tfc.docetressabores.dtos.VariantDTO;
 import io.github.ipl.tfc.docetressabores.ejbs.VariantBean;
+import io.github.ipl.tfc.docetressabores.entities.MaterialType;
 import io.github.ipl.tfc.docetressabores.entities.Variant;
 
 import javax.ejb.EJB;
@@ -53,9 +54,22 @@ public class VariantService
 	@GET
 	@Path("/")
 	@Transactional
-	public Response getAllVariantsWS(@DefaultValue("") @QueryParam("filter") String filter)
+	public Response getAllVariantsWS(
+		@QueryParam("type") Integer type,
+		@DefaultValue("") @QueryParam("filter") String filter)
 	{
-		return Response.ok(toDTOs(variantBean.getAllVariants(filter))).build();
+		if(type == null)
+			return Response.ok(toDTOs(variantBean.getAllVariants(filter))).build();
+
+		switch (type) {
+			case MaterialType.LIGHT_STEEL:
+			case MaterialType.PROFILED_SHEETING:
+			case MaterialType.SLAB:
+			case MaterialType.SANDWICH_PANEL:
+				return Response.ok(toDTOs(variantBean.getVariantsFilteredBy(type, filter))).build();
+			default:
+				return Response.ok(toDTOs(variantBean.getAllVariants(filter))).build();
+		}
 	}
 
 	@GET

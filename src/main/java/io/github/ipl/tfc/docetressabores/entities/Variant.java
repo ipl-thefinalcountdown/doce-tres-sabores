@@ -23,6 +23,14 @@ import java.util.stream.Collectors;
 			+ "WHERE UPPER(v.name) LIKE UPPER(:filter) OR "
 			+ "CAST(v.id AS string) LIKE :filter "
 			+ "ORDER BY v.name"
+	),
+	@NamedQuery(
+		name = "getVariantsFilteredByMaterialId",
+		query = "SELECT v FROM Variant v "
+			+ "WHERE v.product.family.material.id = :materialId "
+			+ "AND (UPPER(v.name) LIKE UPPER(:filter) OR "
+			+ "CAST(v.id AS string) LIKE :filter) "
+			+ "ORDER BY v.name"
 	)
 })
 @Table(name = "VARIANTS")
