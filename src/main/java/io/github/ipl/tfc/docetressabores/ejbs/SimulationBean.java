@@ -18,9 +18,14 @@ public class SimulationBean {
 
 		double lambda1 = Math.PI * Math.sqrt(EE / variant.getSigmaC());
 
+		Double mcr_p = variant.getMcr_p().get(LVao);
+		Double mcr_n = variant.getMcr_n().get(LVao);
 
-		double mrd_p = momentoResistenteProduto(lambda1, variant.getWeff_p(), variant.getMcr_p().get(LVao));
-		double mrd_n = momentoResistenteProduto(lambda1, variant.getWeff_n(), variant.getMcr_n().get(LVao));
+		if(mcr_p == null || mcr_n == null)
+			return false;
+
+		double mrd_p = momentoResistenteProduto(lambda1, variant.getWeff_p(), mcr_p);
+		double mrd_n = momentoResistenteProduto(lambda1, variant.getWeff_n(), mcr_n);
 
 		for (int i = 0; i < msd.length; i++) {
 			double rs = Math.abs(msd[i]) / Math.abs(msd[i] >= 0 ? mrd_p : mrd_n);

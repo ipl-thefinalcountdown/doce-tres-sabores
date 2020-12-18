@@ -29,7 +29,7 @@ public class LightSteelStructure extends Structure {
 		Material material,
 		String name,
 		int beamAmount,
-		int beamLength,
+		double beamLength,
 		int beamImposedLoad,
 		int beamSpacing,
 		@NotNull Set<Variant> variants

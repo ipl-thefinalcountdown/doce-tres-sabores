@@ -58,7 +58,7 @@ public class Structure {
 
 	@ManyToOne @JoinColumn(name = "MATERIAL_TYPE") protected Material material;
 	protected int beamAmount;
-	protected int beamLength;
+	protected double beamLength;
 	protected int beamImposedLoad;
 
 	public Structure() {
@@ -70,7 +70,7 @@ public class Structure {
 		Material material,
 		String name,
 		int beamAmount,
-		int beamLength,
+		double beamLength,
 		int beamImposedLoad,
 		@NotNull Set<Variant> variants
 	) {
@@ -96,7 +96,7 @@ public class Structure {
 		return beamAmount;
 	}
 
-	public int getBeamLength() {
+	public double getBeamLength() {
 		return beamLength;
 	}
 
@@ -133,7 +133,7 @@ public class Structure {
 		this.beamAmount = beamAmount;
 	}
 
-	public void setBeamLength(int beamLength) {
+	public void setBeamLength(double beamLength) {
 		this.beamLength = beamLength;
 	}
 
