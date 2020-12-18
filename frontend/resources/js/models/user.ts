@@ -1,7 +1,7 @@
 import ProjectModel from './project'
 
-export default interface ClientModel {
-	id?: number;
+export default interface UserModel {
+	username?: string;
 	name?: string;
 	address?: string;
 	email?: string;
