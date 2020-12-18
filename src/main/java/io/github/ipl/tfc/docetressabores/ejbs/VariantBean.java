@@ -101,4 +101,13 @@ public class VariantBean {
 				.setParameter("filter", "%"+filter+"%")
 			.getResultList();
 	}
+
+	public List<Variant> getVariantsFilteredBy(@NotNull Integer id, @NotNull String filter)
+	{
+		return entityManager
+			.createNamedQuery("getVariantsFilteredByMaterialId", Variant.class)
+			.setParameter("materialId", id)
+			.setParameter("filter", "%"+filter+"%")
+			.getResultList();
+	}
 }
