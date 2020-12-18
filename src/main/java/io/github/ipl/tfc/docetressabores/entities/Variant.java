@@ -31,9 +31,21 @@ import java.util.stream.Collectors;
 			+ "AND (UPPER(v.name) LIKE UPPER(:filter) OR "
 			+ "CAST(v.id AS string) LIKE :filter) "
 			+ "ORDER BY v.name"
+	),
+	@NamedQuery(
+		name = "getVariantByName",
+		query = "SELECT v FROM Variant v "
+			+ "WHERE UPPER(v.name) = UPPER(:name) "
 	)
 })
-@Table(name = "VARIANTS")
+@Table(
+	name = "VARIANTS",
+	uniqueConstraints = @UniqueConstraint(
+		columnNames = {
+			"NAME"
+		}
+	)
+)
 public class Variant {
 
 	/**
@@ -55,7 +67,6 @@ public class Variant {
 	 */
 	@ManyToOne @JoinColumn(name = "PRODUCT_ID") @NotNull private Product product;
 
-	// FIXME: unique constraint
 	/**
 	 * Variant name
 	 *
