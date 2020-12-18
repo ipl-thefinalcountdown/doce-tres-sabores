@@ -32,7 +32,7 @@ import { Params } from "../../stores/api";
 import router from "../../router"
 
 import ProjectModel from "../../models/project";
-import ClientModel from "../../models/client";
+import UserModel from "../../models/user";
 
 @Component({
   components: {
@@ -44,10 +44,10 @@ import ClientModel from "../../models/client";
   computed: mapState({
     project: (state: any) => state.api.project,
     clients: (state: any) => {
-      return state.api.clients.map((c : ClientModel) => {
+      return state.api.clients.map((c : UserModel) => {
         return {
-          value: c.id,
-          text: `${c.id} - ${c.name}`
+          value: c.username,
+          text: `${c.username} - ${c.name}`
         }
       })
     },
