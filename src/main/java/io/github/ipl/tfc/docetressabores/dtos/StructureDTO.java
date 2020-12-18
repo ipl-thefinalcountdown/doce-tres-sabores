@@ -9,7 +9,7 @@ public class StructureDTO implements Serializable {
 	private int materialId;
 	private String name;
 	private Integer beamAmount;
-	private Integer beamLength;
+	private Double beamLength;
 	private Integer beamImposedLoad;
 	private List<VariantDTO> variants;
 
@@ -26,7 +26,7 @@ public class StructureDTO implements Serializable {
 		int materialId,
 		String name,
 		Integer beamAmount,
-		Integer beamLength,
+		Double beamLength,
 		Integer beamImposedLoad,
 		Integer beamSpacing,
 		Integer maximumHeight,
@@ -61,7 +61,7 @@ public class StructureDTO implements Serializable {
 		return beamAmount;
 	}
 
-	public Integer getBeamLength() {
+	public Double getBeamLength() {
 		return beamLength;
 	}
 
@@ -100,7 +100,7 @@ public class StructureDTO implements Serializable {
 		this.beamAmount = beamAmount;
 	}
 
-	public void setBeamLength(Integer beamLength) {
+	public void setBeamLength(Double beamLength) {
 		this.beamLength = beamLength;
 	}
 

@@ -20,7 +20,7 @@ import io.github.ipl.tfc.docetressabores.entities.structures.SlabStructure;
 public class SlabStructureBean {
 	@PersistenceContext EntityManager entityManager;
 
-	public SlabStructure create(String name, int beamAmount, int beamLength, int beamImposedLoad, int maximumHeight, List<Integer> variantIds) {
+	public SlabStructure create(String name, int beamAmount, double beamLength, int beamImposedLoad, int maximumHeight, List<Integer> variantIds) {
 		Supplier<Stream<Variant>> variantRange = () -> (Stream<Variant>) variantIds
 			.stream()
 			.map(vId -> entityManager.find(Variant.class, vId));
@@ -55,6 +55,7 @@ public class SlabStructureBean {
 		if (structureDTO.getName() != null) structure.setName(structureDTO.getName());
 		if (structureDTO.getBeamAmount() != null) structure.setBeamAmount(structureDTO.getBeamAmount());
 		if (structureDTO.getBeamLength() != null) structure.setBeamLength(structureDTO.getBeamLength());
+		if (structureDTO.getBeamImposedLoad() != null) structure.setBeamImposedLoad(structureDTO.getBeamImposedLoad());
 		if (structureDTO.getMaximumHeight() != null) structure.setMaximumHeight(structureDTO.getMaximumHeight());
 
 		Supplier<Stream<Variant>> variantRange = () -> (Stream<Variant>) structureDTO.getVariants()

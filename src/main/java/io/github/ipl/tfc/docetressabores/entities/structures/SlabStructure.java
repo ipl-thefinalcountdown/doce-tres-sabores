@@ -27,7 +27,7 @@ public class SlabStructure extends Structure {
 		Material material,
 		String name,
 		int beamAmount,
-		int beamLength,
+		double beamLength,
 		int beamImposedLoad,
 		int maximumHeight,
 		@NotNull Set<Variant> variants

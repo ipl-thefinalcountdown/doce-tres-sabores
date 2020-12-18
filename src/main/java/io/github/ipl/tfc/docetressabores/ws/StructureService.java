@@ -187,6 +187,8 @@ public class StructureService {
 		if (variantStream.get().anyMatch(Objects::isNull))
 			return Response.status(Response.Status.BAD_REQUEST).build();
 
+		variantStream.get().forEach(v -> System.out.println(v));
+
 		return Response.ok(VariantService.toDTOs(
 			variantStream.get()
 			.filter(Objects::nonNull)

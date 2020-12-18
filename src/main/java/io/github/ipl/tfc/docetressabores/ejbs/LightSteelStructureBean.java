@@ -21,7 +21,7 @@ import io.github.ipl.tfc.docetressabores.entities.Variant;
 public class LightSteelStructureBean {
 	@PersistenceContext EntityManager entityManager;
 
-	public LightSteelStructure create(String name, int beamAmount, int beamLength, int beamImposedLoad, int beamSpacing, List<Integer> variantIds) {
+	public LightSteelStructure create(String name, int beamAmount, double beamLength, int beamImposedLoad, int beamSpacing, List<Integer> variantIds) {
 		Supplier<Stream<Variant>> variantRange = () -> (Stream<Variant>) variantIds
 			.stream()
 			.map(vId -> entityManager.find(Variant.class, vId));
@@ -56,6 +56,7 @@ public class LightSteelStructureBean {
 		if (structureDTO.getName() != null) structure.setName(structureDTO.getName());
 		if (structureDTO.getBeamAmount() != null) structure.setBeamAmount(structureDTO.getBeamAmount());
 		if (structureDTO.getBeamLength() != null) structure.setBeamLength(structureDTO.getBeamLength());
+		if (structureDTO.getBeamImposedLoad() != null) structure.setBeamImposedLoad(structureDTO.getBeamImposedLoad());
 		if (structureDTO.getBeamSpacing() != null) structure.setBeamSpacing(structureDTO.getBeamSpacing());
 
 		Supplier<Stream<Variant>> variantRange = () -> (Stream<Variant>) structureDTO.getVariants()
