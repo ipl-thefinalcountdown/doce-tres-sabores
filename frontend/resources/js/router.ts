@@ -13,7 +13,10 @@ import ProductListView from './views/products/list.vue'
 import ProductAddEditView from './views/products/addEdit.vue'
 import ProjectView from './views/projects/view.vue'
 import ProjectAddEditView from './views/projects/addEdit.vue'
-// import StructureListView from './views/structures/list.vue'
+import StructureListView from './views/structures/list.vue'
+import AddEditSimulateStructureView from './views/structures/addEditSimulate.vue'
+import StructureView from './views/structures/view.vue'
+import ClientView from './views/clients/view.vue'
 
 Vue.use(VueRouter)
 
@@ -44,17 +47,14 @@ export default new VueRouter({
 		{ path: '/login', name: 'login', component: LoginView },
 		// { path: '/register', name: 'login', component: RegisterView },
 
-		// { path: '/users/:id', name: 'view-user', component: UserView },
+		{ path: '/clients/', redirect: {name: 'index'}},
+		{ path: '/clients/:id', name: 'view-client', component: ClientView },
 		// { path: '/users/:id/edit', name: 'edit-user', component: UserEditView },
 
-		// { path: '/structures', name: 'list-structures', component: StructureListView },
-		// { path: '/structures/new', name: 'new-structure', component: StructureAddEditView },
-		// { path: '/structures/:id', name: 'view-project', component: StructureView },
-		// { path: '/structures/:id/edit', name: 'edit-project', component: StructureAddEditView },
-
-		// { path: '/simulation', name: 'view-project', component: SimulationIndexView },
-
-		// { path: '/structures/simulation', name: 'view-project', component: SimulationView },
-		// { path: '/structures/:id/simulation', name: 'view-project', component: StructureSimulationView },
+		{ path: '/structures/simulation', name: 'simulate-structure', component: AddEditSimulateStructureView },
+		{ path: '/structures', name: 'list-structures', component: StructureListView },
+		{ path: '/structures/new', name: 'new-structure', component: AddEditSimulateStructureView },
+		{ path: '/structures/:id', name: 'view-structure', component: StructureView },
+		{ path: '/structures/:id/edit', name: 'edit-structure', component: AddEditSimulateStructureView },
 	]
 })
