@@ -106,7 +106,7 @@ export default class VariantView extends Vue {
           .deleteVariant({ params: { id: obj.variantId } })
           .then(() => {
             // success deletion
-            router.push(`list-projects`);
+            router.push({name:`list-variants`});
           })
           .catch((err) => {
             // error on delete
