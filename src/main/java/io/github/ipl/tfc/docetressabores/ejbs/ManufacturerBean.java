@@ -42,14 +42,6 @@ public class ManufacturerBean {
 		);
 	}
 
-	public boolean delete(String username) {
-		Manufacturer manufacturer = findManufacturer(username);
-
-		if (manufacturer == null) return false;
-		entityManager.remove(manufacturer);
-		return true;
-	}
-
 	public Manufacturer findManufacturer(String username) {
 		return entityManager.find(Manufacturer.class, username);
 	}
