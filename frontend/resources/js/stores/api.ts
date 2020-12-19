@@ -15,6 +15,8 @@ export interface Params {
 
 export interface ParamsOptions {
 	id?: number | string,
+	param1?: number | string,
+	param2?: number | string,
 	type?: number,
 	filter?: string
 }
@@ -115,6 +117,22 @@ const api : Store = new Vapi({
 		action: "getProject",
 		property: "project",
 		path: (opt : ParamsOptions) => `/projects/${opt.id}`
+	})
+	.get({
+		action: "getProjectDocument",
+		path: (opt : ParamsOptions) => `/projects/${opt.id}/documents/${opt.param1}`
+	})
+	.put({
+		action: "addProjectStructure",
+		path: (opt : ParamsOptions) => `/projects/${opt.id}/structures/${opt.param1}`
+	})
+	.delete({
+		action: "deleteProjectStructure",
+		path: (opt : ParamsOptions) => `/projects/${opt.id}/structures/${opt.param1}`
+	})
+	.delete({
+		action: "deleteDocument",
+		path: (opt : ParamsOptions) => `/documents/${opt.id}`
 	})
 	.post({
 		action: "addProject",

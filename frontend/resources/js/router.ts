@@ -18,10 +18,13 @@ import AddEditSimulateStructureView from './views/structures/addEditSimulate.vue
 import StructureView from './views/structures/view.vue'
 import ClientView from './views/clients/view.vue'
 import ProductImportVariantsView from './views/products/import.vue'
+import ProjectUploadFilesView from './views/projects/upload.vue'
+import ProjectAddStructureView from './views/projects/newStructure.vue'
 
 Vue.use(VueRouter)
 
 import store from './store'
+import { Params } from "./stores/api"
 
 const ifNotAuthenticated = (to: any, from: any, next: Function) => {
 	if (!store.getters['auth/isAuthenticated']) {
@@ -85,7 +88,13 @@ export default new VueRouter({
 		{ path: '/projects', name: 'list-projects', component: ProjectListView },
 		{ path: '/projects/new', name: 'new-project', component: ProjectAddEditView },
 		{ path: '/projects/:id', name: 'view-project', component: ProjectView },
+		{ path: '/projects/:id/structures/new', name: 'project-add-structure', component: ProjectAddStructureView },
+		{ path: '/projects/:id/structures', redirect: '/projects/:id' },
+		{ path: '/projects/:id/upload', name: 'project-upload-files', component: ProjectUploadFilesView },
 		{ path: '/projects/:id/edit', name: 'edit-project', component: ProjectAddEditView },
+
+		// FIXME: Breadcrumb bug
+		{ path: '/:id/structures', redirect: '/projects/:id' },
 
 		{ path: '/login', name: 'login', component: LoginView, beforeEnter: ifNotAuthenticated },
 		// { path: '/register', name: 'login', component: RegisterView },

@@ -7,7 +7,7 @@
         >
         <b-col>
           <div class="d-flex flex-row-reverse bd-highlight">
-            <div v-if="addClicked" class="pl-3">
+            <div class="pl-3">
               <b-button
                 :to="{name: 'import-variants'}"
                 size="sm"
