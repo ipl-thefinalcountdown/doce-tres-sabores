@@ -22,8 +22,10 @@ services:
       - "9990:9990"
     links:
       - "db:db.docker.local"
+      - "fakesmtpserver:fakesmtpserver.docker.local"
     depends_on:
       - db
+      - fakesmtpserver
     volumes:
       - ./storage/:/srv/http/docetressabores/storage/
 
@@ -56,3 +58,9 @@ services:
       - "db:db.docker.local"
     depends_on:
       - db
+
+  fakesmtpserver:
+    image: reachfive/fake-smtp-server:0.8.1
+    restart: unless-stopped
+    ports:
+      - 1080:1080
