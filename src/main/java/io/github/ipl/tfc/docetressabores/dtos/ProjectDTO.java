@@ -16,8 +16,6 @@ public class ProjectDTO implements Serializable {
 	private List<StructureDTO> structures;
 	private List<DocumentDTO> documents;
 
-	// TODO: File list
-
 	public ProjectDTO() {
 		structures = new ArrayList<>();
 		documents = new ArrayList<>();
@@ -41,6 +39,7 @@ public class ProjectDTO implements Serializable {
 		this.designerUsername = designerUsername;
 		this.clientName = clientName;
 		this.designerName = designerName;
+		this.observations = observartions;
 		this.completed = completed;
 		this.structures = structures;
 		this.documents = documents;
