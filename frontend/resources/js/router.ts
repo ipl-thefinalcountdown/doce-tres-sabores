@@ -20,6 +20,47 @@ import ClientView from './views/clients/view.vue'
 
 Vue.use(VueRouter)
 
+import store from './store'
+
+const ifNotAuthenticated = (to: any, from: any, next: Function) => {
+	if (!store.getters['auth/isAuthenticated']) {
+		next()
+		return
+	}
+	next('/')
+}
+
+const ifAuthenticated = (to: any, from: any, next : Function) => {
+	if (store.getters['auth/isAuthenticated']) {
+		next()
+		return
+	}
+	next('/login')
+}
+
+//   export default new Router({
+// 	mode: 'history',
+// 	routes: [
+// 	  {
+// 		path: '/',
+// 		name: 'Home',
+// 		component: Home,
+// 	  },
+// 	  {
+// 		path: '/account',
+// 		name: 'Account',
+// 		component: Account,
+// 		beforeEnter: ifAuthenticated,
+// 	  },
+// 	  {
+// 		path: '/login',
+// 		name: 'Login',
+// 		component: Login,
+// 		beforeEnter: ifNotAuthenticated,
+// 	  },
+// 	],
+//   })
+
 export default new VueRouter({
 	mode: 'hash',
 
@@ -44,7 +85,7 @@ export default new VueRouter({
 		{ path: '/projects/:id', name: 'view-project', component: ProjectView },
 		{ path: '/projects/:id/edit', name: 'edit-project', component: ProjectAddEditView },
 
-		{ path: '/login', name: 'login', component: LoginView },
+		{ path: '/login', name: 'login', component: LoginView, beforeEnter: ifNotAuthenticated },
 		// { path: '/register', name: 'login', component: RegisterView },
 
 		{ path: '/clients/', redirect: {name: 'index'}},
