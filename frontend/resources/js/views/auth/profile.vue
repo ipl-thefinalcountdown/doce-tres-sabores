@@ -5,7 +5,7 @@
         <b-col>
           <item-details
             :items="items"
-            :awaiting-items="pending.client"
+            :awaiting-items="pending.user"
           >
           </item-details>
         </b-col>
@@ -35,6 +35,11 @@ import router from "../../router";
 import { MaterialType } from "../../models/material";
 import StructureModel from "../../models/structure";
 
+  import { namespace } from "vuex-class";
+  import { ExtendedJwtPayload } from '../../stores/auth';
+	const Auth = namespace("auth");
+
+
 @Component({
   components: {
     PageComponent,
@@ -42,7 +47,7 @@ import StructureModel from "../../models/structure";
   },
   computed: mapState({
     items: (state: any) => {
-      return [state.api.client].map((c: UserModel) => {
+      return [state.api.user].map((c: UserModel) => {
         return {
           username: c.username,
           name: c.name,
@@ -52,25 +57,34 @@ import StructureModel from "../../models/structure";
         };
       });
     },
-    clientUsername: (state: any) => state.api.project.clientUsername,
     pending: (state: any) => state.api.pending,
   }),
   methods: {
-    ...mapActions(["getClient"]),
+    ...mapActions(["getUser"]),
   },
 })
-export default class ClientView extends Vue {
-  getClient!: (obj: Params) => void;
+export default class ProfileView extends Vue {
+  getUser!: (obj: Params) => void;
 
-  clientId?: number | string;
+  @Auth.Getter
+private isAuthenticated!: boolean;
+
+@Auth.Getter
+public authTokenDecoded!: ExtendedJwtPayload;
+
+@Auth.Getter
+public authUser!: string;
+
+@Auth.Getter
+public authGroups!: string[];
+
 
   data() {
     return {}
   }
 
   mounted() {
-    this.clientId = this.$route.params.id;
-    this.getClient({ params: { id: this.clientId } });
+    this.getUser({ params: { id: this.authUser } });
   }
 }
 </script>

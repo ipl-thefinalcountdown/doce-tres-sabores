@@ -32,7 +32,7 @@
                 :items="items"
                 :awaiting-items="pending.project"
                 :edit-clicked="editClicked"
-                :delete-clicked="deleteClicked"
+                :delete-clicked="(authGroups.includes('Designer')) ? deleteClicked : undefined"
               >
                 <template #cell(client)="data">
                   <b-link :to="{ name: 'view-client', params: { id: clientUsername }}">{{ data.value }}</b-link>
@@ -48,8 +48,8 @@
           <searchable-table
             :items="structures"
             :row-clicked="rowClicked"
-            :add-clicked="addStructureClicked"
-            :delete-clicked="deleteStructureClicked"
+            :add-clicked="(authGroups.includes('Designer')) ? addStructureClicked : undefined"
+            :delete-clicked="(authGroups.includes('Designer')) ? deleteStructureClicked : undefined"
           />
         </b-col>
       </b-row>
@@ -80,6 +80,10 @@ import router from "../../router";
 import { MaterialType } from "../../models/material";
 import StructureModel from "../../models/structure";
 import FileDownload from 'js-file-download';
+
+import { namespace } from "vuex-class";
+  import { ExtendedJwtPayload } from '../../stores/auth';
+	const Auth = namespace("auth");
 
 @Component({
   components: {
@@ -128,6 +132,18 @@ import FileDownload from 'js-file-download';
   },
 })
 export default class ProjectView extends Vue {
+      @Auth.Getter
+    private isAuthenticated!: boolean;
+
+    @Auth.Getter
+    public authTokenDecoded!: ExtendedJwtPayload;
+
+    @Auth.Getter
+    public authUser!: string;
+
+    @Auth.Getter
+    public authGroups!: string[];
+
   getProject!: (obj: Params) => void;
   deleteProject!: (obj: Params) => AxiosPromise;
   getProjectDocument!: (obj: Params) => AxiosPromise;

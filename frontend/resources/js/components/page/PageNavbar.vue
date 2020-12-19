@@ -6,12 +6,12 @@
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
-        <b-navbar-nav>
+        <b-navbar-nav v-if="isAuthenticated">
           <b-nav-item :to="{name: 'list-products'}">Products</b-nav-item>
           <b-nav-item :to="{name: 'list-variants'}">Variants</b-nav-item>
-          <b-nav-item :to="{name: 'list-projects'}">Projects</b-nav-item>
-          <b-nav-item :to="{name: 'list-structures'}">Structures</b-nav-item>
-          <b-nav-item :to="{name: 'simulate-structure'}">Simulation</b-nav-item>
+          <b-nav-item v-if="!authGroups.includes('Manufacturer')" :to="{name: 'list-projects'}">Projects</b-nav-item>
+          <b-nav-item v-if="!authGroups.includes('Manufacturer')" :to="{name: 'list-structures'}">Structures</b-nav-item>
+          <b-nav-item v-if="authGroups.includes('Designer')" :to="{name: 'simulate-structure'}">Simulation</b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
@@ -24,7 +24,7 @@
             <template #button-content>
               <em>{{ authUser }}</em>
             </template>
-            <b-dropdown-item href="#">Profile</b-dropdown-item>
+            <b-dropdown-item :to="{name: 'view-profile'}">Profile</b-dropdown-item>
             <b-dropdown-item @click.prevent="handleLogout()">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>

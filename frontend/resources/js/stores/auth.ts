@@ -44,7 +44,7 @@ export class Auth extends VuexModule {
 			this.context.commit('setAuthRequest')
 			axios({
 				url: 'auth/login',
-				data: `username=${user.username}&password=${user.password}`,
+				data: `username=${encodeURI(user.username || '')}&password=${encodeURI(user.password || '')}`,
 				headers: {
 					'content-type': 'application/x-www-form-urlencoded'
 				},

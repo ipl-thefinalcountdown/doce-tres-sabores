@@ -5,7 +5,7 @@
         <b-col
           ><h5>{{ product.name }}</h5></b-col
         >
-        <b-col>
+        <b-col v-if="authGroups.includes('Manufacturer')">
           <div class="d-flex flex-row-reverse bd-highlight">
             <div class="pl-3">
               <b-button
@@ -24,9 +24,9 @@
           :items="isProduct ? productItems : items"
           :row-clicked="rowClicked"
           :filter-changed="filterChanged"
-          :add-clicked="addClicked"
-          :edit-clicked="editClicked"
-          :delete-clicked="deleteClicked"
+          :add-clicked="(authGroups.includes('Manufacturer')) ? addClicked : undefined"
+          :edit-clicked="(authGroups.includes('Manufacturer')) ? editClicked : undefined"
+          :delete-clicked="(authGroups.includes('Manufacturer')) ? deleteClicked : undefined"
         />
       </div>
     </div>
@@ -48,6 +48,11 @@ import { AlertType, createAlert } from "../../utils/alert";
 
 import { Params } from "../../stores/api";
 import { AxiosPromise } from "axios";
+
+
+  import { namespace } from "vuex-class";
+  import { ExtendedJwtPayload } from '../../stores/auth';
+	const Auth = namespace("auth");
 
 var variantMap = (v: VariantModel) => {
   return {
@@ -92,6 +97,18 @@ var variantMap = (v: VariantModel) => {
   },
 })
 export default class VariantListView extends Vue {
+      @Auth.Getter
+    private isAuthenticated!: boolean;
+
+    @Auth.Getter
+    public authTokenDecoded!: ExtendedJwtPayload;
+
+    @Auth.Getter
+    public authUser!: string;
+
+    @Auth.Getter
+    public authGroups!: string[];
+
   getVariants!: (obj: any) => void;
   getProduct!: (obj: Params) => void;
   deleteVariant!: (obj: Params) => AxiosPromise;

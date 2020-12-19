@@ -6,9 +6,9 @@
           :items="items"
           :row-clicked="rowClicked"
           :filter-changed="filterChanged"
-          :add-clicked="addClicked"
+          :add-clicked="(authGroups.includes('Designer')) ? addClicked : undefined"
           :edit-clicked="editClicked"
-          :delete-clicked="deleteClicked"
+          :delete-clicked="(authGroups.includes('Designer')) ? deleteClicked : undefined"
         />
       </div>
     </div>
@@ -30,6 +30,10 @@ import { AlertType, createAlert } from "../../utils/alert";
 import { Params } from "../../stores/api";
 import { AxiosPromise } from "axios";
 
+import { namespace } from "vuex-class";
+  import { ExtendedJwtPayload } from '../../stores/auth';
+	const Auth = namespace("auth");
+
 @Component({
   components: {
     PageComponent,
@@ -37,25 +41,50 @@ import { AxiosPromise } from "axios";
   },
   computed: {
     ...mapState({
-      items: (state: any) => {
-        return state.api.projects.map((p: ProjectModel) => {
-          return {
-            id: p.id,
-            name: p.name,
-            client: p.clientName
-          };
-        });
+      items(state: any) {
+        if((<any>this).authGroups.includes('Client'))
+        {
+          if(state.api.user.projects == undefined) return [];
+          return state.api.user.projects.map((p: ProjectModel) => {
+            return {
+              id: p.id,
+              name: p.name
+            };
+          })
+        } else {
+          return state.api.projects.map((p: ProjectModel) => {
+            return {
+              id: p.id,
+              name: p.name,
+              client: p.clientName
+            };
+          });
+        }
+
       },
       pending: (state: any) => state.api.pending,
       error: (state: any) => state.api.error,
     }),
   },
   methods: {
-    ...mapActions(["getProjects", "deleteProject"]),
+    ...mapActions(["getProjects", "deleteProject", "getUser"]),
   }
 })
 export default class ProjectListView extends Vue {
+      @Auth.Getter
+    private isAuthenticated!: boolean;
+
+    @Auth.Getter
+    public authTokenDecoded!: ExtendedJwtPayload;
+
+    @Auth.Getter
+    public authUser!: string;
+
+    @Auth.Getter
+    public authGroups!: string[];
+
   getProjects!: (obj: Params) => void;
+  getUser!: (obj: Params) => void;
   deleteProject!: (obj: Params) => AxiosPromise;
 
   filterText?: string = "";
@@ -102,7 +131,11 @@ export default class ProjectListView extends Vue {
   }
 
   mounted() {
-    this.getProjects({ params: { filter: "" } });
+    if(this.authGroups.includes('Client')) {
+      this.getUser({ params: { id: this.authUser } });
+    } else {
+      this.getProjects({ params: { filter: "" } });
+    }
   }
 }
 </script>

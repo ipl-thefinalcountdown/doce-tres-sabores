@@ -16,8 +16,8 @@
 				<item-details
 					:items="items"
 					:awaiting-items="pending.variant"
-					:edit-clicked="editClicked"
-					:delete-clicked="deleteClicked"
+					:edit-clicked="(authGroups.includes('Manufacturer')) ? editClicked : undefined"
+          			:delete-clicked="(authGroups.includes('Manufacturer')) ? deleteClicked : undefined"
 				>
 					<template #cell(product)="data">
 						<b-link :to="{ name: 'view-product', params: { id: productId }}">{{ data.value }}</b-link>
@@ -48,6 +48,10 @@ import { fieldKeys } from "../../utils/fields";
 
 import { Params } from "../../stores/api";
 import router from "../../router";
+
+  import { namespace } from "vuex-class";
+  import { ExtendedJwtPayload } from '../../stores/auth';
+const Auth = namespace("auth");
 
 @Component({
   components: {
@@ -90,6 +94,18 @@ import router from "../../router";
   },
 })
 export default class VariantView extends Vue {
+	    @Auth.Getter
+    private isAuthenticated!: boolean;
+
+    @Auth.Getter
+    public authTokenDecoded!: ExtendedJwtPayload;
+
+    @Auth.Getter
+    public authUser!: string;
+
+    @Auth.Getter
+	public authGroups!: string[];
+
   getVariant!: (obj: Params) => void;
   deleteVariant!: (obj: Params) => AxiosPromise;
 
