@@ -21,6 +21,8 @@ public class ProjectBean {
 
 	public Project create(String name, String clientUsername, String designerUsername)
 	{
+		if (name == null || clientUsername == null || designerUsername == null) return null;
+
 		Client client = entityManager.find(Client.class, clientUsername);
 		Designer designer = entityManager.find(Designer.class, designerUsername);
 
