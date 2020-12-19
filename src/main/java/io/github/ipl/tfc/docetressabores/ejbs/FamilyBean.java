@@ -14,9 +14,12 @@ public class FamilyBean {
 	@PersistenceContext EntityManager entityManager;
 
 	public Family create(int type, String name) {
+		if (name == null) return null;
+
 		Material material = entityManager.find(Material.class, type);
 		Family family = new Family(material, name);
 		entityManager.persist(family);
+
 		return family;
 	}
 
