@@ -14,14 +14,16 @@ import java.util.List;
 
 @Stateless
 public class ProductBean {
-	// TODO: documentation
 	@PersistenceContext
 	private EntityManager entityManager;
 
 	public Product create(int familyId, String name) {
+		if (name == null) return null;
+
 		Family family = entityManager.find(Family.class, familyId);
 		Product product = new Product(family, name);
 		entityManager.persist(product);
+
 		return product;
 	}
 
