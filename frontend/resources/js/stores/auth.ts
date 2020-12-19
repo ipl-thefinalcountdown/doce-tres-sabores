@@ -3,7 +3,7 @@
 
 import axios, { AxiosResponse } from 'axios';
 import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators';
-import { UserAuthModel } from '../models/user';
+import { UserAuthModel } from '../models/auth';
 import jwtDecode from 'jwt-decode';
 import { JwtPayload } from 'jwt-decode';
 
@@ -54,7 +54,7 @@ export class Auth extends VuexModule {
 				const token = resp.data.token
 				localStorage.setItem('user-token', token)
 				axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
-				this.context.commit('setAuthSuccess', resp)
+				this.context.commit('setAuthSuccess', token)
 				//this.context.dispatch(USER_REQUEST)
 				resolve(resp)
 			})

@@ -23,6 +23,9 @@
 						/>
 					</div>
 					<div class="form-group">
+						<b-link to="register">Don't have an account yet?</b-link>
+					</div>
+					<div class="form-group">
 						<button class="btn btn-primary btn-block">Login</button>
 					</div>
 				</form>
@@ -39,8 +42,12 @@
 	import { namespace } from "vuex-class";
 	const Auth = namespace("auth");
 
-	import PageComponent from '../components/Page.vue'
-	import {UserAuthModel} from '../models/user'
+	import { AlertType, createAlert } from "../../utils/alert";
+
+	import PageComponent from '../../components/Page.vue'
+	import { UserAuthModel } from '../../models/auth'
+
+	import { AxiosResponse } from "axios";
 
 	@Component({
 		components: {
@@ -50,15 +57,11 @@
 	export default class LoginView extends Vue {
 		private user: UserAuthModel = { username: "", password: "" };
 
-		private submitted: boolean = false;
-		private successful: boolean = false;
-		private message: string = "";
-
 		@Auth.Getter
 		private isAuthenticated!: boolean;
 
 		@Auth.Action
-		private makeAuthRequest!: (data: any) => Promise<any>;
+		private makeAuthRequest!: (data: any) => Promise<AxiosResponse>;
 
 		mounted() {
 			if (this.isAuthenticated) {
@@ -67,17 +70,18 @@
 		}
 
 		handleLogin() {
-			this.message = "";
-			this.submitted = true;
-
 			this.makeAuthRequest(this.user).then(
 				(data) => {
-					this.message = data.message;
-					this.successful = true;
 					this.$router.push("/");
+					createAlert(
+						AlertType.Success,
+						`Login in with success!`
+					);
 				}, (error) => {
-					this.message = error;
-					this.successful = false;
+					createAlert(
+						AlertType.Danger,
+						`Username or password incorrect`
+					);
 				}
 			);
 		}
