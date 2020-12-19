@@ -59,6 +59,7 @@ public class ProjectService {
 			project.getDesigner().getUsername(),
 			project.getClient().getName(),
 			project.getDesigner().getName(),
+			project.getObservations(),
 			project.getCompleted(),
 			critical ? null : StructureService.toDTOs(project.getStructures()),
 			critical ? null : DocumentService.toDTOs(project.getDocuments())

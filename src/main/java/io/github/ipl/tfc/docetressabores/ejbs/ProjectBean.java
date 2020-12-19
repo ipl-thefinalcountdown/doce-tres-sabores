@@ -36,8 +36,8 @@ public class ProjectBean {
 	public Project update(ProjectDTO projectDTO) {
 		Project project = findProject(projectDTO.getId());
 
-		if(projectDTO.getName() != null) project.setName(projectDTO.getName());
-		if(projectDTO.getCompleted() != null) project.setCompleted(projectDTO.getCompleted());
+		if (projectDTO.getName() != null) project.setName(projectDTO.getName());
+		if (projectDTO.getCompleted() != null) project.setCompleted(projectDTO.getCompleted());
 		if (projectDTO.getStructures() != null)
 			project.setStructures(
 				projectDTO.getStructures()
@@ -45,6 +45,7 @@ public class ProjectBean {
 					.map(s -> entityManager.find(Structure.class, s.getId()))
 					.collect(Collectors.toSet())
 			);
+		if (projectDTO.getObservations() != null) project.setObservations(projectDTO.getObservations());
 
 		return project;
 	}
