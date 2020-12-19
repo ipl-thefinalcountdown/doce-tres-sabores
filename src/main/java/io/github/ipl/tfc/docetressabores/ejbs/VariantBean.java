@@ -80,7 +80,7 @@ public class VariantBean {
 
 		if (variant == null) return false;
 
-		for (Structure s : variant.getStructures()) variant.removeStructure(s);
+		variant.removeAllStructures();
 		entityManager.remove(variant);
 
 		return true;
