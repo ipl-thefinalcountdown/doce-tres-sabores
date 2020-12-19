@@ -41,7 +41,7 @@ import Vue from "vue"
   import { ExtendedJwtPayload } from '../../stores/auth';
 	const Auth = namespace("auth");
 
-	import {UserAuthModel} from '../../models/user'
+	import { UserAuthModel } from '../../models/auth'
 import router from "../../router";
 
 	@Component({
@@ -68,11 +68,6 @@ import router from "../../router";
 
 		@Auth.Action
     private makeAuthLogout!: () => Promise<void>;
-
-    mounted()
-    {
-      console.log(this.authTokenDecoded);
-    }
 
 		handleLogout() {
       this.makeAuthLogout().then(() => router.push('/login'))

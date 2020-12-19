@@ -192,6 +192,10 @@ const api : Store = new Vapi({
 		action: "deleteStructure",
 		path: (opt : ParamsOptions) => `/structures/${opt.id}`
 	})
+	.post({
+		action: "addUser",
+		path: (opt : ParamsOptions) => `/users/`
+	})
 	.getStore();
 
 export default api;

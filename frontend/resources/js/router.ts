@@ -4,7 +4,8 @@ import Vue from "vue"
 import VueRouter from "vue-router"
 
 import IndexView from "./views/index.vue"
-import LoginView from "./views/login.vue"
+import LoginView from "./views/auth/login.vue"
+import RegisterView from "./views/auth/register.vue"
 import VariantListView from './views/variants/list.vue'
 import VariantView from './views/variants/view.vue'
 import VariantAddEditView from './views/variants/addEdit.vue'
@@ -97,7 +98,7 @@ export default new VueRouter({
 		{ path: '/:id/structures', redirect: '/projects/:id' },
 
 		{ path: '/login', name: 'login', component: LoginView, beforeEnter: ifNotAuthenticated },
-		// { path: '/register', name: 'login', component: RegisterView },
+		{ path: '/register', name: 'login', component: RegisterView, beforeEnter: ifNotAuthenticated },
 
 		{ path: '/clients/', redirect: {name: 'index'}},
 		{ path: '/clients/:id', name: 'view-client', component: ClientView },
