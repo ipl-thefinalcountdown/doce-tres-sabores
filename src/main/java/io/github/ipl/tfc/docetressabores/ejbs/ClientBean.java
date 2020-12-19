@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,14 +14,15 @@ import io.github.ipl.tfc.docetressabores.entities.Client;
 
 @Stateless
 public class ClientBean {
-	// TODO: documentation
 	@PersistenceContext EntityManager entityManager;
+	@EJB UserBean userBean;
 
 	public Client create(String name, String phoneNumber, String email, String address, String username, String password) {
-		if (Arrays
-			.asList(name, phoneNumber, name, address, username, password)
-			.stream()
-			.anyMatch(Objects::isNull)
+		if (Arrays.asList(name, phoneNumber, name, address, username, password)
+				.stream()
+				.anyMatch(Objects::isNull)
+			|| findClient(username) != null
+			|| userBean.getUserBy(email) != null
 		) {
 			return null;
 		}

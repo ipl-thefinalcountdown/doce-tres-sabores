@@ -13,6 +13,11 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 	@NamedQuery(
 		name = "getAllUsers",
 		query = "SELECT u FROM User u ORDER BY u.id"
+	),
+	@NamedQuery(
+		name = "getUserByEmail",
+		query = "SELECT u FROM User u "
+			+ "WHERE UPPER(u.email) = UPPER(:email)"
 	)
 })
 @Table(
