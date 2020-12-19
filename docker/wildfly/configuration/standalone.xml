@@ -525,7 +525,7 @@
 		<socket-binding name="txn-recovery-environment" port="4712"/>
 		<socket-binding name="txn-status-manager" port="4713"/>
 		<outbound-socket-binding name="mail-smtp">
-			<remote-destination host="${jboss.mail.server.host:localhost}" port="${jboss.mail.server.port:25}"/>
+			<remote-destination host="fakesmtpserver.docker.local" port="1025"/>
 		</outbound-socket-binding>
 	</socket-binding-group>
 </server>
