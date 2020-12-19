@@ -115,7 +115,8 @@ import { namespace } from "vuex-class";
           id: p.id,
           client: p.clientName,
           name: p.name,
-          completed: p.completed
+          completed: p.completed,
+          observations: p.observations
         };
       });
     },
