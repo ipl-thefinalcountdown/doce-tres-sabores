@@ -6,8 +6,8 @@
           <item-details
             :items="items"
             :awaiting-items="pending.structure"
-            :edit-clicked="editClicked"
-            :delete-clicked="deleteClicked"
+            :edit-clicked="(authGroups.includes('Designer')) ? editClicked : undefined"
+          	:delete-clicked="(authGroups.includes('Designer')) ? deleteClicked : undefined"
           >
           </item-details>
         </b-col>
@@ -42,6 +42,11 @@ import router from "../../router";
 import { MaterialType } from "../../models/material";
 import StructureModel from "../../models/structure";
 import VariantModel from "../../models/variant";
+
+  import { namespace } from "vuex-class";
+  import { ExtendedJwtPayload } from '../../stores/auth';
+	const Auth = namespace("auth");
+
 
 @Component({
   components: {
@@ -86,6 +91,18 @@ import VariantModel from "../../models/variant";
   },
 })
 export default class StructureView extends Vue {
+  @Auth.Getter
+    private isAuthenticated!: boolean;
+
+    @Auth.Getter
+    public authTokenDecoded!: ExtendedJwtPayload;
+
+    @Auth.Getter
+    public authUser!: string;
+
+    @Auth.Getter
+    public authGroups!: string[];
+
   getStructure!: (obj: Params) => void;
   deleteStructure!: (obj: Params) => AxiosPromise;
 

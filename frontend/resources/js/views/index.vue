@@ -1,6 +1,6 @@
 <template>
 	<page-component>
-		<b-container>
+		<b-container v-if="isAuthenticated">
 			<b-row>
 				<b-col><h4 class="text-center">Discover our product families</h4></b-col>
 			</b-row>
@@ -77,12 +77,22 @@
 				</b-col>
 			</b-row>
 		</b-container>
+		<b-container v-else>
+			<b-row>
+				<b-col><h4 class="text-center">Please authenticate first to see our products!</h4></b-col>
+			</b-row>
+		</b-container>
 	</page-component>
 </template>
 
 <script lang="ts">
 	import Vue from "vue"
 	import Component from "vue-class-component"
+
+	import { namespace } from "vuex-class";
+  	import { ExtendedJwtPayload } from '../stores/auth';
+	const Auth = namespace("auth");
+
 	import { mapState, mapActions } from "vuex";
 
 	import PageComponent from '../components/Page.vue'
@@ -118,6 +128,18 @@ import { MaterialType } from "../models/material";
 	})
 	export default class IndexView extends Vue {
 		getFamilies!: () => void;
+
+		@Auth.Getter
+		private isAuthenticated!: boolean;
+
+		@Auth.Getter
+		public authTokenDecoded!: ExtendedJwtPayload;
+
+		@Auth.Getter
+		public authUser!: string;
+
+		@Auth.Getter
+		public authGroups!: string[];
 
 		mounted() {
 			this.getFamilies();

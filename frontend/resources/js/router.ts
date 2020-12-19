@@ -21,6 +21,7 @@ import ClientView from './views/clients/view.vue'
 import ProductImportVariantsView from './views/products/import.vue'
 import ProjectUploadFilesView from './views/projects/upload.vue'
 import ProjectAddStructureView from './views/projects/newStructure.vue'
+import ProfileView from './views/auth/profile.vue'
 
 Vue.use(VueRouter)
 
@@ -43,28 +44,24 @@ const ifAuthenticated = (to: any, from: any, next : Function) => {
 	next('/login')
 }
 
-//   export default new Router({
-// 	mode: 'history',
-// 	routes: [
-// 	  {
-// 		path: '/',
-// 		name: 'Home',
-// 		component: Home,
-// 	  },
-// 	  {
-// 		path: '/account',
-// 		name: 'Account',
-// 		component: Account,
-// 		beforeEnter: ifAuthenticated,
-// 	  },
-// 	  {
-// 		path: '/login',
-// 		name: 'Login',
-// 		component: Login,
-// 		beforeEnter: ifNotAuthenticated,
-// 	  },
-// 	],
-//   })
+const authenticatedRole = (role: 'Manufacturer' | 'Designer' | 'Client') => {
+	return (to: any, from: any, next : Function) => {
+		if (store.getters['auth/isAuthenticated'] && store.getters['auth/authGroups'].includes(role)) {
+			next()
+			return
+		}
+		next('/login')
+	}
+}
+
+const authDesignerOrClient = (to: any, from: any, next: Function) => {
+	let groups = store.getters['auth/authGroups'];
+	if (store.getters['auth/isAuthenticated'] && (groups.includes('Designer') || groups.includes('Client'))) {
+		next()
+		return
+	}
+	next('/login')
+}
 
 export default new VueRouter({
 	mode: 'hash',
@@ -72,42 +69,44 @@ export default new VueRouter({
 	routes: [
 		{ path: '/', name: 'index', component: IndexView },
 
-		{ path: '/variants', name: 'list-variants', component: VariantListView },
-		{ path: '/variants/new', name: 'new-variant', component: VariantAddEditView },
-		{ path: '/variants/:id', name: 'view-variant', component: VariantView },
-		{ path: '/variants/:id/edit', name: 'edit-variant', component: VariantAddEditView },
+		{ path: '/variants', name: 'list-variants', component: VariantListView, beforeEnter: ifAuthenticated },
+		{ path: '/variants/new', name: 'new-variant', component: VariantAddEditView, beforeEnter: authenticatedRole('Manufacturer') },
+		{ path: '/variants/:id', name: 'view-variant', component: VariantView, beforeEnter: ifAuthenticated },
+		{ path: '/variants/:id/edit', name: 'edit-variant', component: VariantAddEditView, beforeEnter: authenticatedRole('Manufacturer') },
 
-		{ path: '/families/:id', name: 'view-family', component: ProductListView },
-		{ path: '/families/', redirect: {name: 'index'}},
+		{ path: '/families/:id', name: 'view-family', component: ProductListView, beforeEnter: ifAuthenticated },
 
-		{ path: '/products', name: 'list-products', component: ProductListView },
-		{ path: '/products/new', name: 'new-product', component: ProductAddEditView },
-		{ path: '/products/:id', name: 'view-product', component: VariantListView },
-		{ path: '/products/:id/import', name: 'import-variants', component: ProductImportVariantsView },
-		{ path: '/products/:id/edit', name: 'edit-product', component: ProductAddEditView },
+		{ path: '/products', name: 'list-products', component: ProductListView, beforeEnter: ifAuthenticated },
+		{ path: '/products/new', name: 'new-product', component: ProductAddEditView, beforeEnter: authenticatedRole('Manufacturer') },
+		{ path: '/products/:id', name: 'view-product', component: VariantListView, beforeEnter: ifAuthenticated },
+		{ path: '/products/:id/import', name: 'import-variants', component: ProductImportVariantsView, beforeEnter: authenticatedRole('Manufacturer') },
+		{ path: '/products/:id/edit', name: 'edit-product', component: ProductAddEditView, beforeEnter: authenticatedRole('Manufacturer') },
 
-		{ path: '/projects', name: 'list-projects', component: ProjectListView },
-		{ path: '/projects/new', name: 'new-project', component: ProjectAddEditView },
-		{ path: '/projects/:id', name: 'view-project', component: ProjectView },
-		{ path: '/projects/:id/structures/new', name: 'project-add-structure', component: ProjectAddStructureView },
+		{ path: '/projects', name: 'list-projects', component: ProjectListView, beforeEnter: authDesignerOrClient },
+		{ path: '/projects/new', name: 'new-project', component: ProjectAddEditView, beforeEnter: authenticatedRole('Designer') },
+		{ path: '/projects/:id', name: 'view-project', component: ProjectView, beforeEnter: authDesignerOrClient },
+		{ path: '/projects/:id/structures/new', name: 'project-add-structure', component: ProjectAddStructureView, beforeEnter: authenticatedRole('Designer') },
+		{ path: '/projects/:id/upload', name: 'project-upload-files', component: ProjectUploadFilesView, beforeEnter: authDesignerOrClient },
+		{ path: '/projects/:id/edit', name: 'edit-project', component: ProjectAddEditView, beforeEnter: authDesignerOrClient },
+
+		{ path: '/login', name: 'login', component: LoginView, beforeEnter: ifNotAuthenticated },
+		{ path: '/register', name: 'register', component: RegisterView, beforeEnter: ifNotAuthenticated },
+		{ path: '/profile/', name: 'view-profile', component: ProfileView, beforeEnter: ifAuthenticated },
+
+		{ path: '/clients/:id', name: 'view-client', component: ClientView, beforeEnter: authDesignerOrClient },
+
+		{ path: '/structures/simulation', name: 'simulate-structure', component: AddEditSimulateStructureView, beforeEnter: authenticatedRole('Designer')},
+		{ path: '/structures', name: 'list-structures', component: StructureListView, beforeEnter: authDesignerOrClient },
+		{ path: '/structures/new', name: 'new-structure', component: AddEditSimulateStructureView, beforeEnter: authenticatedRole('Designer') },
+		{ path: '/structures/:id', name: 'view-structure', component: StructureView, beforeEnter: authDesignerOrClient },
+		{ path: '/structures/:id/edit', name: 'edit-structure', component: AddEditSimulateStructureView, beforeEnter: authenticatedRole('Designer') },
+
+		// Routes redirects (breadcrumb)
+		{ path: '/families/', redirect: { name: 'index' } },
 		{ path: '/projects/:id/structures', redirect: '/projects/:id' },
-		{ path: '/projects/:id/upload', name: 'project-upload-files', component: ProjectUploadFilesView },
-		{ path: '/projects/:id/edit', name: 'edit-project', component: ProjectAddEditView },
+		{ path: '/clients/', redirect: { name: 'index' } },
 
 		// FIXME: Breadcrumb bug
 		{ path: '/:id/structures', redirect: '/projects/:id' },
-
-		{ path: '/login', name: 'login', component: LoginView, beforeEnter: ifNotAuthenticated },
-		{ path: '/register', name: 'login', component: RegisterView, beforeEnter: ifNotAuthenticated },
-
-		{ path: '/clients/', redirect: {name: 'index'}},
-		{ path: '/clients/:id', name: 'view-client', component: ClientView },
-		// { path: '/users/:id/edit', name: 'edit-user', component: UserEditView },
-
-		{ path: '/structures/simulation', name: 'simulate-structure', component: AddEditSimulateStructureView },
-		{ path: '/structures', name: 'list-structures', component: StructureListView },
-		{ path: '/structures/new', name: 'new-structure', component: AddEditSimulateStructureView },
-		{ path: '/structures/:id', name: 'view-structure', component: StructureView },
-		{ path: '/structures/:id/edit', name: 'edit-structure', component: AddEditSimulateStructureView },
 	]
 })

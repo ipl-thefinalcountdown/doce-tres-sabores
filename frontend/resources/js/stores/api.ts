@@ -7,6 +7,7 @@ import ProjectModel from "../models/project"
 import StructureModel from "../models/structure"
 import ProductModel from "../models/product"
 import FamilyModel from "../models/family"
+import UserModel from "../models/user"
 
 export interface Params {
 	params?: ParamsOptions
@@ -35,8 +36,11 @@ const api : Store = new Vapi({
 		products: <Array<ProductModel>>[],
 		product: <ProductModel>{},
 
-		clients: <Array<ProjectModel>>[],
-		client: <ProjectModel>{},
+		clients: <Array<UserModel>>[],
+		client: <UserModel>{},
+
+		users: <Array<UserModel>>[],
+		user: <UserModel>{},
 
 		structures: <Array<StructureModel>>[],
 		structure: <StructureModel>{},
@@ -157,6 +161,11 @@ const api : Store = new Vapi({
 		action: "getClient",
 		property: "client",
 		path: (opt : ParamsOptions) => `/clients/${opt.id}`
+	})
+	.get({
+		action: "getUser",
+		property: "user",
+		path: (opt : ParamsOptions) => `/users/${opt.id}`
 	})
 	.get({
 		action: "getStructure",

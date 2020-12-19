@@ -6,9 +6,9 @@
           :items="items"
           :row-clicked="rowClicked"
           :filter-changed="filterChanged"
-          :add-clicked="addClicked"
-          :edit-clicked="editClicked"
-          :delete-clicked="deleteClicked"
+          :add-clicked="(authGroups.includes('Designer')) ? addClicked : undefined"
+          :edit-clicked="(authGroups.includes('Designer')) ? editClicked : undefined"
+          :delete-clicked="(authGroups.includes('Designer')) ? deleteClicked : undefined"
         />
       </div>
     </div>
@@ -29,6 +29,10 @@ import { AlertType, createAlert } from "../../utils/alert";
 
 import { Params } from "../../stores/api";
 import { AxiosPromise } from "axios";
+
+  import { namespace } from "vuex-class";
+  import { ExtendedJwtPayload } from '../../stores/auth';
+	const Auth = namespace("auth");
 
 @Component({
   components: {
@@ -54,6 +58,18 @@ import { AxiosPromise } from "axios";
   },
 })
 export default class StructureListView extends Vue {
+      @Auth.Getter
+    private isAuthenticated!: boolean;
+
+    @Auth.Getter
+    public authTokenDecoded!: ExtendedJwtPayload;
+
+    @Auth.Getter
+    public authUser!: string;
+
+    @Auth.Getter
+    public authGroups!: string[];
+
   getStructures!: (obj: Params) => void;
   deleteStructure!: (obj: Params) => AxiosPromise;
 
