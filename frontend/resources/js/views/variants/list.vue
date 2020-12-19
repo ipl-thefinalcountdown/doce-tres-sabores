@@ -1,10 +1,23 @@
 <template>
   <page-component>
     <div class="container">
-      <b-row v-if="isProduct && product.name != undefined">
+      <b-row v-if="isProduct && product.name != undefined" class="pb-3">
         <b-col
           ><h5>{{ product.name }}</h5></b-col
         >
+        <b-col>
+          <div class="d-flex flex-row-reverse bd-highlight">
+            <div v-if="addClicked" class="pl-3">
+              <b-button
+                :to="{name: 'import-variants'}"
+                size="sm"
+                variant="outline-secondary"
+              >
+                Import
+              </b-button>
+            </div>
+          </div>
+        </b-col>
       </b-row>
       <div class="justify-content-center">
         <searchable-table

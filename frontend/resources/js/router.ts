@@ -17,6 +17,7 @@ import StructureListView from './views/structures/list.vue'
 import AddEditSimulateStructureView from './views/structures/addEditSimulate.vue'
 import StructureView from './views/structures/view.vue'
 import ClientView from './views/clients/view.vue'
+import ProductImportVariantsView from './views/products/import.vue'
 
 Vue.use(VueRouter)
 
@@ -78,6 +79,7 @@ export default new VueRouter({
 		{ path: '/products', name: 'list-products', component: ProductListView },
 		{ path: '/products/new', name: 'new-product', component: ProductAddEditView },
 		{ path: '/products/:id', name: 'view-product', component: VariantListView },
+		{ path: '/products/:id/import', name: 'import-variants', component: ProductImportVariantsView },
 		{ path: '/products/:id/edit', name: 'edit-product', component: ProductAddEditView },
 
 		{ path: '/projects', name: 'list-projects', component: ProjectListView },
