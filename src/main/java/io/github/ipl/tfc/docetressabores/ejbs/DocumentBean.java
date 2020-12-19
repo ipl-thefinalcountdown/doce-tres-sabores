@@ -20,7 +20,7 @@ public class DocumentBean {
 	public Document create(int productId, String filepath, String fileName) {
 		Project project = entityManager.find(Project.class, productId);
 
-		if (project == null) return null;
+		if (project == null || filepath == null || fileName == null) return null;
 
 		Document document = new Document(project, filepath, fileName);
 		entityManager.persist(document);
