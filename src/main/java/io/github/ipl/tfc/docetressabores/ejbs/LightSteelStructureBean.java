@@ -26,7 +26,7 @@ public class LightSteelStructureBean {
 			.stream()
 			.map(vId -> entityManager.find(Variant.class, vId));
 
-		if (variantRange.get().anyMatch(Objects::isNull))
+		if (variantRange.get().anyMatch(Objects::isNull) || name == null)
 		{
 			return null;
 		} else {
@@ -46,7 +46,23 @@ public class LightSteelStructureBean {
 
 	public LightSteelStructure create(StructureDTO structureDTO) {
 		List<Integer> variantIds = structureDTO.getVariants().stream().map(s -> s.getId()).collect(Collectors.toList());
-		return create(structureDTO.getName(), structureDTO.getBeamAmount(), structureDTO.getBeamLength(), structureDTO.getBeamImposedLoad(), structureDTO.getBeamSpacing(), variantIds);
+
+		if (structureDTO.getBeamAmount() == null
+			|| structureDTO.getBeamLength() == null
+			|| structureDTO.getBeamImposedLoad() == null
+			|| structureDTO.getBeamSpacing() == null
+		) {
+			return null;
+		}
+
+		return create(
+			structureDTO.getName(),
+			structureDTO.getBeamAmount(),
+			structureDTO.getBeamLength(),
+			structureDTO.getBeamImposedLoad(),
+			structureDTO.getBeamSpacing(),
+			variantIds
+		);
 	}
 
 

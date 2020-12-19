@@ -27,7 +27,7 @@ public class StructureBean {
 			.stream()
 			.map(vId -> entityManager.find(Variant.class, vId));
 
-		if (variantRange.get().anyMatch(Objects::isNull))
+		if (variantRange.get().anyMatch(Objects::isNull) || name == null)
 		{
 			return null;
 		} else {
@@ -40,7 +40,22 @@ public class StructureBean {
 
 	public Structure create(StructureDTO structureDTO) {
 		List<Integer> variantIds = structureDTO.getVariants().stream().map(s -> s.getId()).collect(Collectors.toList());
-		return create(structureDTO.getMaterialId(), structureDTO.getName(), structureDTO.getBeamAmount(), structureDTO.getBeamLength(), structureDTO.getBeamImposedLoad(), variantIds);
+
+		if (structureDTO.getBeamAmount() == null
+			|| structureDTO.getBeamLength() == null
+			|| structureDTO.getBeamImposedLoad() == null
+		) {
+			return null;
+		}
+
+		return create(
+			structureDTO.getMaterialId(),
+			structureDTO.getName(),
+			structureDTO.getBeamAmount(),
+			structureDTO.getBeamLength(),
+			structureDTO.getBeamImposedLoad(),
+			variantIds
+		);
 	}
 
 	public Structure update(StructureDTO structureDTO) {
