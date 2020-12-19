@@ -4,13 +4,22 @@
       <item-edit v-if="itemLoaded" :on-submit="onSubmit" :on-reset="onReset">
         <form-field v-if="authGroups.includes('Designer')"
           label="Name" placeholder="Enter name" v-model="form.name" />
-        <b-form-group v-if="authGroups.includes('Designer')">
+        <b-form-group v-if="authGroups.includes('Designer') && isEdit">
             <b-form-checkbox v-model="form.completed"
             :value="true"
             :unchecked-value="false"
           >Completed</b-form-checkbox>
         </b-form-group>
-        <form-searchable-select v-if="!isEdit" label="Client" placeholder="Client Name" v-model="form.clientId" :options="clients"/>
+        <form-searchable-select v-if="!isEdit" label="Client" placeholder="Client Name" v-model="form.clientUsername" :options="clients"/>
+        <b-form-group v-if="isEdit && authGroups.includes('Client')" label="Observations">
+            <b-form-textarea
+              id="observations"
+              v-model="form.observations"
+              placeholder="Enter something..."
+              rows="3"
+              max-rows="6"
+            ></b-form-textarea>
+        </b-form-group>
       </item-edit>
       <div v-else class="text-center text-secondary my-2">
         <b-spinner class="align-middle"></b-spinner>
@@ -121,7 +130,11 @@ export default class ProjectAddEditView extends Vue {
             );
           })
         } else {
-          obj.addProject({data: obj.form}).then(() => {
+          obj.addProject({data: {
+            ...obj.form,
+            designerUsername: obj.authUser
+            }
+          }).then(() => {
             // go back
             router.go(-1);
           }).catch((err)=> {
@@ -146,7 +159,10 @@ export default class ProjectAddEditView extends Vue {
       this.getProject({ params: { id: projectId } }).then(() => {
         this.form = {
           name: this.project?.name,
-          clientId: this.project?.clientId
+          completed: this.project?.completed,
+          clientUsername: this.project?.clientUsername,
+          observations: this.project?.observations,
+          designerUsername: this.project?.designerUsername
         };
 
         this.itemLoaded = true;

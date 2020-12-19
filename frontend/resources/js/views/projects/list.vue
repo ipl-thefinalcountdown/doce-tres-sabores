@@ -5,7 +5,7 @@
         <searchable-table
           :items="items"
           :row-clicked="rowClicked"
-          :filter-changed="filterChanged"
+          :filter-changed="(authGroups.includes('Designer')) ? filterChanged : undefined"
           :add-clicked="(authGroups.includes('Designer')) ? addClicked : undefined"
           :edit-clicked="editClicked"
           :delete-clicked="(authGroups.includes('Designer')) ? deleteClicked : undefined"
