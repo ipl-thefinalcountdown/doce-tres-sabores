@@ -275,4 +275,8 @@ public class Variant {
 		structures.remove(structure);
 		structure.removeVariant(this);
 	}
+
+	public void removeAllStructures() {
+		for (Structure structure : getStructures()) removeStructure(structure);
+	}
 }

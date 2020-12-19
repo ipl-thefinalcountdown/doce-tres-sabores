@@ -3,6 +3,7 @@ package io.github.ipl.tfc.docetressabores.ejbs;
 import io.github.ipl.tfc.docetressabores.dtos.ProductDTO;
 import io.github.ipl.tfc.docetressabores.entities.Family;
 import io.github.ipl.tfc.docetressabores.entities.Product;
+import io.github.ipl.tfc.docetressabores.entities.Variant;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -37,6 +38,7 @@ public class ProductBean {
 
 		if (product != null)
 		{
+			for (Variant variant : product.getVariants()) variant.removeAllStructures();
 			entityManager.remove(product);
 			return true;
 		}

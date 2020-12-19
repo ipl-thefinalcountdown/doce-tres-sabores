@@ -125,6 +125,7 @@ public class Product {
 	 * @param s an existing product variant
 	 */
 	public void removeVariant(Variant s) {
+		s.removeAllStructures();
 		variants.remove(s);
 	}
 }
