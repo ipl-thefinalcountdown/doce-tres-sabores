@@ -85,15 +85,16 @@ export class Auth extends VuexModule {
 	}
 
 	get authTokenDecoded(): ExtendedJwtPayload {
+		if (this.token == undefined || this.token == '') return {};
 		return jwtDecode(this.token);
 	}
 
 	get authUser(): string {
-		return this.authTokenDecoded.sub || '';
+		return this.authTokenDecoded?.sub || '';
 	}
 
 	get authGroups(): string[] {
-		return this.authTokenDecoded.groups || [];
+		return this.authTokenDecoded?.groups || [];
 	}
 }
 
