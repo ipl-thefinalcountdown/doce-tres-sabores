@@ -35,6 +35,7 @@
         "vue-search-select": "^2.9.3",
         "vue-template-compiler": "^2.6.11",
         "vuex": "^3.5.1",
+        "vuex-class": "^0.3.2",
         "vuex-module-decorators": "^1.0.1",
         "vuex-rest-api": "^2.13.0"
     }
