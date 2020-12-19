@@ -16,20 +16,66 @@
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-          <b-nav-form @submit.prevent="$router.push({name: 'login'})">
-            <b-button size="sm" class="my-2 my-sm-0" type="submit">Login</b-button>
+          <b-nav-form v-if="!isAuthenticated">
+            <b-button size="sm" class="my-2 my-sm-0" :to="{name: 'login'}">Login</b-button>
           </b-nav-form>
-
-          <b-nav-item-dropdown right>
+          <b-nav-item-dropdown v-else right>
             <!-- Using 'button-content' slot -->
             <template #button-content>
-              <em>User</em>
+              <em>{{ authUser }}</em>
             </template>
             <b-dropdown-item href="#">Profile</b-dropdown-item>
-            <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+            <b-dropdown-item @click.prevent="handleLogout()">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
   </div>
 </template>
+
+<script lang="ts">
+import Vue from "vue"
+	import Component from "vue-class-component"
+
+  import { namespace } from "vuex-class";
+  import { ExtendedJwtPayload } from '../../stores/auth';
+	const Auth = namespace("auth");
+
+	import {UserAuthModel} from '../../models/user'
+import router from "../../router";
+
+	@Component({
+		components: {}
+  })
+  export default class LoginView extends Vue {
+		private user: UserAuthModel = { username: "", password: "" };
+
+		private submitted: boolean = false;
+		private successful: boolean = false;
+		private message: string = "";
+
+		@Auth.Getter
+    private isAuthenticated!: boolean;
+
+    @Auth.Getter
+    public authTokenDecoded!: ExtendedJwtPayload;
+
+    @Auth.Getter
+    public authUser!: string;
+
+    @Auth.Getter
+    public authGroups!: string[];
+
+		@Auth.Action
+    private makeAuthLogout!: () => Promise<void>;
+
+    mounted()
+    {
+      console.log(this.authTokenDecoded);
+    }
+
+		handleLogout() {
+      this.makeAuthLogout().then(() => router.push('/login'))
+		}
+	}
+</script>
