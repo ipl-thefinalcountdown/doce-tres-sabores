@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.ejb.EJB;
@@ -15,6 +17,7 @@ import javax.ws.rs.core.Response;
 import io.github.ipl.tfc.docetressabores.dtos.UserDTO;
 import io.github.ipl.tfc.docetressabores.ejbs.ClientBean;
 import io.github.ipl.tfc.docetressabores.ejbs.DesignerBean;
+import io.github.ipl.tfc.docetressabores.ejbs.EmailBean;
 import io.github.ipl.tfc.docetressabores.ejbs.UserBean;
 import io.github.ipl.tfc.docetressabores.entities.User;
 
@@ -25,6 +28,7 @@ public class UserService {
 	@EJB UserBean userBean;
 	@EJB ClientBean clientBean;
 	@EJB DesignerBean designerBean;
+	@EJB EmailBean emailBean;
 
 	public static UserDTO toDTO(User client) {
 		return new UserDTO(
@@ -103,9 +107,7 @@ public class UserService {
 	@POST
 	@Path("/")
 	@Transactional
-	public Response postUserWS(UserDTO userDTO)
-		throws NoSuchFieldException, SecurityException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
-	{
+	public Response postUserWS(UserDTO userDTO) {
 		try {
 			Field field = UserService.class.getDeclaredField(userDTO.getUserType().toLowerCase() + "Bean");
 			field.setAccessible(true);
@@ -114,13 +116,28 @@ public class UserService {
 			Method method = fieldValue.getClass().getMethod("create", UserDTO.class);
 
 			User user = (User) method.invoke(fieldValue, userDTO);
-			return (
-					user == null
-						? Response.status(Response.Status.BAD_REQUEST)
-						: Response.ok(toDTO(user))
-				).build();
+
+			if (user == null) return Response.status(Response.Status.BAD_REQUEST).build();
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(String.format("Hi %s,", user.getName()));
+			sb.append(System.lineSeparator());
+			sb.append(System.lineSeparator());
+			sb.append("Thank you for choosing us! We inform you ");
+			sb.append("your account has been created successfuly!");
+			sb.append(System.lineSeparator());
+			sb.append(System.lineSeparator());
+			sb.append("Thanks,");
+			sb.append("Doce Tres Sabores Team");
+
+			emailBean.send(
+				user.getEmail(),
+				"Doce Tres Sabores Team",
+				sb.toString());
+
+			return Response.ok(toDTO(user)).build();
 		} catch (NoSuchFieldException | SecurityException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			System.out.println(e.toString());
+			Logger.getLogger(UserService.class.getName()).log(Level.WARNING, e.getMessage());
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
 	}

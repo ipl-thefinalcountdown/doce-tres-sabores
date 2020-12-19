@@ -127,5 +127,4 @@ public class Product {
 	public void removeVariant(Variant s) {
 		variants.remove(s);
 	}
-
 }

@@ -1,6 +1,8 @@
 package io.github.ipl.tfc.docetressabores.ejbs;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -14,6 +16,14 @@ public class ManufacturerBean {
 	@PersistenceContext EntityManager entityManager;
 
 	public Manufacturer create(String name, String phoneNumber, String email, String username, String password) {
+		if (Arrays
+			.asList(name, phoneNumber, name, username, password)
+			.stream()
+			.anyMatch(Objects::isNull)
+		) {
+			return null;
+		}
+
 		Manufacturer manufacturer = new Manufacturer(name, phoneNumber, email, username, password);
 		entityManager.persist(manufacturer);
 		return manufacturer;
