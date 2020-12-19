@@ -5,6 +5,7 @@ import io.github.ipl.tfc.docetressabores.ejbs.VariantBean;
 import io.github.ipl.tfc.docetressabores.entities.MaterialType;
 import io.github.ipl.tfc.docetressabores.entities.Variant;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
@@ -84,6 +85,7 @@ public class VariantService
 
 	@POST
 	@Path("/")
+	@RolesAllowed("Manufacturer")
 	@Transactional
 	public Response postVariantWS(VariantDTO variantDTO) {
 		Variant variant = variantBean.create(variantDTO);
@@ -94,6 +96,7 @@ public class VariantService
 
 	@PUT
 	@Path("/{id}")
+	@RolesAllowed({"Manufacturer"})
 	@Transactional
 	public Response updateVariantWS(@PathParam("id") int id, VariantDTO variantDTO) {
 		variantDTO.setId(id);
@@ -108,6 +111,7 @@ public class VariantService
 
 	@DELETE
 	@Path("/{id}")
+	@RolesAllowed({"Manufacturer"})
 	@Transactional
 	public Response deleteVariantWS(@PathParam("id") int id) {
 		return (

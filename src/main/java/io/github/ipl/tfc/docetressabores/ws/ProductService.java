@@ -7,8 +7,8 @@ import io.github.ipl.tfc.docetressabores.dtos.VariantDTO;
 import io.github.ipl.tfc.docetressabores.ejbs.ProductBean;
 import io.github.ipl.tfc.docetressabores.ejbs.VariantBean;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
-import javax.persistence.Enumerated;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -23,7 +23,6 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileDescriptor;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -36,8 +35,6 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Path("/products")
@@ -86,6 +83,7 @@ public class ProductService
 
 	@POST
 	@Path("/")
+	@RolesAllowed({"Manufacturer"})
 	@Transactional
 	public Response postProductWS(ProductDTO productDTO) {
 		Product product = productBean.create(productDTO.getFamilyId(), productDTO.getName());
@@ -99,6 +97,7 @@ public class ProductService
 
 	@PUT
 	@Path("/{id}")
+	@RolesAllowed({"Manufacturer"})
 	@Transactional
 	public Response updateProductWS(@PathParam("id") int id, ProductDTO productDTO) {
 		productDTO.setId(id);
@@ -113,6 +112,7 @@ public class ProductService
 
 	@DELETE
 	@Path("/{id}")
+	@RolesAllowed({"Manufacturer"})
 	@Transactional
 	public Response deleteProductWS(@PathParam("id") int id) {
 		return (
@@ -124,6 +124,7 @@ public class ProductService
 
 	@POST
 	@Path("/{id}/import")
+	@RolesAllowed({"Manufacturer"})
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Transactional
 	public Response importProductsWS(@PathParam("id") int id, MultipartFormDataInput input) {

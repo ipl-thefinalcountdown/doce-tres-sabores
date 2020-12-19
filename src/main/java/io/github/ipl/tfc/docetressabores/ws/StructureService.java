@@ -1,11 +1,13 @@
 package io.github.ipl.tfc.docetressabores.ws;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
@@ -32,6 +34,7 @@ public class StructureService {
 	@EJB MaterialBean materialBean;
 	@EJB VariantBean variantBean;
 	@EJB SimulationBean simulationBean;
+	@Context SecurityContext securityContext;
 
 	public static StructureDTO toDTO(Structure structure, boolean critical) {
 		return new StructureDTO(
@@ -104,6 +107,7 @@ public class StructureService {
 
 	@POST
 	@Path("/")
+	@RolesAllowed({"Designer"})
 	@Transactional
 	public Response postStructureWS(StructureDTO structureDTO) {
 		switch (structureDTO.getMaterialId()) {
@@ -133,6 +137,7 @@ public class StructureService {
 
 	@PUT
 	@Path("/{id}")
+	@RolesAllowed({"Designer"})
 	@Transactional
 	public Response putStructureWS(@PathParam("id") int id, StructureDTO structureDTO) {
 		Structure structure = structureBean.findStructure(id);
@@ -167,6 +172,7 @@ public class StructureService {
 
 	@DELETE
 	@Path("/{id}")
+	@RolesAllowed({"Designer"})
 	@Transactional
 	public Response deleteStructureWS(@PathParam("id") int id) {
 		return (
@@ -178,6 +184,7 @@ public class StructureService {
 
 	@POST
 	@Path("/simulation")
+	@RolesAllowed({"Designer"})
 	@Transactional
 	public Response simulationWS(StructureDTO structureDTO) {
 		Supplier<Stream<Variant>> variantStream = () -> structureDTO.getVariants()
