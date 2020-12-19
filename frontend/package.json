@@ -19,6 +19,7 @@
         "bootstrap-vue": "^2.19.0",
         "cross-env": "^7.0",
         "jquery": "^3.2",
+        "js-file-download": "^0.4.12",
         "laravel-mix": "^5.0.1",
         "lodash": "^4.17.13",
         "popper.js": "^1.12",
