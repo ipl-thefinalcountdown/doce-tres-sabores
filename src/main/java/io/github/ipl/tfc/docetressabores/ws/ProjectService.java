@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
@@ -24,8 +26,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 
 import org.apache.commons.io.IOUtils;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
@@ -48,6 +52,7 @@ public class ProjectService {
 	@EJB StructureBean structureBean;
 	@EJB DocumentBean documentBean;
 	@EJB EmailBean emailBean;
+	@Context SecurityContext securityContext;
 
 	public static final File DOCUMENT_DIR = new File("/srv/http/docetressabores/storage/");
 
@@ -103,6 +108,7 @@ public class ProjectService {
 
 	@POST
 	@Path("/")
+	@RolesAllowed({"Designer"})
 	@Transactional
 	public Response postProjectWS(ProjectDTO projectDTO) {
 		Project project = projectBean.create(projectDTO);
@@ -116,6 +122,7 @@ public class ProjectService {
 
 	@PUT
 	@Path("/{id}")
+	@RolesAllowed({"Designer", "Client"})
 	@Transactional
 	public Response updateProjectWS(@PathParam("id") int id, ProjectDTO projectDTO) {
 		Project project = projectBean.findProject(id);
@@ -150,8 +157,20 @@ public class ProjectService {
 
 	@DELETE
 	@Path("/{id}")
+	@RolesAllowed({"Designer"})
 	@Transactional
 	public Response deleteProjectWS(@PathParam("id") int id) {
+		Principal principal = securityContext.getUserPrincipal();
+
+		Project project = projectBean.findProject(id);
+
+		if (principal == null
+			|| (project != null)
+			&& project.getDesigner().getUsername() != principal.getName()
+		) {
+			return Response.status(Response.Status.FORBIDDEN).build();
+		}
+
 		return (
 			projectBean.delete(id) == null
 				? Response.status(Response.Status.BAD_REQUEST)
@@ -174,6 +193,7 @@ public class ProjectService {
 
 	@PUT
 	@Path("/{project_id}/structures/{structure_id}")
+	@RolesAllowed({"Designer"})
 	@Transactional
 	public Response putStructureWS(
 		@PathParam("project_id") int projectId,
@@ -195,12 +215,22 @@ public class ProjectService {
 
 	@DELETE
 	@Path("/{project_id}/structures/{structure_id}")
+	@RolesAllowed({"Designer"})
 	@Transactional
 	public Response deleteStructureWS(
 		@PathParam("project_id") int projectId,
 		@PathParam("structure_id") int structureId
 	) {
+		Principal principal = securityContext.getUserPrincipal();
+
 		Project project = projectBean.findProject(projectId);
+
+		if (principal == null
+			|| (project != null
+			&& project.getDesigner().getUsername() != principal.getName())
+		) {
+			return Response.status(Response.Status.FORBIDDEN).build();
+		}
 
 		if (project == null) return Response.status(Response.Status.BAD_REQUEST).build();
 
@@ -227,10 +257,20 @@ public class ProjectService {
 
 	@POST
 	@Path("/{id}/documents")
+	@RolesAllowed({"Client"})
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Transactional
 	public Response uploadDocumentWS(@PathParam("id") int id, MultipartFormDataInput input) {
+		Principal principal = securityContext.getUserPrincipal();
+
 		Project project = projectBean.findProject(id);
+
+		if (principal == null
+			|| (project != null
+			&& project.getClient().getUsername() != principal.getName())
+		) {
+			return Response.status(Response.Status.FORBIDDEN).build();
+		}
 
 		if (project == null) return Response.status(Response.Status.BAD_REQUEST).build();
 
@@ -279,13 +319,25 @@ public class ProjectService {
 
 	@GET
 	@Path("/{project_id}/documents/{document_id}")
+	@RolesAllowed({"Designer", "Client"})
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	@Transactional
 	public Response downloadDocumentWS(
 		@PathParam("project_id") int project_id,
 		@PathParam("document_id") int document_id
 	) {
+		Principal principal = securityContext.getUserPrincipal();
+
 		Project project = projectBean.findProject(project_id);
+
+		if (principal == null
+			|| (project != null
+				&& (project.getDesigner().getUsername() != principal.getName()
+				|| project.getClient().getUsername() != principal.getName())
+			)
+		) {
+			return Response.status(Response.Status.FORBIDDEN).build();
+		}
 
 		if (project == null) return Response.status(Response.Status.BAD_REQUEST).build();
 

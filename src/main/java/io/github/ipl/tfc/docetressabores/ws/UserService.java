@@ -3,16 +3,20 @@ package io.github.ipl.tfc.docetressabores.ws;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.security.Principal;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 
 import io.github.ipl.tfc.docetressabores.dtos.UserDTO;
 import io.github.ipl.tfc.docetressabores.ejbs.ClientBean;
@@ -29,6 +33,7 @@ public class UserService {
 	@EJB ClientBean clientBean;
 	@EJB DesignerBean designerBean;
 	@EJB EmailBean emailBean;
+	@Context SecurityContext securityContext;
 
 	public static UserDTO toDTO(User client) {
 		return new UserDTO(
@@ -90,13 +95,14 @@ public class UserService {
 		}
 	}
 
-	// FIXME: a user can only delete himself
-	// TODO: add an authenticate method on user
-	// TODO: add a password param on @DELETE
 	@DELETE
 	@Path("/{username}")
 	@Transactional
 	public Response deleteUserWS(@PathParam("username") String username) {
+		Principal principal = securityContext.getUserPrincipal();
+
+		if (principal == null || username != principal.getName()) return Response.status(Response.Status.FORBIDDEN).build();
+
 		return (
 			userBean.delete(username)
 				? Response.noContent()
