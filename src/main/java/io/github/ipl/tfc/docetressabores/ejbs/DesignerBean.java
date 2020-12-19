@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,12 +15,14 @@ import io.github.ipl.tfc.docetressabores.entities.Designer;
 @Stateless
 public class DesignerBean {
 	@PersistenceContext EntityManager entityManager;
+	@EJB UserBean userBean;
 
 	public Designer create(String name, String phoneNumber, String email, String username, String password) {
-		if (Arrays
-			.asList(name, phoneNumber, name, username, password)
-			.stream()
-			.anyMatch(Objects::isNull)
+		if (Arrays.asList(name, phoneNumber, name, username, password)
+				.stream()
+				.anyMatch(Objects::isNull)
+			|| findDesigner(username) != null
+			|| userBean.getUserBy(email) != null
 		) {
 			return null;
 		}

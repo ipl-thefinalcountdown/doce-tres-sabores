@@ -37,4 +37,13 @@ public class UserBean {
 				.createNamedQuery("getAllUsers", User.class)
 				.getResultList();
 	}
+
+	public User getUserBy(String email) {
+		List<User> res = entityManager
+			.createNamedQuery("getUserByEmail", User.class)
+			.setParameter("email", email)
+			.getResultList();
+
+		return res.isEmpty() ? null : res.get(0);
+	}
 }
