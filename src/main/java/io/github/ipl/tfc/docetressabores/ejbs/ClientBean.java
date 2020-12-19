@@ -1,6 +1,8 @@
 package io.github.ipl.tfc.docetressabores.ejbs;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -14,17 +16,24 @@ public class ClientBean {
 	// TODO: documentation
 	@PersistenceContext EntityManager entityManager;
 
-	// FIXME: throws EntityExistsException
-	public Client create(String phoneNumber, String name, String email, String address, String username, String password) {
-		Client client = new Client(phoneNumber, name, email, address, username, password);
+	public Client create(String name, String phoneNumber, String email, String address, String username, String password) {
+		if (Arrays
+			.asList(name, phoneNumber, name, address, username, password)
+			.stream()
+			.anyMatch(Objects::isNull)
+		) {
+			return null;
+		}
+
+		Client client = new Client(name, phoneNumber, email, address, username, password);
 		entityManager.persist(client);
 		return client;
 	}
 
 	public Client create(UserDTO userDTO) {
 		return create(
-			userDTO.getPhoneNumber(),
 			userDTO.getName(),
+			userDTO.getPhoneNumber(),
 			userDTO.getEmail(),
 			userDTO.getAddress(),
 			userDTO.getUsername(),

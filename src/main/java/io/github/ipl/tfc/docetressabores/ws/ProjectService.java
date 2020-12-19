@@ -33,6 +33,7 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import io.github.ipl.tfc.docetressabores.dtos.ProjectDTO;
 import io.github.ipl.tfc.docetressabores.ejbs.DocumentBean;
+import io.github.ipl.tfc.docetressabores.ejbs.EmailBean;
 import io.github.ipl.tfc.docetressabores.ejbs.ProjectBean;
 import io.github.ipl.tfc.docetressabores.ejbs.StructureBean;
 import io.github.ipl.tfc.docetressabores.entities.Document;
@@ -46,6 +47,7 @@ public class ProjectService {
 	@EJB ProjectBean projectBean;
 	@EJB StructureBean structureBean;
 	@EJB DocumentBean documentBean;
+	@EJB EmailBean emailBean;
 
 	public static final File DOCUMENT_DIR = new File("/srv/http/docetressabores/storage/");
 
@@ -115,14 +117,34 @@ public class ProjectService {
 	@Path("/{id}")
 	@Transactional
 	public Response updateProjectWS(@PathParam("id") int id, ProjectDTO projectDTO) {
-		projectDTO.setId(id);
-		Project project = projectBean.update(projectDTO);
+		Project project = projectBean.findProject(id);
 
-		return (
-			project == null
-				? Response.status(Response.Status.BAD_REQUEST)
-				: Response.ok(toDTO(project, true))
-		).build();
+		if (project == null) return Response.status(Response.Status.BAD_REQUEST).build();
+
+		if (projectDTO.getCompleted() != null && projectDTO.getCompleted() && !project.getCompleted()) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(String.format("Hi %s,", project.getClient().getName()));
+			sb.append(System.lineSeparator());
+			sb.append(System.lineSeparator());
+			sb.append(String.format("We inform you that your project \"%s\" ", project.getName()));
+			sb.append(String.format("with our designer %s has just been completed ", project.getDesigner().getName()));
+			sb.append(String.format("and is ready for your review."));
+			sb.append(System.lineSeparator());
+			sb.append(System.lineSeparator());
+			sb.append(String.format("Thanks,"));
+			sb.append(System.lineSeparator());
+			sb.append(String.format("Doce Tres Sabores Team"));
+
+			emailBean.send(
+				project.getClient().getEmail(),
+				"Project " + project.getName() + " status",
+				sb.toString());
+		}
+
+		projectDTO.setId(id);
+		projectBean.update(projectDTO);
+
+		return Response.ok(toDTO(project, true)).build();
 	}
 
 	@DELETE

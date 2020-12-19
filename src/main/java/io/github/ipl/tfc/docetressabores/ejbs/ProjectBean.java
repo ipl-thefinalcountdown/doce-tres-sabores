@@ -37,7 +37,7 @@ public class ProjectBean {
 		Project project = findProject(projectDTO.getId());
 
 		if(projectDTO.getName() != null) project.setName(projectDTO.getName());
-
+		if(projectDTO.getCompleted() != null) project.setCompleted(projectDTO.getCompleted());
 		if (projectDTO.getStructures() != null)
 			project.setStructures(
 				projectDTO.getStructures()
