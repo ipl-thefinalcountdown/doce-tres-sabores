@@ -3,6 +3,12 @@
     <div class="container">
       <item-edit v-if="itemLoaded" :on-submit="onSubmit" :on-reset="onReset">
         <form-field label="Name" placeholder="Enter name" v-model="form.name" />
+        <b-form-group>
+            <b-form-checkbox v-model="form.completed"
+            :value="true"
+            :unchecked-value="false"
+          >Completed</b-form-checkbox>
+        </b-form-group>
         <form-searchable-select v-if="!isEdit" label="Client" placeholder="Client Name" v-model="form.clientId" :options="clients"/>
       </item-edit>
       <div v-else class="text-center text-secondary my-2">
