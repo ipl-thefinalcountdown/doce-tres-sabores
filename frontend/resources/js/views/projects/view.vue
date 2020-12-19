@@ -37,6 +37,9 @@
                 <template #cell(client)="data">
                   <b-link :to="{ name: 'view-client', params: { id: clientUsername }}">{{ data.value }}</b-link>
                 </template>
+                <template #cell(completed)="data">
+                  <b-badge>{{ data.value ? 'Yes' : 'No' }}</b-badge>
+                </template>
               </item-details>
             </b-col>
           </b-row>
@@ -108,6 +111,7 @@ import FileDownload from 'js-file-download';
           id: p.id,
           client: p.clientName,
           name: p.name,
+          completed: p.completed
         };
       });
     },

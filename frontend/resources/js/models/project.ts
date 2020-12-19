@@ -3,4 +3,5 @@ export default interface ProjectModel {
 	clientId?: number;
 	clientName?: string;
 	name?: string;
+	completed?: boolean;
 }
