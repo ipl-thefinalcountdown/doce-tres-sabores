@@ -49,6 +49,7 @@ public class Project {
 	@ManyToOne @JoinColumn(name = "designer_id") @NotNull private Designer designer;
 	@OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE) private List<Document> documents;
 
+	private String observations;
 	private boolean completed;
 
 	public Project() {
@@ -94,6 +95,10 @@ public class Project {
 		return documents;
 	}
 
+	public String getObservations() {
+		return observations;
+	}
+
 
 	// setters
 	public void setId(int id) {
@@ -122,6 +127,10 @@ public class Project {
 
 	public void setDocuments(List<Document> documents) {
 		this.documents = documents;
+	}
+
+	public void setObservations(String observations) {
+		this.observations = observations;
 	}
 
 

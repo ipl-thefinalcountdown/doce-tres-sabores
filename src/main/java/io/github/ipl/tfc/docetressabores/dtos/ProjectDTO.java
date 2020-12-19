@@ -11,6 +11,7 @@ public class ProjectDTO implements Serializable {
 	private String designerUsername;
 	private String clientName;
 	private String designerName;
+	private String observations;
 	private Boolean completed;
 	private List<StructureDTO> structures;
 	private List<DocumentDTO> documents;
@@ -29,6 +30,7 @@ public class ProjectDTO implements Serializable {
 		String designerUsername,
 		String clientName,
 		String designerName,
+		String observartions,
 		Boolean completed,
 		List<StructureDTO> structures,
 		List<DocumentDTO> documents
@@ -81,6 +83,10 @@ public class ProjectDTO implements Serializable {
 		return documents;
 	}
 
+	public String getObservations() {
+		return observations;
+	}
+
 	// setters
 	public void setId(int id) {
 		this.id = id;
@@ -116,5 +122,9 @@ public class ProjectDTO implements Serializable {
 
 	public void setDocuments(List<DocumentDTO> documents) {
 		this.documents = documents;
+	}
+
+	public void setObservations(String observations) {
+		this.observations = observations;
 	}
 }
