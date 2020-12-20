@@ -101,7 +101,7 @@ public class UserService {
 	public Response deleteUserWS(@PathParam("username") String username) {
 		Principal principal = securityContext.getUserPrincipal();
 
-		if (principal == null || username != principal.getName()) return Response.status(Response.Status.FORBIDDEN).build();
+		if (principal == null || !principal.getName().equals(username)) return Response.status(Response.Status.FORBIDDEN).build();
 
 		return (
 			userBean.delete(username)

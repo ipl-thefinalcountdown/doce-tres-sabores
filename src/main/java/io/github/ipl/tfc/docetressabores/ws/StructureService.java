@@ -1,6 +1,5 @@
 package io.github.ipl.tfc.docetressabores.ws;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -34,7 +33,6 @@ public class StructureService {
 	@EJB MaterialBean materialBean;
 	@EJB VariantBean variantBean;
 	@EJB SimulationBean simulationBean;
-	@Context SecurityContext securityContext;
 
 	public static StructureDTO toDTO(Structure structure, boolean critical) {
 		return new StructureDTO(
