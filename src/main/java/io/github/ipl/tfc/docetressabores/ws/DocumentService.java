@@ -48,9 +48,11 @@ public class DocumentService {
 		Document document = documentBean.findDocument(id);
 
 		if (principal == null
-			|| document == null
-			|| document.getProject().getClient().getUsername() != principal.getName()
-			|| document.getProject().getDesigner().getUsername() != principal.getName()
+			|| (document != null
+				&& (!document.getProject().getClient().getUsername().equals(principal.getName())
+					&& !document.getProject().getDesigner().getUsername().equals(principal.getName())
+				)
+			)
 		) {
 			return Response.status(Response.Status.FORBIDDEN).build();
 		}

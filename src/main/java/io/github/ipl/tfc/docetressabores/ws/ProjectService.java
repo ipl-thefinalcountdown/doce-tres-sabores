@@ -125,7 +125,22 @@ public class ProjectService {
 	@RolesAllowed({"Designer", "Client"})
 	@Transactional
 	public Response updateProjectWS(@PathParam("id") int id, ProjectDTO projectDTO) {
+		Principal principal = securityContext.getUserPrincipal();
+
 		Project project = projectBean.findProject(id);
+
+		if (principal == null
+			|| (project != null
+				&& (!project.getDesigner().getUsername().equals(principal.getName())
+					&& !project.getDesigner().getUsername().equals(principal.getName())
+				)
+			)
+		) {
+			return Response.status(Response.Status.FORBIDDEN).build();
+		}
+
+		if (projectDTO.getCompleted() != null && securityContext.isUserInRole("Client"))
+			return Response.status(Response.Status.FORBIDDEN).build();
 
 		if (project == null) return Response.status(Response.Status.BAD_REQUEST).build();
 
@@ -165,8 +180,9 @@ public class ProjectService {
 		Project project = projectBean.findProject(id);
 
 		if (principal == null
-			|| (project != null)
-			&& project.getDesigner().getUsername() != principal.getName()
+			|| (project != null
+				&& !project.getDesigner().getUsername().equals(principal.getName())
+			)
 		) {
 			return Response.status(Response.Status.FORBIDDEN).build();
 		}
@@ -227,7 +243,8 @@ public class ProjectService {
 
 		if (principal == null
 			|| (project != null
-			&& project.getDesigner().getUsername() != principal.getName())
+				&& project.getDesigner().getUsername() != principal.getName()
+			)
 		) {
 			return Response.status(Response.Status.FORBIDDEN).build();
 		}
@@ -267,7 +284,8 @@ public class ProjectService {
 
 		if (principal == null
 			|| (project != null
-			&& project.getClient().getUsername() != principal.getName())
+				&& !project.getClient().getUsername().equals(principal.getName())
+			)
 		) {
 			return Response.status(Response.Status.FORBIDDEN).build();
 		}
@@ -332,8 +350,9 @@ public class ProjectService {
 
 		if (principal == null
 			|| (project != null
-				&& (project.getDesigner().getUsername() != principal.getName()
-				|| project.getClient().getUsername() != principal.getName())
+				&& (!project.getDesigner().getUsername().equals(principal.getName())
+					&& !project.getClient().getUsername().equals(principal.getName())
+				)
 			)
 		) {
 			return Response.status(Response.Status.FORBIDDEN).build();
