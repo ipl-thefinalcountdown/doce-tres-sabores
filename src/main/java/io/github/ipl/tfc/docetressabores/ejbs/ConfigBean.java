@@ -64,13 +64,13 @@ public class ConfigBean {
 		Variant variant2 = variantBean.create(product1.getId(), "C 120/60/13 x 2.0", 18738, 18738, 500, 220000);
 
 		System.out.println("####### Creating clients...");
-		Client client1 = clientBean.create("Foo", "999999999", "foo@foo.foo", "fooland, 1234 foohouse", "fooland", "1234");
+		Client client1 = clientBean.create("Foo", "999999999", "foo@foo.foo", "fooland, 1234 foohouse", "client", "1234");
 
 		System.out.println("####### Creating designers...");
-		Designer designer1 = designerBean.create("Vasco", "123456789", "vasco_o_grande@gamil.com", "vasqueiro", "4321");
+		Designer designer1 = designerBean.create("Vasco", "123456789", "vasco_o_grande@gamil.com", "designer", "1234");
 
 		System.out.println("####### Creating manufacturers...");
-		Manufacturer manufacturer1 = manufacturerBean.create("Tremoço", "456789123", "tremoco@sagres.com", "tremocoAoJantar", "vghewv#$%$vwyu");
+		Manufacturer manufacturer1 = manufacturerBean.create("Tremoço", "456789123", "tremoco@sagres.com", "manufacturer", "1234");
 
 		System.out.println("####### Creating projects...");
 		Project project1 = projectBean.create("fooProject", client1.getUsername(), designer1.getUsername());
