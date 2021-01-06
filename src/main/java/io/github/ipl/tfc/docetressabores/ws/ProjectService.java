@@ -132,17 +132,18 @@ public class ProjectService {
 		if (principal == null
 			|| (project != null
 				&& (!project.getDesigner().getUsername().equals(principal.getName())
-					&& !project.getDesigner().getUsername().equals(principal.getName())
+					&& !project.getClient().getUsername().equals(principal.getName())
 				)
 			)
 		) {
 			return Response.status(Response.Status.FORBIDDEN).build();
 		}
 
-		if (projectDTO.getCompleted() != null && securityContext.isUserInRole("Client"))
+		if (project == null) return Response.status(Response.Status.BAD_REQUEST).build();
+
+		if (!project.getCompleted() && securityContext.isUserInRole("Client"))
 			return Response.status(Response.Status.FORBIDDEN).build();
 
-		if (project == null) return Response.status(Response.Status.BAD_REQUEST).build();
 
 		if (projectDTO.getCompleted() != null && projectDTO.getCompleted() && !project.getCompleted()) {
 			StringBuilder sb = new StringBuilder();
